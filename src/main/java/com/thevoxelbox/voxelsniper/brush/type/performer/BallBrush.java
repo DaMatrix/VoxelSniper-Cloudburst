@@ -6,9 +6,7 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.painter.Painters;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 /**
  * A brush that creates a solid ball.
  */
@@ -21,17 +19,17 @@ public class BallBrush extends AbstractPerformerBrush {
 		SnipeMessenger messenger = snipe.createMessenger();
 		for (String parameter : parameters) {
 			if (parameter.equalsIgnoreCase("info")) {
-				messenger.sendMessage(ChatColor.GOLD + "Ball Brush Parameters:");
-				messenger.sendMessage(ChatColor.AQUA + "/b b true -- will use a true sphere algorithm instead of the skinnier version with classic sniper nubs. /b b false will switch back. (false is default)");
+				messenger.sendMessage(TextFormat.GOLD + "Ball Brush Parameters:");
+				messenger.sendMessage(TextFormat.AQUA + "/b b true -- will use a true sphere algorithm instead of the skinnier version with classic sniper nubs. /b b false will switch back. (false is default)");
 				return;
 			} else if (parameter.startsWith("true")) {
 				this.trueCircle = true;
-				messenger.sendMessage(ChatColor.AQUA + "True circle mode ON.");
+				messenger.sendMessage(TextFormat.AQUA + "True circle mode ON.");
 			} else if (parameter.startsWith("false")) {
 				this.trueCircle = false;
-				messenger.sendMessage(ChatColor.AQUA + "True circle mode OFF.");
+				messenger.sendMessage(TextFormat.AQUA + "True circle mode OFF.");
 			} else {
-				messenger.sendMessage(ChatColor.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
+				messenger.sendMessage(TextFormat.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
 			}
 		}
 	}

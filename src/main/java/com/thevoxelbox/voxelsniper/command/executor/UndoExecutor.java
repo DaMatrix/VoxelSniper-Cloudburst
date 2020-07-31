@@ -5,9 +5,6 @@ import com.thevoxelbox.voxelsniper.command.CommandExecutor;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.SniperRegistry;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 public class UndoExecutor implements CommandExecutor {
 
 	private VoxelSniperPlugin plugin;

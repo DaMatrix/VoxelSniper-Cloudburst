@@ -3,14 +3,7 @@ package com.thevoxelbox.voxelsniper.brush.type;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.entity.LargeFireball;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.SmallFireball;
-import org.bukkit.util.Vector;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class CometBrush extends AbstractBrush {
 
 	private boolean useBigBalls;
@@ -31,10 +24,10 @@ public class CometBrush extends AbstractBrush {
 				String newBallSize = parameters[++index];
 				if (newBallSize.equalsIgnoreCase("big")) {
 					this.useBigBalls = true;
-					messenger.sendMessage("Your balls are " + ChatColor.DARK_RED + ("BIG"));
+					messenger.sendMessage("Your balls are " + TextFormat.DARK_RED + ("BIG"));
 				} else if (newBallSize.equalsIgnoreCase("small")) {
 					this.useBigBalls = false;
-					messenger.sendMessage("Your balls are " + ChatColor.DARK_RED + ("small"));
+					messenger.sendMessage("Your balls are " + TextFormat.DARK_RED + ("small"));
 				} else {
 					messenger.sendMessage("Unknown ball size.");
 				}
@@ -77,6 +70,6 @@ public class CometBrush extends AbstractBrush {
 		SnipeMessenger messenger = snipe.createMessenger();
 		messenger.sendBrushNameMessage();
 		messenger.sendBlockTypeMessage();
-		messenger.sendMessage("Your balls are " + ChatColor.DARK_RED + (this.useBigBalls ? "BIG" : "small"));
+		messenger.sendMessage("Your balls are " + TextFormat.DARK_RED + (this.useBigBalls ? "BIG" : "small"));
 	}
 }

@@ -5,11 +5,7 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.type.Repeater;
+import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
 public class SetRedstoneRotateBrush extends AbstractBrush {
@@ -23,7 +19,7 @@ public class SetRedstoneRotateBrush extends AbstractBrush {
 		Block targetBlock = getTargetBlock();
 		if (set(targetBlock)) {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.GRAY + "Point one");
+			messenger.sendMessage(TextFormat.GRAY + "Point one");
 		} else {
 			Sniper sniper = snipe.getSniper();
 			sniper.storeUndo(this.undo);
@@ -35,7 +31,7 @@ public class SetRedstoneRotateBrush extends AbstractBrush {
 		Block lastBlock = getLastBlock();
 		if (set(lastBlock)) {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.GRAY + "Point one");
+			messenger.sendMessage(TextFormat.GRAY + "Point one");
 		} else {
 			Sniper sniper = snipe.getSniper();
 			sniper.storeUndo(this.undo);

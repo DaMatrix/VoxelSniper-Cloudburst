@@ -1,8 +1,8 @@
 package com.thevoxelbox.voxelsniper.util.painter;
 
-import com.thevoxelbox.voxelsniper.util.math.vector.Vector3i;
+import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
 
 public interface BlockSetter {
 
-	void setBlockAt(Vector3i position);
+	void setBlockAt(VectorVS position);
 }

@@ -1,7 +1,6 @@
 package com.thevoxelbox.voxelsniper.command.property;
 
 import java.util.List;
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;
 
 public class CommandProperties {

@@ -6,10 +6,7 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessageSender;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-import org.bukkit.util.NumberConversions;
-import org.bukkit.util.Vector;
+import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
 public class ThreePointCircleBrush extends AbstractPerformerBrush {
@@ -26,23 +23,23 @@ public class ThreePointCircleBrush extends AbstractPerformerBrush {
 	public void handleCommand(String[] parameters, Snipe snipe) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		if (parameters[0].equalsIgnoreCase("info")) {
-			messenger.sendMessage(ChatColor.YELLOW + "3-Point Circle Brush instructions: Select three corners with the arrow brush, then generate the Circle with the powder brush.");
+			messenger.sendMessage(TextFormat.YELLOW + "3-Point Circle Brush instructions: Select three corners with the arrow brush, then generate the Circle with the powder brush.");
 			String toleranceOptions = Arrays.stream(Tolerance.values())
 				.map(tolerance -> tolerance.name()
 					.toLowerCase())
 				.collect(Collectors.joining("|"));
-			messenger.sendMessage(ChatColor.GOLD + "/b tpc " + toleranceOptions + " -- Toggle the calculations to emphasize accuracy or smoothness");
+			messenger.sendMessage(TextFormat.GOLD + "/b tpc " + toleranceOptions + " -- Toggle the calculations to emphasize accuracy or smoothness");
 			return;
 		}
 		for (String s : parameters) {
 			try {
 				String parameter = s.toUpperCase();
 				this.tolerance = Tolerance.valueOf(parameter);
-				messenger.sendMessage(ChatColor.AQUA + "Brush set to " + this.tolerance.name()
+				messenger.sendMessage(TextFormat.AQUA + "Brush set to " + this.tolerance.name()
 					.toLowerCase() + " tolerance.");
 				return;
 			} catch (IllegalArgumentException exception) {
-				messenger.sendMessage(ChatColor.LIGHT_PURPLE + "No such tolerance.");
+				messenger.sendMessage(TextFormat.LIGHT_PURPLE + "No such tolerance.");
 			}
 		}
 	}
@@ -54,21 +51,21 @@ public class ThreePointCircleBrush extends AbstractPerformerBrush {
 		if (this.coordinatesOne == null) {
 			this.coordinatesOne = targetBlock.getLocation()
 				.toVector();
-			messenger.sendMessage(ChatColor.GRAY + "First Corner set.");
+			messenger.sendMessage(TextFormat.GRAY + "First Corner set.");
 		} else if (this.coordinatesTwo == null) {
 			this.coordinatesTwo = targetBlock.getLocation()
 				.toVector();
-			messenger.sendMessage(ChatColor.GRAY + "Second Corner set.");
+			messenger.sendMessage(TextFormat.GRAY + "Second Corner set.");
 		} else if (this.coordinatesThree == null) {
 			this.coordinatesThree = targetBlock.getLocation()
 				.toVector();
-			messenger.sendMessage(ChatColor.GRAY + "Third Corner set.");
+			messenger.sendMessage(TextFormat.GRAY + "Third Corner set.");
 		} else {
 			this.coordinatesOne = targetBlock.getLocation()
 				.toVector();
 			this.coordinatesTwo = null;
 			this.coordinatesThree = null;
-			messenger.sendMessage(ChatColor.GRAY + "First Corner set.");
+			messenger.sendMessage(TextFormat.GRAY + "First Corner set.");
 		}
 	}
 
@@ -87,7 +84,7 @@ public class ThreePointCircleBrush extends AbstractPerformerBrush {
 		SnipeMessenger messenger = snipe.createMessenger();
 		// Redundant data check
 		if (vectorOne.length() == 0 || vectorTwo.length() == 0 || vectorThree.length() == 0 || vectorOne.angle(vectorTwo) == 0 || vectorOne.angle(vectorThree) == 0 || vectorThree.angle(vectorTwo) == 0) {
-			messenger.sendMessage(ChatColor.RED + "ERROR: Invalid points, try again.");
+			messenger.sendMessage(TextFormat.RED + "ERROR: Invalid points, try again.");
 			this.coordinatesOne = null;
 			this.coordinatesTwo = null;
 			this.coordinatesThree = null;
@@ -137,7 +134,7 @@ public class ThreePointCircleBrush extends AbstractPerformerBrush {
 				}
 			}
 		}
-		messenger.sendMessage(ChatColor.GREEN + "Done.");
+		messenger.sendMessage(TextFormat.GREEN + "Done.");
 		Sniper sniper = snipe.getSniper();
 		sniper.storeUndo(this.performer.getUndo());
 		// Reset Brush
@@ -152,16 +149,16 @@ public class ThreePointCircleBrush extends AbstractPerformerBrush {
 			.brushNameMessage();
 		switch (this.tolerance) {
 			case ACCURATE:
-				messageSender.message(ChatColor.GOLD + "Mode: Accurate");
+				messageSender.message(TextFormat.GOLD + "Mode: Accurate");
 				break;
 			case DEFAULT:
-				messageSender.message(ChatColor.GOLD + "Mode: Default");
+				messageSender.message(TextFormat.GOLD + "Mode: Default");
 				break;
 			case SMOOTH:
-				messageSender.message(ChatColor.GOLD + "Mode: Smooth");
+				messageSender.message(TextFormat.GOLD + "Mode: Smooth");
 				break;
 			default:
-				messageSender.message(ChatColor.GOLD + "Mode: Unknown");
+				messageSender.message(TextFormat.GOLD + "Mode: Unknown");
 				break;
 		}
 		messageSender.send();

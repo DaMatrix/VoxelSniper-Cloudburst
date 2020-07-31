@@ -19,10 +19,7 @@ import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.message.Messenger;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class BrushExecutor implements CommandExecutor, TabCompleter {
 
 	private VoxelSniperPlugin plugin;
@@ -37,12 +34,12 @@ public class BrushExecutor implements CommandExecutor, TabCompleter {
 		Player player = (Player) sender;
 		Sniper sniper = sniperRegistry.getSniper(player);
 		if (sniper == null) {
-			sender.sendMessage(ChatColor.RED + "Sniper not found.");
+			sender.sendMessage(TextFormat.RED + "Sniper not found.");
 			return;
 		}
 		Toolkit toolkit = sniper.getCurrentToolkit();
 		if (toolkit == null) {
-			sender.sendMessage(ChatColor.RED + "Current toolkit not found.");
+			sender.sendMessage(TextFormat.RED + "Current toolkit not found.");
 			return;
 		}
 		ToolkitProperties toolkitProperties = toolkit.getProperties();
@@ -50,7 +47,7 @@ public class BrushExecutor implements CommandExecutor, TabCompleter {
 			BrushProperties previousBrushProperties = toolkit.getPreviousBrushProperties();
 			String permission = previousBrushProperties.getPermission();
 			if (permission != null && !player.hasPermission(permission)) {
-				sender.sendMessage(ChatColor.RED + "Insufficient permissions.");
+				sender.sendMessage(TextFormat.RED + "Insufficient permissions.");
 				return;
 			}
 			toolkit.useBrush(previousBrushProperties);
@@ -76,12 +73,12 @@ public class BrushExecutor implements CommandExecutor, TabCompleter {
 		BrushRegistry brushRegistry = this.plugin.getBrushRegistry();
 		BrushProperties newBrush = brushRegistry.getBrushProperties(firstArgument);
 		if (newBrush == null) {
-			sender.sendMessage(ChatColor.RED + "Could not find brush for alias " + firstArgument + ".");
+			sender.sendMessage(TextFormat.RED + "Could not find brush for alias " + firstArgument + ".");
 			return;
 		}
 		String permission = newBrush.getPermission();
 		if (permission != null && !player.hasPermission(permission)) {
-			sender.sendMessage(ChatColor.RED + "Insufficient permissions.");
+			sender.sendMessage(TextFormat.RED + "Insufficient permissions.");
 			return;
 		}
 		Brush brush = toolkit.useBrush(newBrush);

@@ -8,10 +8,7 @@ import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.message.Messenger;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class VoxelCenterExecutor implements CommandExecutor {
 
 	private VoxelSniperPlugin plugin;
@@ -38,7 +35,7 @@ public class VoxelCenterExecutor implements CommandExecutor {
 		}
 		Integer center = NumericParser.parseInteger(arguments[0]);
 		if (center == null) {
-			sender.sendMessage(ChatColor.RED + "Invalid input.");
+			sender.sendMessage(TextFormat.RED + "Invalid input.");
 			return;
 		}
 		toolkitProperties.setCylinderCenter(center);

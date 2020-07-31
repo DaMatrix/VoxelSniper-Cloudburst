@@ -7,11 +7,8 @@ import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
-import com.thevoxelbox.voxelsniper.util.math.vector.Vector3i;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-
+import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
+import org.cloudburstmc.server.utils.TextFormat;
 public abstract class AbstractBlendBrush extends AbstractBrush {
 
 	private boolean airExcluded = true;
@@ -23,7 +20,7 @@ public abstract class AbstractBlendBrush extends AbstractBrush {
 		for (String parameter : parameters) {
 			if (parameter.equalsIgnoreCase("water")) {
 				this.waterExcluded = !this.waterExcluded;
-				messenger.sendMessage(ChatColor.AQUA + "Water Mode: " + (this.waterExcluded ? "exclude" : "include"));
+				messenger.sendMessage(TextFormat.AQUA + "Water Mode: " + (this.waterExcluded ? "exclude" : "include"));
 			}
 		}
 	}
@@ -42,9 +39,9 @@ public abstract class AbstractBlendBrush extends AbstractBrush {
 
 	public abstract void blend(Snipe snipe);
 
-	protected void setBlocks(Map<Vector3i, Material> materials, Undo undo) {
-		for (Entry<Vector3i, Material> entry : materials.entrySet()) {
-			Vector3i position = entry.getKey();
+	protected void setBlocks(Map<VectorVS, Material> materials, Undo undo) {
+		for (Entry<VectorVS, Material> entry : materials.entrySet()) {
+			VectorVS position = entry.getKey();
 			Material material = entry.getValue();
 			if (checkExclusions(material)) {
 				Material currentBlockType = getBlockType(position);
@@ -80,7 +77,7 @@ public abstract class AbstractBlendBrush extends AbstractBrush {
 			.brushNameMessage()
 			.brushSizeMessage()
 			.blockTypeMessage()
-			.message(ChatColor.BLUE + "Water Mode: " + (this.waterExcluded ? "exclude" : "include"))
+			.message(TextFormat.BLUE + "Water Mode: " + (this.waterExcluded ? "exclude" : "include"))
 			.send();
 	}
 }

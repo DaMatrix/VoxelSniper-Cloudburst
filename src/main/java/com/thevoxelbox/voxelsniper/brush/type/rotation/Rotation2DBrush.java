@@ -5,11 +5,7 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class Rotation2DBrush extends AbstractBrush {
 
 	private int mode;
@@ -21,7 +17,7 @@ public class Rotation2DBrush extends AbstractBrush {
 	public void handleCommand(String[] parameters, Snipe snipe) {
 		this.angle = Math.toRadians(Double.parseDouble(parameters[0]));
 		SnipeMessenger messenger = snipe.createMessenger();
-		messenger.sendMessage(ChatColor.GREEN + "Angle set to " + this.angle);
+		messenger.sendMessage(TextFormat.GREEN + "Angle set to " + this.angle);
 	}
 
 	@Override
@@ -33,7 +29,7 @@ public class Rotation2DBrush extends AbstractBrush {
 			rotate();
 		} else {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.RED + "Something went wrong.");
+			messenger.sendMessage(TextFormat.RED + "Something went wrong.");
 		}
 	}
 
@@ -46,7 +42,7 @@ public class Rotation2DBrush extends AbstractBrush {
 			rotate();
 		} else {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.RED + "Something went wrong.");
+			messenger.sendMessage(TextFormat.RED + "Something went wrong.");
 		}
 	}
 

@@ -1,14 +1,6 @@
 package com.thevoxelbox.voxelsniper.util;
 
-import org.bukkit.Art;
-import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Painting;
-import org.bukkit.entity.Player;
+import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
 public final class ArtHelper {
@@ -29,11 +21,11 @@ public final class ArtHelper {
 			return;
 		}
 		if (art == null) {
-			player.sendMessage(ChatColor.RED + "Your input was invalid somewhere.");
+			player.sendMessage(TextFormat.RED + "Your input was invalid somewhere.");
 			return;
 		}
 		bestMatch.setArt(art);
-		player.sendMessage(ChatColor.GREEN + "Painting set to: " + art);
+		player.sendMessage(TextFormat.GREEN + "Painting set to: " + art);
 	}
 
 	public static void paintAuto(Player player, boolean back) {
@@ -44,12 +36,12 @@ public final class ArtHelper {
 		Art bestMatchArt = bestMatch.getArt();
 		int ordinal = bestMatchArt.ordinal() + (back ? -1 : 1);
 		if (ordinal < 0 || ordinal >= Art.values().length) {
-			player.sendMessage(ChatColor.RED + "This is the final painting, try scrolling to the other direction.");
+			player.sendMessage(TextFormat.RED + "This is the final painting, try scrolling to the other direction.");
 			return;
 		}
 		Art ordinalArt = Art.values()[ordinal];
 		bestMatch.setArt(ordinalArt);
-		player.sendMessage(ChatColor.GREEN + "Painting set to: " + ordinalArt);
+		player.sendMessage(TextFormat.GREEN + "Painting set to: " + ordinalArt);
 	}
 
 	@Nullable

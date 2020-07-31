@@ -2,64 +2,64 @@ package com.thevoxelbox.voxelsniper.util.math.vector;
 
 import java.util.Objects;
 
-public class Vector3i {
+public class VectorVS {
 
 	private int x;
 	private int y;
 	private int z;
 
-	public Vector3i() {
+	public VectorVS() {
 		this(0, 0, 0);
 	}
 
-	public Vector3i(Vector3i vector) {
+	public VectorVS(VectorVS vector) {
 		this(vector.x, vector.y, vector.z);
 	}
 
-	public Vector3i(int x, int y, int z) {
+	public VectorVS(int x, int y, int z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
 
-	public Vector3i plusX(int x) {
+	public VectorVS plusX(int x) {
 		return plus(x, 0, 0);
 	}
 
-	public Vector3i plusY(int y) {
+	public VectorVS plusY(int y) {
 		return plus(0, y, 0);
 	}
 
-	public Vector3i plusZ(int z) {
+	public VectorVS plusZ(int z) {
 		return plus(0, 0, z);
 	}
 
-	public Vector3i plus(Vector3i vector) {
+	public VectorVS plus(VectorVS vector) {
 		return plus(vector.x, vector.y, vector.z);
 	}
 
-	public Vector3i plus(int x, int y, int z) {
-		return new Vector3i(this.x + x, this.y + y, this.z + z);
+	public VectorVS plus(int x, int y, int z) {
+		return new VectorVS(this.x + x, this.y + y, this.z + z);
 	}
 
-	public Vector3i timesX(int x) {
+	public VectorVS timesX(int x) {
 		return times(x, 1, 1);
 	}
 
-	public Vector3i timesY(int y) {
+	public VectorVS timesY(int y) {
 		return times(1, y, 1);
 	}
 
-	public Vector3i timesZ(int z) {
+	public VectorVS timesZ(int z) {
 		return times(1, 1, z);
 	}
 
-	public Vector3i times(Vector3i vector) {
+	public VectorVS times(VectorVS vector) {
 		return times(vector.x, vector.y, vector.z);
 	}
 
-	public Vector3i times(int x, int y, int z) {
-		return new Vector3i(this.x * x, this.y * y, this.z * z);
+	public VectorVS times(int x, int y, int z) {
+		return new VectorVS(this.x * x, this.y * y, this.z * z);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class Vector3i {
 		if (object == null || getClass() != object.getClass()) {
 			return false;
 		}
-		Vector3i vector3i = (Vector3i) object;
+		VectorVS vector3i = (VectorVS) object;
 		return this.x == vector3i.x &&
 			this.y == vector3i.y &&
 			this.z == vector3i.z;

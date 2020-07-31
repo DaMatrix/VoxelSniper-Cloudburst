@@ -8,7 +8,6 @@ import com.thevoxelbox.voxelsniper.BrushRegistrar;
 import com.thevoxelbox.voxelsniper.brush.Brush;
 import com.thevoxelbox.voxelsniper.brush.property.BrushCreator;
 import com.thevoxelbox.voxelsniper.brush.property.BrushProperties;
-import org.bukkit.Material;
 import org.jetbrains.annotations.Nullable;
 
 public class Toolkit {

@@ -5,13 +5,7 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class ScannerBrush extends AbstractBrush {
 
 	private static final int DEPTH_MIN = 1;
@@ -26,20 +20,20 @@ public class ScannerBrush extends AbstractBrush {
 		SnipeMessenger messenger = snipe.createMessenger();
 		for (String parameter : parameters) {
 			if (parameter.equalsIgnoreCase("info")) {
-				messenger.sendMessage(ChatColor.GOLD + "Scanner brush Parameters:");
-				messenger.sendMessage(ChatColor.AQUA + "/b sc d# -- will set the search depth to #. Clamps to 1 - 64.");
+				messenger.sendMessage(TextFormat.GOLD + "Scanner brush Parameters:");
+				messenger.sendMessage(TextFormat.AQUA + "/b sc d# -- will set the search depth to #. Clamps to 1 - 64.");
 				return;
 			}
 			if (!parameter.isEmpty() && parameter.charAt(0) == 'd') {
 				Integer depth = NumericParser.parseInteger(parameter.substring(1));
 				if (depth == null) {
-					messenger.sendMessage(ChatColor.RED + "Depth is not a number.");
+					messenger.sendMessage(TextFormat.RED + "Depth is not a number.");
 					return;
 				}
 				this.depth = depth < DEPTH_MIN ? DEPTH_MIN : Math.min(depth, DEPTH_MAX);
-				messenger.sendMessage(ChatColor.AQUA + "Scanner depth set to " + this.depth);
+				messenger.sendMessage(TextFormat.AQUA + "Scanner depth set to " + this.depth);
 			} else {
-				messenger.sendMessage(ChatColor.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
+				messenger.sendMessage(TextFormat.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
 			}
 		}
 	}
@@ -77,38 +71,38 @@ public class ScannerBrush extends AbstractBrush {
 			for (int i = 1; i < this.depth + 1; i++) {
 				if (this.clampY(targetBlock.getX() + i, targetBlock.getY(), targetBlock.getZ())
 					.getType() == this.checkFor) {
-					messenger.sendMessage(ChatColor.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
+					messenger.sendMessage(TextFormat.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
 					return;
 				}
 			}
-			messenger.sendMessage(ChatColor.GRAY + "Nope.");
+			messenger.sendMessage(TextFormat.GRAY + "Nope.");
 		} else if (blockFace == BlockFace.SOUTH) {// Scan north
 			for (int i = 1; i < this.depth + 1; i++) {
 				if (this.clampY(targetBlock.getX() - i, targetBlock.getY(), targetBlock.getZ())
 					.getType() == this.checkFor) {
-					messenger.sendMessage(ChatColor.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
+					messenger.sendMessage(TextFormat.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
 					return;
 				}
 			}
-			messenger.sendMessage(ChatColor.GRAY + "Nope.");
+			messenger.sendMessage(TextFormat.GRAY + "Nope.");
 		} else if (blockFace == BlockFace.EAST) {// Scan west
 			for (int i = 1; i < this.depth + 1; i++) {
 				if (this.clampY(targetBlock.getX(), targetBlock.getY(), targetBlock.getZ() + i)
 					.getType() == this.checkFor) {
-					messenger.sendMessage(ChatColor.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
+					messenger.sendMessage(TextFormat.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
 					return;
 				}
 			}
-			messenger.sendMessage(ChatColor.GRAY + "Nope.");
+			messenger.sendMessage(TextFormat.GRAY + "Nope.");
 		} else if (blockFace == BlockFace.WEST) {// Scan east
 			for (int i = 1; i < this.depth + 1; i++) {
 				if (this.clampY(targetBlock.getX(), targetBlock.getY(), targetBlock.getZ() - i)
 					.getType() == this.checkFor) {
-					messenger.sendMessage(ChatColor.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
+					messenger.sendMessage(TextFormat.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
 					return;
 				}
 			}
-			messenger.sendMessage(ChatColor.GRAY + "Nope.");
+			messenger.sendMessage(TextFormat.GRAY + "Nope.");
 		} else if (blockFace == BlockFace.UP) {// Scan down
 			for (int i = 1; i < this.depth + 1; i++) {
 				if ((targetBlock.getY() - i) <= 0) {
@@ -116,11 +110,11 @@ public class ScannerBrush extends AbstractBrush {
 				}
 				if (this.clampY(targetBlock.getX(), targetBlock.getY() - i, targetBlock.getZ())
 					.getType() == this.checkFor) {
-					messenger.sendMessage(ChatColor.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
+					messenger.sendMessage(TextFormat.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
 					return;
 				}
 			}
-			messenger.sendMessage(ChatColor.GRAY + "Nope.");
+			messenger.sendMessage(TextFormat.GRAY + "Nope.");
 		} else if (blockFace == BlockFace.DOWN) {// Scan up
 			for (int i = 1; i < this.depth + 1; i++) {
 				Sniper sniper = snipe.getSniper();
@@ -131,11 +125,11 @@ public class ScannerBrush extends AbstractBrush {
 				}
 				if (this.clampY(targetBlock.getX(), targetBlock.getY() + i, targetBlock.getZ())
 					.getType() == this.checkFor) {
-					messenger.sendMessage(ChatColor.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
+					messenger.sendMessage(TextFormat.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
 					return;
 				}
 			}
-			messenger.sendMessage(ChatColor.GRAY + "Nope.");
+			messenger.sendMessage(TextFormat.GRAY + "Nope.");
 		}
 	}
 
@@ -143,7 +137,7 @@ public class ScannerBrush extends AbstractBrush {
 	public void sendInfo(Snipe snipe) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		messenger.sendBrushNameMessage();
-		messenger.sendMessage(ChatColor.GREEN + "Scanner depth set to " + this.depth);
-		messenger.sendMessage(ChatColor.GREEN + "Scanner scans for " + this.checkFor + " (change with /v #)");
+		messenger.sendMessage(TextFormat.GREEN + "Scanner depth set to " + this.depth);
+		messenger.sendMessage(TextFormat.GREEN + "Scanner scans for " + this.checkFor + " (change with /v #)");
 	}
 }

@@ -6,10 +6,7 @@ import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class ShellBallBrush extends AbstractBrush {
 
 	@Override
@@ -99,7 +96,7 @@ public class ShellBallBrush extends AbstractBrush {
 		sniper.storeUndo(undo);
 		// This is needed because most uses of this brush will not be sible to the sniper.
 		SnipeMessenger messenger = snipe.createMessenger();
-		messenger.sendMessage(ChatColor.AQUA + "Shell complete.");
+		messenger.sendMessage(TextFormat.AQUA + "Shell complete.");
 	}
 
 	@Override

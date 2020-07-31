@@ -11,9 +11,6 @@ import com.thevoxelbox.voxelsniper.sniper.SniperRegistry;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 public class PerformerExecutor implements CommandExecutor {
 
 	private VoxelSniperPlugin plugin;

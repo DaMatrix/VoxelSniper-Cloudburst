@@ -4,10 +4,7 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
-import org.bukkit.ChatColor;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 /**
  * The CloneStamp class is used to create a collection of blocks in a cylinder shape according to the selection the player has set.
  */
@@ -19,30 +16,30 @@ public class CloneStampBrush extends AbstractStampBrush {
 		ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
 		String parameter = parameters[0];
 		if (parameter.equalsIgnoreCase("info")) {
-			messenger.sendMessage(ChatColor.GOLD + "Clone / Stamp Cylinder brush parameters");
-			messenger.sendMessage(ChatColor.GREEN + "cs f -- Activates Fill mode");
-			messenger.sendMessage(ChatColor.GREEN + "cs a -- Activates No-Air mode");
-			messenger.sendMessage(ChatColor.GREEN + "cs d -- Activates Default mode");
+			messenger.sendMessage(TextFormat.GOLD + "Clone / Stamp Cylinder brush parameters");
+			messenger.sendMessage(TextFormat.GREEN + "cs f -- Activates Fill mode");
+			messenger.sendMessage(TextFormat.GREEN + "cs a -- Activates No-Air mode");
+			messenger.sendMessage(TextFormat.GREEN + "cs d -- Activates Default mode");
 		}
 		if (parameter.equalsIgnoreCase("a")) {
 			setStamp(StampType.NO_AIR);
 			reSort();
-			messenger.sendMessage(ChatColor.AQUA + "No-Air stamp brush");
+			messenger.sendMessage(TextFormat.AQUA + "No-Air stamp brush");
 		} else if (parameter.equalsIgnoreCase("f")) {
 			setStamp(StampType.FILL);
 			reSort();
-			messenger.sendMessage(ChatColor.AQUA + "Fill stamp brush");
+			messenger.sendMessage(TextFormat.AQUA + "Fill stamp brush");
 		} else if (parameter.equalsIgnoreCase("d")) {
 			setStamp(StampType.DEFAULT);
 			reSort();
-			messenger.sendMessage(ChatColor.AQUA + "Default stamp brush");
+			messenger.sendMessage(TextFormat.AQUA + "Default stamp brush");
 		} else if (!parameter.isEmpty() && parameter.charAt(0) == 'c') {
 			Integer cylinderCenter = NumericParser.parseInteger(parameter.replace("c", ""));
 			if (cylinderCenter == null) {
 				return;
 			}
 			toolkitProperties.setCylinderCenter(cylinderCenter);
-			messenger.sendMessage(ChatColor.BLUE + "Center set to " + toolkitProperties.getCylinderCenter());
+			messenger.sendMessage(TextFormat.BLUE + "Center set to " + toolkitProperties.getCylinderCenter());
 		}
 	}
 
@@ -72,17 +69,17 @@ public class CloneStampBrush extends AbstractStampBrush {
 		World world = getWorld();
 		if (yStartingPoint < 0) {
 			yStartingPoint = 0;
-			messenger.sendMessage(ChatColor.DARK_PURPLE + "Warning: off-world start position.");
+			messenger.sendMessage(TextFormat.DARK_PURPLE + "Warning: off-world start position.");
 		} else if (yStartingPoint > world.getMaxHeight() - 1) {
 			yStartingPoint = world.getMaxHeight() - 1;
-			messenger.sendMessage(ChatColor.DARK_PURPLE + "Warning: off-world start position.");
+			messenger.sendMessage(TextFormat.DARK_PURPLE + "Warning: off-world start position.");
 		}
 		if (yEndPoint < 0) {
 			yEndPoint = 0;
-			messenger.sendMessage(ChatColor.DARK_PURPLE + "Warning: off-world end position.");
+			messenger.sendMessage(TextFormat.DARK_PURPLE + "Warning: off-world end position.");
 		} else if (yEndPoint > world.getMaxHeight() - 1) {
 			yEndPoint = world.getMaxHeight() - 1;
-			messenger.sendMessage(ChatColor.DARK_PURPLE + "Warning: off-world end position.");
+			messenger.sendMessage(TextFormat.DARK_PURPLE + "Warning: off-world end position.");
 		}
 		double bSquared = Math.pow(brushSize, 2);
 		int targetBlockX = targetBlock.getX();
@@ -107,7 +104,7 @@ public class CloneStampBrush extends AbstractStampBrush {
 				}
 			}
 		}
-		messenger.sendMessage(ChatColor.GREEN + String.valueOf(this.clone.size()) + ChatColor.AQUA + " blocks copied successfully.");
+		messenger.sendMessage(TextFormat.GREEN + String.valueOf(this.clone.size()) + TextFormat.AQUA + " blocks copied successfully.");
 	}
 
 	@Override
@@ -119,16 +116,16 @@ public class CloneStampBrush extends AbstractStampBrush {
 		messenger.sendCylinderCenterMessage();
 		switch (this.stamp) {
 			case DEFAULT:
-				messenger.sendMessage(ChatColor.LIGHT_PURPLE + "Default Stamp");
+				messenger.sendMessage(TextFormat.LIGHT_PURPLE + "Default Stamp");
 				break;
 			case NO_AIR:
-				messenger.sendMessage(ChatColor.LIGHT_PURPLE + "No-Air Stamp");
+				messenger.sendMessage(TextFormat.LIGHT_PURPLE + "No-Air Stamp");
 				break;
 			case FILL:
-				messenger.sendMessage(ChatColor.LIGHT_PURPLE + "Fill Stamp");
+				messenger.sendMessage(TextFormat.LIGHT_PURPLE + "Fill Stamp");
 				break;
 			default:
-				messenger.sendMessage(ChatColor.DARK_RED + "Error while stamping! Report");
+				messenger.sendMessage(TextFormat.DARK_RED + "Error while stamping! Report");
 				break;
 		}
 	}

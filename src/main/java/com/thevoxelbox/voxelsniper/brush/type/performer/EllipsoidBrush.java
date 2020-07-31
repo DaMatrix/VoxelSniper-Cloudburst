@@ -3,9 +3,7 @@ package com.thevoxelbox.voxelsniper.brush.type.performer;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class EllipsoidBrush extends AbstractPerformerBrush {
 
 	private double xRad;
@@ -20,27 +18,27 @@ public class EllipsoidBrush extends AbstractPerformerBrush {
 		for (String parameter : parameters) {
 			try {
 				if (parameter.equalsIgnoreCase("info")) {
-					messenger.sendMessage(ChatColor.GOLD + "Ellipse brush parameters");
-					messenger.sendMessage(ChatColor.AQUA + "x[n]: Set X radius to n");
-					messenger.sendMessage(ChatColor.AQUA + "y[n]: Set Y radius to n");
-					messenger.sendMessage(ChatColor.AQUA + "z[n]: Set Z radius to n");
+					messenger.sendMessage(TextFormat.GOLD + "Ellipse brush parameters");
+					messenger.sendMessage(TextFormat.AQUA + "x[n]: Set X radius to n");
+					messenger.sendMessage(TextFormat.AQUA + "y[n]: Set Y radius to n");
+					messenger.sendMessage(TextFormat.AQUA + "z[n]: Set Z radius to n");
 					return;
 				} else if (!parameter.isEmpty() && parameter.charAt(0) == 'x') {
 					this.xRad = Integer.parseInt(parameter.replace("x", ""));
-					messenger.sendMessage(ChatColor.AQUA + "X radius set to: " + this.xRad);
+					messenger.sendMessage(TextFormat.AQUA + "X radius set to: " + this.xRad);
 				} else if (!parameter.isEmpty() && parameter.charAt(0) == 'y') {
 					this.yRad = Integer.parseInt(parameter.replace("y", ""));
-					messenger.sendMessage(ChatColor.AQUA + "Y radius set to: " + this.yRad);
+					messenger.sendMessage(TextFormat.AQUA + "Y radius set to: " + this.yRad);
 				} else if (!parameter.isEmpty() && parameter.charAt(0) == 'z') {
 					this.zRad = Integer.parseInt(parameter.replace("z", ""));
-					messenger.sendMessage(ChatColor.AQUA + "Z radius set to: " + this.zRad);
+					messenger.sendMessage(TextFormat.AQUA + "Z radius set to: " + this.zRad);
 				} else if (parameter.equalsIgnoreCase("true")) {
 					this.istrue = true;
 				} else {
-					messenger.sendMessage(ChatColor.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+					messenger.sendMessage(TextFormat.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
 				}
 			} catch (NumberFormatException exception) {
-				messenger.sendMessage(ChatColor.RED + "Incorrect parameter \"" + parameter + "\"; use the \"info\" parameter.");
+				messenger.sendMessage(TextFormat.RED + "Incorrect parameter \"" + parameter + "\"; use the \"info\" parameter.");
 			}
 		}
 	}
@@ -90,9 +88,9 @@ public class EllipsoidBrush extends AbstractPerformerBrush {
 	public void sendInfo(Snipe snipe) {
 		snipe.createMessageSender()
 			.brushNameMessage()
-			.message(ChatColor.AQUA + "X-size set to: " + ChatColor.DARK_AQUA + this.xRad)
-			.message(ChatColor.AQUA + "Y-size set to: " + ChatColor.DARK_AQUA + this.yRad)
-			.message(ChatColor.AQUA + "Z-size set to: " + ChatColor.DARK_AQUA + this.zRad)
+			.message(TextFormat.AQUA + "X-size set to: " + TextFormat.DARK_AQUA + this.xRad)
+			.message(TextFormat.AQUA + "Y-size set to: " + TextFormat.DARK_AQUA + this.yRad)
+			.message(TextFormat.AQUA + "Z-size set to: " + TextFormat.DARK_AQUA + this.zRad)
 			.send();
 	}
 }

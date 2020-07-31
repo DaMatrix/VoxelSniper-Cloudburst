@@ -6,9 +6,7 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessageSender;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 /**
  * FOR ANY BRUSH THAT USES A SPLINE, EXTEND THAT BRUSH FROM THIS BRUSH!!! That way, the spline calculations are already there. Also, the UI for
  * the splines will be included.
@@ -27,30 +25,30 @@ public class SplineBrush extends AbstractPerformerBrush {
 		for (String parameter : parameters) {
 			if (parameter.equalsIgnoreCase("info")) {
 				snipe.createMessageSender()
-					.message(ChatColor.GOLD + "Spline brush parameters")
-					.message(ChatColor.AQUA + "ss: Enable endpoint selection mode for desired curve")
-					.message(ChatColor.AQUA + "sc: Enable control point selection mode for desired curve")
-					.message(ChatColor.AQUA + "clear: Clear out the curve selection")
-					.message(ChatColor.AQUA + "ren: Render curve from control points")
+					.message(TextFormat.GOLD + "Spline brush parameters")
+					.message(TextFormat.AQUA + "ss: Enable endpoint selection mode for desired curve")
+					.message(TextFormat.AQUA + "sc: Enable control point selection mode for desired curve")
+					.message(TextFormat.AQUA + "clear: Clear out the curve selection")
+					.message(TextFormat.AQUA + "ren: Render curve from control points")
 					.send();
 				return;
 			} else if (parameter.equalsIgnoreCase("sc")) {
 				if (this.ctrl) {
 					this.ctrl = false;
-					messenger.sendMessage(ChatColor.AQUA + "Control point selection mode disabled.");
+					messenger.sendMessage(TextFormat.AQUA + "Control point selection mode disabled.");
 				} else {
 					this.set = false;
 					this.ctrl = true;
-					messenger.sendMessage(ChatColor.GRAY + "Control point selection mode ENABLED.");
+					messenger.sendMessage(TextFormat.GRAY + "Control point selection mode ENABLED.");
 				}
 			} else if (parameter.equalsIgnoreCase("ss")) {
 				if (this.set) {
 					this.set = false;
-					messenger.sendMessage(ChatColor.AQUA + "Endpoint selection mode disabled.");
+					messenger.sendMessage(TextFormat.AQUA + "Endpoint selection mode disabled.");
 				} else {
 					this.set = true;
 					this.ctrl = false;
-					messenger.sendMessage(ChatColor.GRAY + "Endpoint selection mode ENABLED.");
+					messenger.sendMessage(TextFormat.GRAY + "Endpoint selection mode ENABLED.");
 				}
 			} else if (parameter.equalsIgnoreCase("clear")) {
 				clear(snipe);
@@ -59,7 +57,7 @@ public class SplineBrush extends AbstractPerformerBrush {
 					render(snipe);
 				}
 			} else {
-				messenger.sendMessage(ChatColor.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
+				messenger.sendMessage(TextFormat.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
 			}
 		}
 	}
@@ -92,33 +90,33 @@ public class SplineBrush extends AbstractPerformerBrush {
 				return;
 			}
 			this.endPts.add(targetBlock);
-			messenger.sendMessage(ChatColor.GRAY + "Added block " + ChatColor.RED + "(" + targetBlock.getX() + ", " + targetBlock.getY() + ", " + targetBlock.getZ() + ") " + ChatColor.GRAY + "to endpoint selection");
+			messenger.sendMessage(TextFormat.GRAY + "Added block " + TextFormat.RED + "(" + targetBlock.getX() + ", " + targetBlock.getY() + ", " + targetBlock.getZ() + ") " + TextFormat.GRAY + "to endpoint selection");
 			return;
 		}
 		if (this.ctrlPts.contains(targetBlock) || this.ctrlPts.size() == 2) {
 			return;
 		}
 		this.ctrlPts.add(targetBlock);
-		messenger.sendMessage(ChatColor.GRAY + "Added block " + ChatColor.RED + "(" + targetBlock.getX() + ", " + targetBlock.getY() + ", " + targetBlock.getZ() + ") " + ChatColor.GRAY + "to control point selection");
+		messenger.sendMessage(TextFormat.GRAY + "Added block " + TextFormat.RED + "(" + targetBlock.getX() + ", " + targetBlock.getY() + ", " + targetBlock.getZ() + ") " + TextFormat.GRAY + "to control point selection");
 	}
 
 	private void removeFromSet(Snipe snipe, boolean ep, Block targetBlock) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		if (ep) {
 			if (!this.endPts.contains(targetBlock)) {
-				messenger.sendMessage(ChatColor.RED + "That block is not in the endpoint selection set.");
+				messenger.sendMessage(TextFormat.RED + "That block is not in the endpoint selection set.");
 				return;
 			}
 			this.endPts.add(targetBlock);
-			messenger.sendMessage(ChatColor.GRAY + "Removed block " + ChatColor.RED + "(" + targetBlock.getX() + ", " + targetBlock.getY() + ", " + targetBlock.getZ() + ") " + ChatColor.GRAY + "from endpoint selection");
+			messenger.sendMessage(TextFormat.GRAY + "Removed block " + TextFormat.RED + "(" + targetBlock.getX() + ", " + targetBlock.getY() + ", " + targetBlock.getZ() + ") " + TextFormat.GRAY + "from endpoint selection");
 			return;
 		}
 		if (!this.ctrlPts.contains(targetBlock)) {
-			messenger.sendMessage(ChatColor.RED + "That block is not in the control point selection set.");
+			messenger.sendMessage(TextFormat.RED + "That block is not in the control point selection set.");
 			return;
 		}
 		this.ctrlPts.remove(targetBlock);
-		messenger.sendMessage(ChatColor.GRAY + "Removed block " + ChatColor.RED + "(" + targetBlock.getX() + ", " + targetBlock.getY() + ", " + targetBlock.getZ() + ") " + ChatColor.GRAY + "from control point selection");
+		messenger.sendMessage(TextFormat.GRAY + "Removed block " + TextFormat.RED + "(" + targetBlock.getX() + ", " + targetBlock.getY() + ", " + targetBlock.getZ() + ") " + TextFormat.GRAY + "from control point selection");
 	}
 
 	private boolean spline(Point start, Point end, Point c1, Point c2, Snipe snipe) {
@@ -146,7 +144,7 @@ public class SplineBrush extends AbstractPerformerBrush {
 			}
 			return true;
 		} catch (RuntimeException exception) {
-			messenger.sendMessage(ChatColor.RED + "Not enough points selected; " + this.endPts.size() + " endpoints, " + this.ctrlPts.size() + " control points");
+			messenger.sendMessage(TextFormat.RED + "Not enough points selected; " + this.endPts.size() + " endpoints, " + this.ctrlPts.size() + " control points");
 			return false;
 		}
 	}
@@ -167,7 +165,7 @@ public class SplineBrush extends AbstractPerformerBrush {
 		this.ctrlPts.clear();
 		this.endPts.clear();
 		SnipeMessenger messenger = snipe.createMessenger();
-		messenger.sendMessage(ChatColor.GRAY + "Bezier curve cleared.");
+		messenger.sendMessage(TextFormat.GRAY + "Bezier curve cleared.");
 	}
 
 	@Override
@@ -175,11 +173,11 @@ public class SplineBrush extends AbstractPerformerBrush {
 		SnipeMessageSender messageSender = snipe.createMessageSender()
 			.brushNameMessage();
 		if (this.set) {
-			messageSender.message(ChatColor.GRAY + "Endpoint selection mode ENABLED.");
+			messageSender.message(TextFormat.GRAY + "Endpoint selection mode ENABLED.");
 		} else if (this.ctrl) {
-			messageSender.message(ChatColor.GRAY + "Control point selection mode ENABLED.");
+			messageSender.message(TextFormat.GRAY + "Control point selection mode ENABLED.");
 		} else {
-			messageSender.message(ChatColor.AQUA + "No selection mode enabled.");
+			messageSender.message(TextFormat.AQUA + "No selection mode enabled.");
 		}
 		messageSender.send();
 	}

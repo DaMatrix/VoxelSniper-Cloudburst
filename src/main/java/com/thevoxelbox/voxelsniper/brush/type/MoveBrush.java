@@ -11,13 +11,7 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSet;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Tag;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
+import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -65,31 +59,31 @@ public class MoveBrush extends AbstractBrush {
 		BrushProperties brushProperties = snipe.getBrushProperties();
 		for (String parameter : parameters) {
 			if (parameter.equalsIgnoreCase("info")) {
-				messenger.sendMessage(ChatColor.GOLD + brushProperties.getName() + " Parameters:");
-				messenger.sendMessage(ChatColor.AQUA + "/b mv x[int] -- set the x direction (positive => east)");
-				messenger.sendMessage(ChatColor.AQUA + "/b mv y[int] -- set the y direction (positive => up)");
-				messenger.sendMessage(ChatColor.AQUA + "/b mv z[int] -- set the z direction (positive => south)");
-				messenger.sendMessage(ChatColor.AQUA + "/b mv reset -- reset the brush (x:0 y:0 z:0)");
-				messenger.sendMessage(ChatColor.AQUA + "Use arrow and gunpowder to define two points.");
+				messenger.sendMessage(TextFormat.GOLD + brushProperties.getName() + " Parameters:");
+				messenger.sendMessage(TextFormat.AQUA + "/b mv x[int] -- set the x direction (positive => east)");
+				messenger.sendMessage(TextFormat.AQUA + "/b mv y[int] -- set the y direction (positive => up)");
+				messenger.sendMessage(TextFormat.AQUA + "/b mv z[int] -- set the z direction (positive => south)");
+				messenger.sendMessage(TextFormat.AQUA + "/b mv reset -- reset the brush (x:0 y:0 z:0)");
+				messenger.sendMessage(TextFormat.AQUA + "Use arrow and gunpowder to define two points.");
 			}
 			if (parameter.equalsIgnoreCase("reset")) {
 				this.moveDirections[0] = 0;
 				this.moveDirections[1] = 0;
 				this.moveDirections[2] = 0;
-				messenger.sendMessage(ChatColor.AQUA + "X direction set to: " + this.moveDirections[0]);
-				messenger.sendMessage(ChatColor.AQUA + "Y direction set to: " + this.moveDirections[1]);
-				messenger.sendMessage(ChatColor.AQUA + "Z direction set to: " + this.moveDirections[2]);
+				messenger.sendMessage(TextFormat.AQUA + "X direction set to: " + this.moveDirections[0]);
+				messenger.sendMessage(TextFormat.AQUA + "Y direction set to: " + this.moveDirections[1]);
+				messenger.sendMessage(TextFormat.AQUA + "Z direction set to: " + this.moveDirections[2]);
 			}
 			String parameterLowered = parameter.toLowerCase();
 			if (!parameterLowered.isEmpty() && parameterLowered.charAt(0) == 'x') {
 				this.moveDirections[0] = Integer.parseInt(parameter.substring(1));
-				messenger.sendMessage(ChatColor.AQUA + "X direction set to: " + this.moveDirections[0]);
+				messenger.sendMessage(TextFormat.AQUA + "X direction set to: " + this.moveDirections[0]);
 			} else if (!parameterLowered.isEmpty() && parameterLowered.charAt(0) == 'y') {
 				this.moveDirections[1] = Integer.parseInt(parameter.substring(1));
-				messenger.sendMessage(ChatColor.AQUA + "Y direction set to: " + this.moveDirections[1]);
+				messenger.sendMessage(TextFormat.AQUA + "Y direction set to: " + this.moveDirections[1]);
 			} else if (!parameterLowered.isEmpty() && parameterLowered.charAt(0) == 'z') {
 				this.moveDirections[2] = Integer.parseInt(parameter.substring(1));
-				messenger.sendMessage(ChatColor.AQUA + "Z direction set to: " + this.moveDirections[2]);
+				messenger.sendMessage(TextFormat.AQUA + "Z direction set to: " + this.moveDirections[2]);
 			}
 		}
 	}
@@ -102,7 +96,7 @@ public class MoveBrush extends AbstractBrush {
 		}
 		this.selection.setLocation1(this.getTargetBlock()
 			.getLocation());
-		messenger.sendMessage(ChatColor.LIGHT_PURPLE + "Point 1 set.");
+		messenger.sendMessage(TextFormat.LIGHT_PURPLE + "Point 1 set.");
 		try {
 			if (this.selection.calculateRegion()) {
 				moveSelection(snipe, this.selection, this.moveDirections);
@@ -121,7 +115,7 @@ public class MoveBrush extends AbstractBrush {
 		}
 		this.selection.setLocation2(this.getTargetBlock()
 			.getLocation());
-		messenger.sendMessage(ChatColor.LIGHT_PURPLE + "Point 2 set.");
+		messenger.sendMessage(TextFormat.LIGHT_PURPLE + "Point 2 set.");
 		try {
 			if (this.selection.calculateRegion()) {
 				this.moveSelection(snipe, this.selection, this.moveDirections);
@@ -153,7 +147,7 @@ public class MoveBrush extends AbstractBrush {
 			try {
 				newSelection.calculateRegion();
 			} catch (RuntimeException exception) {
-				messenger.sendMessage(ChatColor.LIGHT_PURPLE + "The new Selection has more blocks than the original selection. This should never happen!");
+				messenger.sendMessage(TextFormat.LIGHT_PURPLE + "The new Selection has more blocks than the original selection. This should never happen!");
 			}
 			Set<Block> undoSet = blockStates.stream()
 				.map(BlockState::getBlock)
@@ -178,7 +172,7 @@ public class MoveBrush extends AbstractBrush {
 	public void sendInfo(Snipe snipe) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		messenger.sendBrushNameMessage();
-		messenger.sendMessage(ChatColor.BLUE + "Move selection blockPositionY " + ChatColor.GOLD + "x:" + this.moveDirections[0] + " y:" + this.moveDirections[1] + " z:" + this.moveDirections[2]);
+		messenger.sendMessage(TextFormat.BLUE + "Move selection blockPositionY " + TextFormat.GOLD + "x:" + this.moveDirections[0] + " y:" + this.moveDirections[1] + " z:" + this.moveDirections[2]);
 	}
 
 	private static class Selection {
@@ -218,7 +212,7 @@ public class MoveBrush extends AbstractBrush {
 					int highY = Math.max(y1, y2);
 					int highZ = Math.max(z1, z2);
 					if (Math.abs(highX - lowX) * Math.abs(highZ - lowZ) * Math.abs(highY - lowY) > MAX_BLOCK_COUNT) {
-						throw new RuntimeException(ChatColor.RED + "Selection size above hardcoded limit, please use a smaller selection.");
+						throw new RuntimeException(TextFormat.RED + "Selection size above hardcoded limit, please use a smaller selection.");
 					}
 					for (int y = lowY; y <= highY; y++) {
 						for (int x = lowX; x <= highX; x++) {

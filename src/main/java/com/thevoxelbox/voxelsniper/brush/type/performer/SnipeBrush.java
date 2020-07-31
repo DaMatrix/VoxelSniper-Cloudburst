@@ -3,8 +3,6 @@ package com.thevoxelbox.voxelsniper.brush.type.performer;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
-import org.bukkit.block.Block;
-
 public class SnipeBrush extends AbstractPerformerBrush {
 
 	@Override

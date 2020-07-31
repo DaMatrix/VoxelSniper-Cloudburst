@@ -5,13 +5,7 @@ import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.type.Snow;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class SnowConeBrush extends AbstractBrush {
 
 	@Override
@@ -19,7 +13,7 @@ public class SnowConeBrush extends AbstractBrush {
 		String firstParameter = parameters[0];
 		if (firstParameter.equalsIgnoreCase("info")) {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.GOLD + "Snow Cone Parameters:");
+			messenger.sendMessage(TextFormat.GOLD + "Snow Cone Parameters:");
 		}
 	}
 
@@ -38,7 +32,7 @@ public class SnowConeBrush extends AbstractBrush {
 				addSnow(snipe, blockAbove);
 			} else {
 				SnipeMessenger messenger = snipe.createMessenger();
-				messenger.sendMessage(ChatColor.RED + "Error: Center block neither snow nor air.");
+				messenger.sendMessage(TextFormat.RED + "Error: Center block neither snow nor air.");
 			}
 		}
 	}

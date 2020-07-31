@@ -5,10 +5,7 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class DiscFaceBrush extends AbstractPerformerBrush {
 
 	private double trueCircle;
@@ -18,18 +15,18 @@ public class DiscFaceBrush extends AbstractPerformerBrush {
 		SnipeMessenger messenger = snipe.createMessenger();
 		for (String parameter : parameters) {
 			if (parameter.equalsIgnoreCase("info")) {
-				messenger.sendMessage(ChatColor.GOLD + "Disc Face brush Parameters:");
-				messenger.sendMessage(ChatColor.AQUA + "/b df true -- will use a true circle algorithm instead of the skinnier version with classic sniper nubs. /b b false will switch back. (false is default)");
+				messenger.sendMessage(TextFormat.GOLD + "Disc Face brush Parameters:");
+				messenger.sendMessage(TextFormat.AQUA + "/b df true -- will use a true circle algorithm instead of the skinnier version with classic sniper nubs. /b b false will switch back. (false is default)");
 				return;
 			}
 			if (parameter.startsWith("true")) {
 				this.trueCircle = 0.5;
-				messenger.sendMessage(ChatColor.AQUA + "True circle mode ON.");
+				messenger.sendMessage(TextFormat.AQUA + "True circle mode ON.");
 			} else if (parameter.startsWith("false")) {
 				this.trueCircle = 0;
-				messenger.sendMessage(ChatColor.AQUA + "True circle mode OFF.");
+				messenger.sendMessage(TextFormat.AQUA + "True circle mode OFF.");
 			} else {
-				messenger.sendMessage(ChatColor.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
+				messenger.sendMessage(TextFormat.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
 			}
 		}
 	}

@@ -6,19 +6,16 @@ import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class ShellVoxelBrush extends AbstractBrush {
 
 	@Override
 	public void handleCommand(String[] parameters, Snipe snipe) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		if (parameters[0].equalsIgnoreCase("info")) {
-			messenger.sendMessage(ChatColor.GOLD + "Shell Voxel Parameters:");
+			messenger.sendMessage(TextFormat.GOLD + "Shell Voxel Parameters:");
 		} else {
-			messenger.sendMessage(ChatColor.RED + "Invalid parameter - see the info message for help.");
+			messenger.sendMessage(TextFormat.RED + "Invalid parameter - see the info message for help.");
 		}
 	}
 
@@ -102,7 +99,7 @@ public class ShellVoxelBrush extends AbstractBrush {
 		Sniper sniper = snipe.getSniper();
 		sniper.storeUndo(undo);
 		SnipeMessenger messenger = snipe.createMessenger();
-		messenger.sendMessage(ChatColor.AQUA + "Shell complete.");
+		messenger.sendMessage(TextFormat.AQUA + "Shell complete.");
 	}
 
 	@Override

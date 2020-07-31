@@ -5,9 +5,7 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class BlobBrush extends AbstractPerformerBrush {
 
 	private static final int GROW_PERCENT_DEFAULT = 1000;
@@ -22,20 +20,20 @@ public class BlobBrush extends AbstractPerformerBrush {
 		SnipeMessenger messenger = snipe.createMessenger();
 		for (String parameter : parameters) {
 			if (parameter.equalsIgnoreCase("info")) {
-				messenger.sendMessage(ChatColor.GOLD + "Blob brush Parameters:");
-				messenger.sendMessage(ChatColor.AQUA + "/b blob g[int] -- set a growth percentage (" + GROW_PERCENT_MIN + "-" + GROW_PERCENT_MAX + ").  Default is " + GROW_PERCENT_DEFAULT);
+				messenger.sendMessage(TextFormat.GOLD + "Blob brush Parameters:");
+				messenger.sendMessage(TextFormat.AQUA + "/b blob g[int] -- set a growth percentage (" + GROW_PERCENT_MIN + "-" + GROW_PERCENT_MAX + ").  Default is " + GROW_PERCENT_DEFAULT);
 				return;
 			}
 			if (!parameter.isEmpty() && parameter.charAt(0) == 'g') {
 				int temp = Integer.parseInt(parameter.replace("g", ""));
 				if (temp >= GROW_PERCENT_MIN && temp <= GROW_PERCENT_MAX) {
-					messenger.sendMessage(ChatColor.AQUA + "Growth percent set to: " + (float) temp / 100 + "%");
+					messenger.sendMessage(TextFormat.AQUA + "Growth percent set to: " + (float) temp / 100 + "%");
 					this.growPercent = temp;
 				} else {
-					messenger.sendMessage(ChatColor.RED + "Growth percent must be an integer " + GROW_PERCENT_MIN + "-" + GROW_PERCENT_MAX + "!");
+					messenger.sendMessage(TextFormat.RED + "Growth percent must be an integer " + GROW_PERCENT_MIN + "-" + GROW_PERCENT_MAX + "!");
 				}
 			} else {
-				messenger.sendMessage(ChatColor.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
+				messenger.sendMessage(TextFormat.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
 			}
 		}
 	}
@@ -55,7 +53,7 @@ public class BlobBrush extends AbstractPerformerBrush {
 		int brushSize = toolkitProperties.getBrushSize();
 		if (checkValidGrowPercent()) {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.BLUE + "Growth percent set to: 10%");
+			messenger.sendMessage(TextFormat.BLUE + "Growth percent set to: 10%");
 		}
 		// Seed the array
 		int brushSizeDoubled = 2 * brushSize;
@@ -132,7 +130,7 @@ public class BlobBrush extends AbstractPerformerBrush {
 		int brushSize = toolkitProperties.getBrushSize();
 		if (checkValidGrowPercent()) {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.BLUE + "Growth percent set to: 10%");
+			messenger.sendMessage(TextFormat.BLUE + "Growth percent set to: 10%");
 		}
 		// Seed the array
 		int brushSizeDoubled = 2 * brushSize;
@@ -212,7 +210,7 @@ public class BlobBrush extends AbstractPerformerBrush {
 		snipe.createMessageSender()
 			.brushNameMessage()
 			.brushSizeMessage()
-			.message(ChatColor.BLUE + "Growth percent set to: " + this.growPercent / 100 + "%")
+			.message(TextFormat.BLUE + "Growth percent set to: " + this.growPercent / 100 + "%")
 			.send();
 	}
 }

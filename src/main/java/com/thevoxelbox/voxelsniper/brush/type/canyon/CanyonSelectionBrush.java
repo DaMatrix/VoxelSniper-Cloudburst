@@ -4,9 +4,7 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
-import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class CanyonSelectionBrush extends CanyonBrush {
 
 	private boolean first = true;
@@ -29,9 +27,9 @@ public class CanyonSelectionBrush extends CanyonBrush {
 		if (this.first) {
 			this.fx = chunk.getX();
 			this.fz = chunk.getZ();
-			messenger.sendMessage(ChatColor.YELLOW + "First point selected!");
+			messenger.sendMessage(TextFormat.YELLOW + "First point selected!");
 		} else {
-			messenger.sendMessage(ChatColor.YELLOW + "Second point selected!");
+			messenger.sendMessage(TextFormat.YELLOW + "Second point selected!");
 			selection(Math.min(this.fx, chunk.getX()), Math.min(this.fz, chunk.getZ()), Math.max(this.fx, chunk.getX()), Math.max(this.fz, chunk.getZ()), snipe);
 		}
 		this.first = !this.first;
@@ -52,7 +50,7 @@ public class CanyonSelectionBrush extends CanyonBrush {
 	public void sendInfo(Snipe snipe) {
 		snipe.createMessageSender()
 			.brushNameMessage()
-			.message(ChatColor.GREEN + "Shift Level set to " + this.getYLevel())
+			.message(TextFormat.GREEN + "Shift Level set to " + this.getYLevel())
 			.send();
 	}
 }

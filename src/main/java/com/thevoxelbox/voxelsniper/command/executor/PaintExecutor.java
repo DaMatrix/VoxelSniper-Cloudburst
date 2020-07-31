@@ -7,11 +7,7 @@ import java.util.stream.Collectors;
 import com.thevoxelbox.voxelsniper.command.CommandExecutor;
 import com.thevoxelbox.voxelsniper.command.TabCompleter;
 import com.thevoxelbox.voxelsniper.util.ArtHelper;
-import org.bukkit.Art;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class PaintExecutor implements CommandExecutor, TabCompleter {
 
 	private static final List<String> ART_NAMES = Arrays.stream(Art.values())
@@ -28,7 +24,7 @@ public class PaintExecutor implements CommandExecutor, TabCompleter {
 			} else {
 				Art art = Art.getByName(arguments[0]);
 				if (art == null) {
-					sender.sendMessage(ChatColor.RED + "Invalid art name.");
+					sender.sendMessage(TextFormat.RED + "Invalid art name.");
 					return;
 				}
 				ArtHelper.paint(player, art);

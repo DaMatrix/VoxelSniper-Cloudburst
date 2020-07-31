@@ -6,9 +6,7 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.util.math.MathHelper;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class TriangleBrush extends AbstractPerformerBrush {
 
 	private double[] coordinatesOne = new double[3]; // Three corners
@@ -25,7 +23,7 @@ public class TriangleBrush extends AbstractPerformerBrush {
 	public void handleCommand(String[] parameters, Snipe snipe) {
 		if (parameters[0].equalsIgnoreCase("info")) {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.GOLD + "Triangle Brush instructions: Select three corners with the arrow brush, then generate the triangle with the powder brush.");
+			messenger.sendMessage(TextFormat.GOLD + "Triangle Brush instructions: Select three corners with the arrow brush, then generate the triangle with the powder brush.");
 		}
 	}
 
@@ -55,7 +53,7 @@ public class TriangleBrush extends AbstractPerformerBrush {
 				this.coordinatesOne[1] = y;
 				this.coordinatesOne[2] = z;
 				this.cornerNumber = 2;
-				messenger.sendMessage(ChatColor.GRAY + "First Corner set.");
+				messenger.sendMessage(TextFormat.GRAY + "First Corner set.");
 				break;
 			case 2:
 				this.coordinatesTwo[0] = x; // I hate you sometimes, Notch. Really? Every quadrant is
@@ -63,7 +61,7 @@ public class TriangleBrush extends AbstractPerformerBrush {
 				this.coordinatesTwo[1] = y;
 				this.coordinatesTwo[2] = z;
 				this.cornerNumber = 3;
-				messenger.sendMessage(ChatColor.GRAY + "Second Corner set.");
+				messenger.sendMessage(TextFormat.GRAY + "Second Corner set.");
 				break;
 			case 3:
 				this.coordinatesThree[0] = x; // I hate you sometimes, Notch. Really? Every quadrant is
@@ -71,7 +69,7 @@ public class TriangleBrush extends AbstractPerformerBrush {
 				this.coordinatesThree[1] = y;
 				this.coordinatesThree[2] = z;
 				this.cornerNumber = 1;
-				messenger.sendMessage(ChatColor.GRAY + "Third Corner set.");
+				messenger.sendMessage(TextFormat.GRAY + "Third Corner set.");
 				break;
 			default:
 				break;
@@ -114,7 +112,7 @@ public class TriangleBrush extends AbstractPerformerBrush {
 			.allMatch(number -> this.coordinatesOne[number] == 0) || IntStream.of(0, 1, 2)
 			.allMatch(number -> this.coordinatesTwo[number] == 0) || IntStream.of(0, 1, 2)
 			.allMatch(number -> this.coordinatesThree[number] == 0)) {
-			messenger.sendMessage(ChatColor.RED + "ERROR: Invalid corners, please try again.");
+			messenger.sendMessage(TextFormat.RED + "ERROR: Invalid corners, please try again.");
 		} else {
 			// Make the Changes
 			double[] cVectorOne = new double[3];

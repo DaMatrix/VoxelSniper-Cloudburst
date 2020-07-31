@@ -6,11 +6,7 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
-
+import org.cloudburstmc.server.utils.TextFormat;
 // The X Y and Z variable names in this file do NOT MAKE ANY SENSE. Do not attempt to actually figure out what on earth is going on here. Just go to the
 // original 2d horizontal brush if you wish to make anything similar to this, and start there. I didn't bother renaming everything.
 public class Rotation2DVerticalBrush extends AbstractBrush {
@@ -29,7 +25,7 @@ public class Rotation2DVerticalBrush extends AbstractBrush {
 			return;
 		}
 		this.angle = Math.toRadians(angle);
-		messenger.sendMessage(ChatColor.GREEN + "Angle set to " + this.angle);
+		messenger.sendMessage(TextFormat.GREEN + "Angle set to " + this.angle);
 	}
 
 	@Override
@@ -41,7 +37,7 @@ public class Rotation2DVerticalBrush extends AbstractBrush {
 			this.rotate();
 		} else {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.RED + "Something went wrong.");
+			messenger.sendMessage(TextFormat.RED + "Something went wrong.");
 		}
 	}
 
@@ -54,7 +50,7 @@ public class Rotation2DVerticalBrush extends AbstractBrush {
 			this.rotate();
 		} else {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.RED + "Something went wrong.");
+			messenger.sendMessage(TextFormat.RED + "Something went wrong.");
 		}
 	}
 

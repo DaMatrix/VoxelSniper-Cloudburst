@@ -1,27 +1,27 @@
 package com.thevoxelbox.voxelsniper.util.painter;
 
 import com.thevoxelbox.voxelsniper.util.Vectors;
-import com.thevoxelbox.voxelsniper.util.math.vector.Vector3i;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
+import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.level.Location;
 
 public class CubePainter implements Painter {
 
-	private Vector3i center;
+	private VectorVS center;
 	private int radius;
 	private BlockSetter blockSetter;
 
 	public CubePainter center(Block block) {
-		Vector3i center = Vectors.of(block);
+		VectorVS center = Vectors.of(block);
 		return center(center);
 	}
 
 	public CubePainter center(Location location) {
-		Vector3i center = Vectors.of(location);
+		VectorVS center = Vectors.of(location);
 		return center(center);
 	}
 
-	public CubePainter center(Vector3i center) {
+	public CubePainter center(VectorVS center) {
 		this.center = center;
 		return this;
 	}
@@ -92,7 +92,7 @@ public class CubePainter implements Painter {
 	}
 
 	@Override
-	public Vector3i getCenter() {
+	public VectorVS getCenter() {
 		return this.center;
 	}
 

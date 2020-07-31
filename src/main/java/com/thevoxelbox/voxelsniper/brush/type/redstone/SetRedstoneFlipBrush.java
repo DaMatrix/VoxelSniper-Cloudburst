@@ -6,11 +6,7 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.type.Repeater;
+import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
 public class SetRedstoneFlipBrush extends AbstractBrush {
@@ -25,20 +21,20 @@ public class SetRedstoneFlipBrush extends AbstractBrush {
 		SnipeMessenger messenger = snipe.createMessenger();
 		for (String parameter : parameters) {
 			if (parameter.equalsIgnoreCase("info")) {
-				messenger.sendMessage(ChatColor.GOLD + "Set Repeater Flip Parameters:");
-				messenger.sendMessage(ChatColor.AQUA + "/b setrf <direction> -- valid direction inputs are(n,s,e,world), Set the direction that you wish to flip your repeaters, defaults to north/south.");
+				messenger.sendMessage(TextFormat.GOLD + "Set Repeater Flip Parameters:");
+				messenger.sendMessage(TextFormat.AQUA + "/b setrf <direction> -- valid direction inputs are(n,s,e,world), Set the direction that you wish to flip your repeaters, defaults to north/south.");
 				return;
 			}
 			if (Stream.of("n", "s", "ns")
 				.anyMatch(parameter::startsWith)) {
 				this.northSouth = true;
-				messenger.sendMessage(ChatColor.AQUA + "Flip direction set to north/south");
+				messenger.sendMessage(TextFormat.AQUA + "Flip direction set to north/south");
 			} else if (Stream.of("e", "world", "ew")
 				.anyMatch(parameter::startsWith)) {
 				this.northSouth = false;
-				messenger.sendMessage(ChatColor.AQUA + "Flip direction set to east/west.");
+				messenger.sendMessage(TextFormat.AQUA + "Flip direction set to east/west.");
 			} else {
-				messenger.sendMessage(ChatColor.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
+				messenger.sendMessage(TextFormat.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
 			}
 		}
 	}
@@ -48,7 +44,7 @@ public class SetRedstoneFlipBrush extends AbstractBrush {
 		Block targetBlock = getTargetBlock();
 		if (set(targetBlock)) {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.GRAY + "Point one");
+			messenger.sendMessage(TextFormat.GRAY + "Point one");
 		} else {
 			Sniper sniper = snipe.getSniper();
 			sniper.storeUndo(this.undo);
@@ -60,7 +56,7 @@ public class SetRedstoneFlipBrush extends AbstractBrush {
 		Block lastBlock = getLastBlock();
 		if (set(lastBlock)) {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.GRAY + "Point one");
+			messenger.sendMessage(TextFormat.GRAY + "Point one");
 		} else {
 			Sniper sniper = snipe.getSniper();
 			sniper.storeUndo(this.undo);

@@ -8,14 +8,7 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSet;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Tag;
-import org.bukkit.block.Block;
-import org.bukkit.util.Vector;
-import org.bukkit.util.noise.PerlinNoiseGenerator;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class HeatRayBrush extends AbstractBrush {
 
 	private static final double REQUIRED_OBSIDIAN_DENSITY = 0.6;
@@ -56,20 +49,20 @@ public class HeatRayBrush extends AbstractBrush {
 		for (String s : parameters) {
 			String parameter = s.toLowerCase();
 			if (parameter.equalsIgnoreCase("info")) {
-				messenger.sendMessage(ChatColor.GOLD + "Heat Ray brush Parameters:");
-				messenger.sendMessage(ChatColor.AQUA + "/b hr oct[int] -- Octaves parameter for the noise generator.");
-				messenger.sendMessage(ChatColor.AQUA + "/b hr amp[float] -- Amplitude parameter for the noise generator.");
-				messenger.sendMessage(ChatColor.AQUA + "/b hr freq[float] -- Frequency parameter for the noise generator.");
+				messenger.sendMessage(TextFormat.GOLD + "Heat Ray brush Parameters:");
+				messenger.sendMessage(TextFormat.AQUA + "/b hr oct[int] -- Octaves parameter for the noise generator.");
+				messenger.sendMessage(TextFormat.AQUA + "/b hr amp[float] -- Amplitude parameter for the noise generator.");
+				messenger.sendMessage(TextFormat.AQUA + "/b hr freq[float] -- Frequency parameter for the noise generator.");
 			}
 			if (parameter.startsWith("oct")) {
 				this.octaves = Integer.parseInt(parameter.replace("oct", ""));
-				messenger.sendMessage(ChatColor.GREEN + "Octaves: " + this.octaves);
+				messenger.sendMessage(TextFormat.GREEN + "Octaves: " + this.octaves);
 			} else if (parameter.startsWith("amp")) {
 				this.amplitude = Double.parseDouble(parameter.replace("amp", ""));
-				messenger.sendMessage(ChatColor.GREEN + "Amplitude: " + this.amplitude);
+				messenger.sendMessage(TextFormat.GREEN + "Amplitude: " + this.amplitude);
 			} else if (parameter.startsWith("freq")) {
 				this.frequency = Double.parseDouble(parameter.replace("freq", ""));
-				messenger.sendMessage(ChatColor.GREEN + "Frequency: " + this.frequency);
+				messenger.sendMessage(TextFormat.GREEN + "Frequency: " + this.frequency);
 			}
 		}
 	}
@@ -156,9 +149,9 @@ public class HeatRayBrush extends AbstractBrush {
 	public void sendInfo(Snipe snipe) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		messenger.sendBrushNameMessage();
-		messenger.sendMessage(ChatColor.GREEN + "Octaves: " + this.octaves);
-		messenger.sendMessage(ChatColor.GREEN + "Amplitude: " + this.amplitude);
-		messenger.sendMessage(ChatColor.GREEN + "Frequency: " + this.frequency);
+		messenger.sendMessage(TextFormat.GREEN + "Octaves: " + this.octaves);
+		messenger.sendMessage(TextFormat.GREEN + "Amplitude: " + this.amplitude);
+		messenger.sendMessage(TextFormat.GREEN + "Frequency: " + this.frequency);
 		messenger.sendBrushSizeMessage();
 	}
 }

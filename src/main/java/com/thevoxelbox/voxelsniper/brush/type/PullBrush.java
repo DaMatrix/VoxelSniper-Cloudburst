@@ -7,12 +7,7 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class PullBrush extends AbstractBrush {
 
 	private Set<PullBrushBlockWrapper> surface = new HashSet<>();
@@ -26,7 +21,7 @@ public class PullBrush extends AbstractBrush {
 		Double bubble = NumericParser.parseDouble(parameters[1]);
 		if (pinch == null || bubble == null) {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.RED + "Invalid brush parameters!");
+			messenger.sendMessage(TextFormat.RED + "Invalid brush parameters!");
 			return;
 		}
 		this.c1 = 1 - pinch;
@@ -207,8 +202,8 @@ public class PullBrush extends AbstractBrush {
 		messenger.sendBrushNameMessage();
 		messenger.sendBrushSizeMessage();
 		messenger.sendVoxelHeightMessage();
-		messenger.sendMessage(ChatColor.AQUA + "Pinch " + (-this.c1 + 1));
-		messenger.sendMessage(ChatColor.AQUA + "Bubble " + this.c2);
+		messenger.sendMessage(TextFormat.AQUA + "Pinch " + (-this.c1 + 1));
+		messenger.sendMessage(TextFormat.AQUA + "Bubble " + this.c2);
 	}
 
 	private static final class PullBrushBlockWrapper {

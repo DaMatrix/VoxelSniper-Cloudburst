@@ -5,9 +5,7 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class CheckerVoxelDiscBrush extends AbstractPerformerBrush {
 
 	private boolean useWorldCoordinates = true;
@@ -19,19 +17,19 @@ public class CheckerVoxelDiscBrush extends AbstractPerformerBrush {
 			String parameter = param.toLowerCase();
 			if (parameter.equals("info")) {
 				BrushProperties brushProperties = snipe.getBrushProperties();
-				messenger.sendMessage(ChatColor.GOLD + brushProperties.getName() + " Parameters:");
-				messenger.sendMessage(ChatColor.AQUA + "true  -- Enables using World Coordinates.");
-				messenger.sendMessage(ChatColor.AQUA + "false -- Disables using World Coordinates.");
+				messenger.sendMessage(TextFormat.GOLD + brushProperties.getName() + " Parameters:");
+				messenger.sendMessage(TextFormat.AQUA + "true  -- Enables using World Coordinates.");
+				messenger.sendMessage(TextFormat.AQUA + "false -- Disables using World Coordinates.");
 				return;
 			}
 			if (parameter.startsWith("true")) {
 				this.useWorldCoordinates = true;
-				messenger.sendMessage(ChatColor.AQUA + "Enabled using World Coordinates.");
+				messenger.sendMessage(TextFormat.AQUA + "Enabled using World Coordinates.");
 			} else if (parameter.startsWith("false")) {
 				this.useWorldCoordinates = false;
-				messenger.sendMessage(ChatColor.AQUA + "Disabled using World Coordinates.");
+				messenger.sendMessage(TextFormat.AQUA + "Disabled using World Coordinates.");
 			} else {
-				messenger.sendMessage(ChatColor.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
+				messenger.sendMessage(TextFormat.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
 				break;
 			}
 		}

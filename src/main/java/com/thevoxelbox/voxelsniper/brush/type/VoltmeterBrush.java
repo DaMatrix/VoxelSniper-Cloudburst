@@ -2,12 +2,7 @@ package com.thevoxelbox.voxelsniper.brush.type;
 
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.AnaloguePowerable;
-import org.bukkit.block.data.BlockData;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class VoltmeterBrush extends AbstractBrush {
 
 	@Override
@@ -30,7 +25,7 @@ public class VoltmeterBrush extends AbstractBrush {
 		}
 		AnaloguePowerable analoguePowerable = (AnaloguePowerable) blockData;
 		int power = analoguePowerable.getPower();
-		messenger.sendMessage(ChatColor.AQUA + "Blocks until repeater needed: " + power);
+		messenger.sendMessage(TextFormat.AQUA + "Blocks until repeater needed: " + power);
 	}
 
 	private void volt(Snipe snipe) {
@@ -39,19 +34,19 @@ public class VoltmeterBrush extends AbstractBrush {
 		Block block = clampY(targetBlock.getX(), targetBlock.getY(), targetBlock.getZ());
 		boolean indirect = block.isBlockIndirectlyPowered();
 		boolean direct = block.isBlockPowered();
-		messenger.sendMessage(ChatColor.AQUA + "Direct Power? " + direct + " Indirect Power? " + indirect);
-		messenger.sendMessage(ChatColor.BLUE + "Top Direct? " + block.isBlockFacePowered(BlockFace.UP) + " Top Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.UP));
-		messenger.sendMessage(ChatColor.BLUE + "Bottom Direct? " + block.isBlockFacePowered(BlockFace.DOWN) + " Bottom Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.DOWN));
-		messenger.sendMessage(ChatColor.BLUE + "East Direct? " + block.isBlockFacePowered(BlockFace.EAST) + " East Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.EAST));
-		messenger.sendMessage(ChatColor.BLUE + "West Direct? " + block.isBlockFacePowered(BlockFace.WEST) + " West Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.WEST));
-		messenger.sendMessage(ChatColor.BLUE + "North Direct? " + block.isBlockFacePowered(BlockFace.NORTH) + " North Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.NORTH));
-		messenger.sendMessage(ChatColor.BLUE + "South Direct? " + block.isBlockFacePowered(BlockFace.SOUTH) + " South Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.SOUTH));
+		messenger.sendMessage(TextFormat.AQUA + "Direct Power? " + direct + " Indirect Power? " + indirect);
+		messenger.sendMessage(TextFormat.BLUE + "Top Direct? " + block.isBlockFacePowered(BlockFace.UP) + " Top Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.UP));
+		messenger.sendMessage(TextFormat.BLUE + "Bottom Direct? " + block.isBlockFacePowered(BlockFace.DOWN) + " Bottom Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.DOWN));
+		messenger.sendMessage(TextFormat.BLUE + "East Direct? " + block.isBlockFacePowered(BlockFace.EAST) + " East Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.EAST));
+		messenger.sendMessage(TextFormat.BLUE + "West Direct? " + block.isBlockFacePowered(BlockFace.WEST) + " West Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.WEST));
+		messenger.sendMessage(TextFormat.BLUE + "North Direct? " + block.isBlockFacePowered(BlockFace.NORTH) + " North Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.NORTH));
+		messenger.sendMessage(TextFormat.BLUE + "South Direct? " + block.isBlockFacePowered(BlockFace.SOUTH) + " South Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.SOUTH));
 	}
 
 	@Override
 	public void sendInfo(Snipe snipe) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		messenger.sendBrushNameMessage();
-		messenger.sendMessage(ChatColor.LIGHT_PURPLE + "Right click with arrow to see if blocks/faces are powered. Powder measures wire current.");
+		messenger.sendMessage(TextFormat.LIGHT_PURPLE + "Right click with arrow to see if blocks/faces are powered. Powder measures wire current.");
 	}
 }

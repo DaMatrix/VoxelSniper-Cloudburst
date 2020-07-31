@@ -4,27 +4,21 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Chest;
-import org.bukkit.block.CreatureSpawner;
-import org.bukkit.block.Furnace;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
+import java.util.Vector;
+
+import com.nukkitx.math.vector.Vector3i;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockSnapshot;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.level.Location;
 
 /**
  * Holds {@link BlockState}s that can be later on used to reset those block
  * locations back to the recorded states.
  */
 public class Undo {
-
-	private Set<Vector> positions = new HashSet<>();
-	private List<BlockState> blockStates = new LinkedList<>();
+	private Set<Vector3i> positions = new HashSet<>();
+	private List<Snapshot> blockStates = new LinkedList<>();
 
 	/**
 	 * Adds a Block to the collection.
@@ -32,14 +26,9 @@ public class Undo {
 	 * @param block Block to be added
 	 */
 	public void put(Block block) {
-		Location location = block.getLocation();
-		Vector position = location.toVector();
-		if (this.positions.contains(position)) {
-			return;
+		if (this.positions.add(block.getPosition())) {
+			this.blockStates.add(new Snapshot(block));
 		}
-		this.positions.add(position);
-		BlockState state = block.getState();
-		this.blockStates.add(state);
 	}
 
 	public boolean isEmpty() {
@@ -60,13 +49,13 @@ public class Undo {
 	 * were inserted.
 	 */
 	public void undo() {
-		for (BlockState blockState : this.blockStates) {
-			blockState.update(true, false);
-			updateSpecialBlocks(blockState);
+		for (Snapshot blockState : this.blockStates) {
+			blockState.restore();
+			//TODO: updateSpecialBlocks(blockState);
 		}
 	}
 
-	private void updateSpecialBlocks(BlockState previousState) {
+	/*private void updateSpecialBlocks(BlockState previousState) {
 		Block block = previousState.getBlock();
 		BlockState currentState = block.getState();
 		if (previousState instanceof InventoryHolder && currentState instanceof InventoryHolder) {
@@ -119,6 +108,21 @@ public class Undo {
 		for (int index = 0; index < previousLines.length; index++) {
 			String previousLine = previousLines[index];
 			currentState.setLine(index, previousLine);
+		}
+	}*/
+
+	private static final class Snapshot	{
+		private final Block block;
+		private final BlockSnapshot snapshot;
+
+		public Snapshot(Block block)	{
+			this.block = block;
+			this.snapshot = block.snapshot();
+		}
+
+		public void restore()	{
+			this.block.set(this.snapshot.getState());
+			this.block.setExtra(this.snapshot.getExtra());
 		}
 	}
 }

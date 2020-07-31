@@ -8,10 +8,7 @@ import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
+import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
 public class ShellSetBrush extends AbstractBrush {
@@ -26,7 +23,7 @@ public class ShellSetBrush extends AbstractBrush {
 		Block targetBlock = getTargetBlock();
 		if (set(targetBlock, snipe)) {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.GRAY + "Point one");
+			messenger.sendMessage(TextFormat.GRAY + "Point one");
 		}
 	}
 
@@ -35,7 +32,7 @@ public class ShellSetBrush extends AbstractBrush {
 		Block lastBlock = getLastBlock();
 		if (set(lastBlock, snipe)) {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.GRAY + "Point one");
+			messenger.sendMessage(TextFormat.GRAY + "Point one");
 		}
 	}
 
@@ -50,7 +47,7 @@ public class ShellSetBrush extends AbstractBrush {
 				.getName()
 				.equals(block.getWorld()
 					.getName())) {
-				messenger.sendMessage(ChatColor.RED + "You selected points in different worlds!");
+				messenger.sendMessage(TextFormat.RED + "You selected points in different worlds!");
 				this.block = null;
 				return true;
 			}
@@ -68,7 +65,7 @@ public class ShellSetBrush extends AbstractBrush {
 			int highZ = Math.max(z1, z2);
 			int size = Math.abs(highX - lowX) * Math.abs(highZ - lowZ) * Math.abs(highY - lowY);
 			if (size > MAX_SIZE) {
-				messenger.sendMessage(ChatColor.RED + "Selection size above hardcoded limit, please use a smaller selection.");
+				messenger.sendMessage(TextFormat.RED + "Selection size above hardcoded limit, please use a smaller selection.");
 			} else {
 				List<Block> blocks = new ArrayList<>(size / 2);
 				for (int y = lowY; y <= highY; y++) {
@@ -92,7 +89,7 @@ public class ShellSetBrush extends AbstractBrush {
 				}
 				Sniper sniper = snipe.getSniper();
 				sniper.storeUndo(undo);
-				messenger.sendMessage(ChatColor.AQUA + "Shell complete.");
+				messenger.sendMessage(TextFormat.AQUA + "Shell complete.");
 			}
 			this.block = null;
 			return false;

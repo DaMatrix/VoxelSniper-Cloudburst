@@ -5,8 +5,6 @@ import com.thevoxelbox.voxelsniper.performer.property.PerformerProperties;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessageSender;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.message.MessageSender;
-import org.bukkit.entity.Player;
-
 public class PerformerSnipeMessageSender extends SnipeMessageSender {
 
 	private PerformerProperties performerProperties;

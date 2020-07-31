@@ -4,11 +4,7 @@ import com.thevoxelbox.voxelsniper.VoxelSniperPlugin;
 import com.thevoxelbox.voxelsniper.command.CommandExecutor;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.SniperRegistry;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class UndoUserExecutor implements CommandExecutor {
 
 	private VoxelSniperPlugin plugin;
@@ -22,7 +18,7 @@ public class UndoUserExecutor implements CommandExecutor {
 		SniperRegistry sniperRegistry = this.plugin.getSniperRegistry();
 		Player player = Bukkit.getPlayer(arguments[0]);
 		if (player == null) {
-			sender.sendMessage(ChatColor.GREEN + "Player not found.");
+			sender.sendMessage(TextFormat.GREEN + "Player not found.");
 			return;
 		}
 		Sniper sniper = sniperRegistry.getSniper(player);

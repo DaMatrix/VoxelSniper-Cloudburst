@@ -3,50 +3,40 @@ package com.thevoxelbox.voxelsniper.util.material;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.data.BlockData;
 
-public class MaterialSet implements Iterable<Material> {
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.utils.Identifier;
 
-	private Set<Material> materials;
+public class MaterialSet implements Iterable<Identifier> {
+
+	private Set<Identifier> materials;
 
 	public static MaterialSetBuilder builder() {
 		return new MaterialSetBuilder();
 	}
 
-	public MaterialSet(Collection<Material> materials) {
-		this.materials = EnumSet.copyOf(materials);
-	}
-
-	public boolean contains(Block block) {
-		Material type = block.getType();
-		return contains(type);
-	}
-
-	public boolean contains(BlockData blockData) {
-		Material material = blockData.getMaterial();
-		return contains(material);
+	public MaterialSet(Collection<Identifier> materials) {
+		this.materials = new HashSet<>(materials);
 	}
 
 	public boolean contains(BlockState blockState) {
-		Material type = blockState.getType();
+		Identifier type = blockState.getType();
 		return contains(type);
 	}
 
-	public boolean contains(Material material) {
+	public boolean contains(Identifier material) {
 		return this.materials.contains(material);
 	}
 
 	@Override
-	public Iterator<Material> iterator() {
+	public Iterator<Identifier> iterator() {
 		return this.materials.iterator();
 	}
 
-	public Set<Material> getMaterials() {
+	public Set<Identifier> getMaterials() {
 		return Collections.unmodifiableSet(this.materials);
 	}
 }

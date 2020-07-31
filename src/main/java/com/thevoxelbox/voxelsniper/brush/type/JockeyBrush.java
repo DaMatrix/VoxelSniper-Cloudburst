@@ -5,16 +5,7 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.plugin.PluginManager;
+import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
 public class JockeyBrush extends AbstractBrush {
@@ -49,7 +40,7 @@ public class JockeyBrush extends AbstractBrush {
 		} else {
 			this.jockeyType = playerOnly ? JockeyType.NORMAL_PLAYER_ONLY : JockeyType.NORMAL_ALL_ENTITIES;
 		}
-		messenger.sendMessage("Current jockey mode: " + ChatColor.GREEN + this.jockeyType);
+		messenger.sendMessage("Current jockey mode: " + TextFormat.GREEN + this.jockeyType);
 	}
 
 	@Override
@@ -67,12 +58,12 @@ public class JockeyBrush extends AbstractBrush {
 		Player player = sniper.getPlayer();
 		if (this.jockeyType == JockeyType.INVERSE_PLAYER_ONLY || this.jockeyType == JockeyType.INVERSE_ALL_ENTITIES) {
 			player.eject();
-			player.sendMessage(ChatColor.GOLD + "The guy on top of you has been ejected!");
+			player.sendMessage(TextFormat.GOLD + "The guy on top of you has been ejected!");
 		} else {
 			if (this.jockeyedEntity != null) {
 				this.jockeyedEntity.eject();
 				this.jockeyedEntity = null;
-				player.sendMessage(ChatColor.GOLD + "You have been ejected!");
+				player.sendMessage(TextFormat.GOLD + "You have been ejected!");
 			}
 		}
 	}
@@ -119,10 +110,10 @@ public class JockeyBrush extends AbstractBrush {
 					closest.addPassenger(player);
 					this.jockeyedEntity = closest;
 				}
-				player.sendMessage(ChatColor.GREEN + "You are now saddles on entity: " + closest.getEntityId());
+				player.sendMessage(TextFormat.GREEN + "You are now saddles on entity: " + closest.getEntityId());
 			}
 		} else {
-			player.sendMessage(ChatColor.RED + "Could not find any entities");
+			player.sendMessage(TextFormat.RED + "Could not find any entities");
 		}
 	}
 
@@ -158,7 +149,7 @@ public class JockeyBrush extends AbstractBrush {
 	public void sendInfo(Snipe snipe) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		messenger.sendBrushNameMessage();
-		messenger.sendMessage("Current jockey mode: " + ChatColor.GREEN + this.jockeyType);
+		messenger.sendMessage("Current jockey mode: " + TextFormat.GREEN + this.jockeyType);
 	}
 
 	/**

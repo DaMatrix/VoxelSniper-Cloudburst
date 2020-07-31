@@ -6,12 +6,7 @@ import com.thevoxelbox.voxelsniper.brush.type.AbstractBrush;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
-import org.bukkit.ChatColor;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class EntityBrush extends AbstractBrush {
 
 	private EntityType entityType = EntityType.ZOMBIE;
@@ -21,18 +16,18 @@ public class EntityBrush extends AbstractBrush {
 	public void handleCommand(String[] parameters, Snipe snipe) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		if (parameters[0].equalsIgnoreCase("info")) {
-			messenger.sendMessage(ChatColor.BLUE + "The available entity types are as follows:");
+			messenger.sendMessage(TextFormat.BLUE + "The available entity types are as follows:");
 			String names = Arrays.stream(EntityType.values())
-				.map(currentEntity -> ChatColor.AQUA + " | " + ChatColor.DARK_GREEN + currentEntity.getName())
-				.collect(Collectors.joining("", "", ChatColor.AQUA + " |"));
+				.map(currentEntity -> TextFormat.AQUA + " | " + TextFormat.DARK_GREEN + currentEntity.getName())
+				.collect(Collectors.joining("", "", TextFormat.AQUA + " |"));
 			messenger.sendMessage(names);
 		} else {
 			EntityType currentEntity = EntityType.fromName(parameters[1]);
 			if (currentEntity != null) {
 				this.entityType = currentEntity;
-				messenger.sendMessage(ChatColor.GREEN + "Entity type set to " + this.entityType.getName());
+				messenger.sendMessage(TextFormat.GREEN + "Entity type set to " + this.entityType.getName());
 			} else {
-				messenger.sendMessage(ChatColor.RED + "This is not a valid entity!");
+				messenger.sendMessage(TextFormat.RED + "This is not a valid entity!");
 			}
 		}
 	}
@@ -60,7 +55,7 @@ public class EntityBrush extends AbstractBrush {
 				}
 				world.spawn(lastBlock.getLocation(), entityClass);
 			} catch (IllegalArgumentException exception) {
-				messenger.sendMessage(ChatColor.RED + "Cannot spawn entity!");
+				messenger.sendMessage(TextFormat.RED + "Cannot spawn entity!");
 			}
 		}
 	}
@@ -69,7 +64,7 @@ public class EntityBrush extends AbstractBrush {
 	@Override
 	public void sendInfo(Snipe snipe) {
 		snipe.createMessageSender()
-			.message(ChatColor.LIGHT_PURPLE + "Entity brush" + " (" + this.entityType.getName() + ")")
+			.message(TextFormat.LIGHT_PURPLE + "Entity brush" + " (" + this.entityType.getName() + ")")
 			.brushSizeMessage()
 			.send();
 	}

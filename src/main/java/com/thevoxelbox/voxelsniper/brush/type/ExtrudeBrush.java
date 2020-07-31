@@ -5,9 +5,7 @@ import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
+import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
 public class ExtrudeBrush extends AbstractBrush {
@@ -20,21 +18,21 @@ public class ExtrudeBrush extends AbstractBrush {
 		for (String parameter : parameters) {
 			try {
 				if (parameter.equalsIgnoreCase("info")) {
-					messenger.sendMessage(ChatColor.GOLD + "Extrude brush Parameters:");
-					messenger.sendMessage(ChatColor.AQUA + "/b ex true -- will use a true circle algorithm instead of the skinnier version with classic sniper nubs. /b ex false will switch back. (false is default)");
+					messenger.sendMessage(TextFormat.GOLD + "Extrude brush Parameters:");
+					messenger.sendMessage(TextFormat.AQUA + "/b ex true -- will use a true circle algorithm instead of the skinnier version with classic sniper nubs. /b ex false will switch back. (false is default)");
 					return;
 				} else if (parameter.startsWith("true")) {
 					this.trueCircle = 0.5;
-					messenger.sendMessage(ChatColor.AQUA + "True circle mode ON.");
+					messenger.sendMessage(TextFormat.AQUA + "True circle mode ON.");
 				} else if (parameter.startsWith("false")) {
 					this.trueCircle = 0;
-					messenger.sendMessage(ChatColor.AQUA + "True circle mode OFF.");
+					messenger.sendMessage(TextFormat.AQUA + "True circle mode OFF.");
 				} else {
-					messenger.sendMessage(ChatColor.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
+					messenger.sendMessage(TextFormat.RED + "Invalid brush parameters! Use the \"info\" parameter to display parameter info.");
 					return;
 				}
 			} catch (RuntimeException exception) {
-				messenger.sendMessage(ChatColor.RED + "Incorrect parameter \"" + parameter + "\"; use the \"info\" parameter.");
+				messenger.sendMessage(TextFormat.RED + "Incorrect parameter \"" + parameter + "\"; use the \"info\" parameter.");
 			}
 		}
 	}
@@ -157,6 +155,6 @@ public class ExtrudeBrush extends AbstractBrush {
 		messenger.sendBrushSizeMessage();
 		messenger.sendVoxelHeightMessage();
 		messenger.sendVoxelListMessage();
-		messenger.sendMessage(ChatColor.AQUA + (Double.compare(this.trueCircle, 0.5) == 0 ? "True circle mode ON" : "True circle mode OFF"));
+		messenger.sendMessage(TextFormat.AQUA + (Double.compare(this.trueCircle, 0.5) == 0 ? "True circle mode ON" : "True circle mode OFF"));
 	}
 }

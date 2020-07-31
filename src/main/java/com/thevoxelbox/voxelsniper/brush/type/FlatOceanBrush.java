@@ -2,12 +2,7 @@ package com.thevoxelbox.voxelsniper.brush.type;
 
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
-import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class FlatOceanBrush extends AbstractBrush {
 
 	private static final int DEFAULT_WATER_LEVEL = 29;
@@ -21,8 +16,8 @@ public class FlatOceanBrush extends AbstractBrush {
 		SnipeMessenger messenger = snipe.createMessenger();
 		for (String parameter : parameters) {
 			if (parameter.equalsIgnoreCase("info")) {
-				messenger.sendMessage(ChatColor.GREEN + "yo[number] to set the Level to which the water will rise.");
-				messenger.sendMessage(ChatColor.GREEN + "yl[number] to set the Level to which the ocean floor will rise.");
+				messenger.sendMessage(TextFormat.GREEN + "yo[number] to set the Level to which the water will rise.");
+				messenger.sendMessage(TextFormat.GREEN + "yl[number] to set the Level to which the ocean floor will rise.");
 			}
 			if (parameter.startsWith("yo")) {
 				int newWaterLevel = Integer.parseInt(parameter.replace("yo", ""));
@@ -30,7 +25,7 @@ public class FlatOceanBrush extends AbstractBrush {
 					newWaterLevel = this.floorLevel + 1;
 				}
 				this.waterLevel = newWaterLevel;
-				messenger.sendMessage(ChatColor.GREEN + "Water Level set to " + this.waterLevel);
+				messenger.sendMessage(TextFormat.GREEN + "Water Level set to " + this.waterLevel);
 			} else if (parameter.startsWith("yl")) {
 				int newFloorLevel = Integer.parseInt(parameter.replace("yl", ""));
 				if (newFloorLevel > this.waterLevel) {
@@ -41,7 +36,7 @@ public class FlatOceanBrush extends AbstractBrush {
 					}
 				}
 				this.floorLevel = newFloorLevel;
-				messenger.sendMessage(ChatColor.GREEN + "Ocean floor Level set to " + this.floorLevel);
+				messenger.sendMessage(TextFormat.GREEN + "Ocean floor Level set to " + this.floorLevel);
 			}
 		}
 	}
@@ -103,8 +98,8 @@ public class FlatOceanBrush extends AbstractBrush {
 	public void sendInfo(Snipe snipe) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		messenger.sendBrushNameMessage();
-		messenger.sendMessage(ChatColor.RED + "THIS BRUSH DOES NOT UNDO");
-		messenger.sendMessage(ChatColor.GREEN + "Water level set to " + this.waterLevel);
-		messenger.sendMessage(ChatColor.GREEN + "Ocean floor level set to " + this.floorLevel);
+		messenger.sendMessage(TextFormat.RED + "THIS BRUSH DOES NOT UNDO");
+		messenger.sendMessage(TextFormat.GREEN + "Water level set to " + this.waterLevel);
+		messenger.sendMessage(TextFormat.GREEN + "Ocean floor level set to " + this.floorLevel);
 	}
 }

@@ -10,12 +10,7 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSet;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Tag;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 // Proposal: Use /v and /vr for leave and wood material // or two more parameters -- Monofraps
 public class GenerateTreeBrush extends AbstractBrush {
 
@@ -49,104 +44,104 @@ public class GenerateTreeBrush extends AbstractBrush {
 			try {
 				if (parameter.equalsIgnoreCase("info")) {
 					snipe.createMessageSender()
-						.message(ChatColor.GOLD + "This brush takes the following parameters:")
-						.message(ChatColor.AQUA + "lt* - leaf type (e.g. oak)")
-						.message(ChatColor.AQUA + "wt* - wood type (e.g. oak)")
-						.message(ChatColor.AQUA + "tt# - tree thickness (whole number)")
-						.message(ChatColor.AQUA + "rf* - root float (true or false)")
-						.message(ChatColor.AQUA + "sh# - starting height (whole number)")
-						.message(ChatColor.AQUA + "rl# - root length (whole number)")
-						.message(ChatColor.AQUA + "ts# - trunk slope chance (0-100)")
-						.message(ChatColor.AQUA + "bl# - branch length (whole number)")
-						.message(ChatColor.AQUA + "info2 - more parameters")
+						.message(TextFormat.GOLD + "This brush takes the following parameters:")
+						.message(TextFormat.AQUA + "lt* - leaf type (e.g. oak)")
+						.message(TextFormat.AQUA + "wt* - wood type (e.g. oak)")
+						.message(TextFormat.AQUA + "tt# - tree thickness (whole number)")
+						.message(TextFormat.AQUA + "rf* - root float (true or false)")
+						.message(TextFormat.AQUA + "sh# - starting height (whole number)")
+						.message(TextFormat.AQUA + "rl# - root length (whole number)")
+						.message(TextFormat.AQUA + "ts# - trunk slope chance (0-100)")
+						.message(TextFormat.AQUA + "bl# - branch length (whole number)")
+						.message(TextFormat.AQUA + "info2 - more parameters")
 						.send();
 					return;
 				}
 				if (parameter.equalsIgnoreCase("info2")) {
 					snipe.createMessageSender()
-						.message(ChatColor.GOLD + "This brush takes the following parameters:")
-						.message(ChatColor.AQUA + "minr# - minimum roots (whole number)")
-						.message(ChatColor.AQUA + "maxr# - maximum roots (whole number)")
-						.message(ChatColor.AQUA + "minh# - minimum height (whole number)")
-						.message(ChatColor.AQUA + "maxh# - maximum height (whole number)")
-						.message(ChatColor.AQUA + "minl# - minimum leaf node size (whole number)")
-						.message(ChatColor.AQUA + "maxl# - maximum leaf node size (whole number)")
-						.message(ChatColor.AQUA + "default - restore default params")
+						.message(TextFormat.GOLD + "This brush takes the following parameters:")
+						.message(TextFormat.AQUA + "minr# - minimum roots (whole number)")
+						.message(TextFormat.AQUA + "maxr# - maximum roots (whole number)")
+						.message(TextFormat.AQUA + "minh# - minimum height (whole number)")
+						.message(TextFormat.AQUA + "maxh# - maximum height (whole number)")
+						.message(TextFormat.AQUA + "minl# - minimum leaf node size (whole number)")
+						.message(TextFormat.AQUA + "maxl# - maximum leaf node size (whole number)")
+						.message(TextFormat.AQUA + "default - restore default params")
 						.send();
 					return;
 				}
 				if (parameter.startsWith("lt")) { // Leaf Type
 					Material leafType = Material.matchMaterial(parameter.replace("lt", "") + "_leaves");
 					if (leafType == null) {
-						messenger.sendMessage(ChatColor.RED + "Invalid leaf type");
+						messenger.sendMessage(TextFormat.RED + "Invalid leaf type");
 						return;
 					}
 					this.leafType = leafType;
-					messenger.sendMessage(ChatColor.BLUE + "Leaf Type set to " + this.leafType);
+					messenger.sendMessage(TextFormat.BLUE + "Leaf Type set to " + this.leafType);
 				} else if (parameter.startsWith("wt")) { // Wood Type
 					Material woodType = Material.matchMaterial(parameter.replace("wt", "") + "_log");
 					if (woodType == null) {
-						messenger.sendMessage(ChatColor.RED + "Invalid wood type");
+						messenger.sendMessage(TextFormat.RED + "Invalid wood type");
 						return;
 					}
 					this.woodType = woodType;
-					messenger.sendMessage(ChatColor.BLUE + "Wood Type set to " + this.woodType);
+					messenger.sendMessage(TextFormat.BLUE + "Wood Type set to " + this.woodType);
 				} else if (parameter.startsWith("tt")) { // Tree Thickness
 					this.thickness = Integer.parseInt(parameter.replace("tt", ""));
-					messenger.sendMessage(ChatColor.BLUE + "Thickness set to " + this.thickness);
+					messenger.sendMessage(TextFormat.BLUE + "Thickness set to " + this.thickness);
 				} else if (parameter.startsWith("rf")) { // Root Float
 					this.rootFloat = Boolean.parseBoolean(parameter.replace("rf", ""));
-					messenger.sendMessage(ChatColor.BLUE + "Floating Roots set to " + this.rootFloat);
+					messenger.sendMessage(TextFormat.BLUE + "Floating Roots set to " + this.rootFloat);
 				} else if (parameter.startsWith("sh")) { // Starting Height
 					this.startHeight = Integer.parseInt(parameter.replace("sh", ""));
-					messenger.sendMessage(ChatColor.BLUE + "Starting Height set to " + this.startHeight);
+					messenger.sendMessage(TextFormat.BLUE + "Starting Height set to " + this.startHeight);
 				} else if (parameter.startsWith("rl")) { // Root Length
 					this.rootLength = Integer.parseInt(parameter.replace("rl", ""));
-					messenger.sendMessage(ChatColor.BLUE + "Root Length set to " + this.rootLength);
+					messenger.sendMessage(TextFormat.BLUE + "Root Length set to " + this.rootLength);
 				} else if (parameter.startsWith("minr")) { // Minimum Roots
 					this.minRoots = Integer.parseInt(parameter.replace("minr", ""));
 					if (this.minRoots > this.maxRoots) {
 						this.minRoots = this.maxRoots;
-						messenger.sendMessage(ChatColor.RED + "Minimum Roots can't exceed Maximum Roots, has  been set to " + this.minRoots + " Instead!");
+						messenger.sendMessage(TextFormat.RED + "Minimum Roots can't exceed Maximum Roots, has  been set to " + this.minRoots + " Instead!");
 					} else {
-						messenger.sendMessage(ChatColor.BLUE + "Minimum Roots set to " + this.minRoots);
+						messenger.sendMessage(TextFormat.BLUE + "Minimum Roots set to " + this.minRoots);
 					}
 				} else if (parameter.startsWith("maxr")) { // Maximum Roots
 					this.maxRoots = Integer.parseInt(parameter.replace("maxr", ""));
 					if (this.minRoots > this.maxRoots) {
 						this.maxRoots = this.minRoots;
-						messenger.sendMessage(ChatColor.RED + "Maximum Roots can't be lower than Minimum Roots, has been set to " + this.minRoots + " Instead!");
+						messenger.sendMessage(TextFormat.RED + "Maximum Roots can't be lower than Minimum Roots, has been set to " + this.minRoots + " Instead!");
 					} else {
-						messenger.sendMessage(ChatColor.BLUE + "Maximum Roots set to " + this.maxRoots);
+						messenger.sendMessage(TextFormat.BLUE + "Maximum Roots set to " + this.maxRoots);
 					}
 				} else if (parameter.startsWith("ts")) { // Trunk Slope Chance
 					this.slopeChance = Integer.parseInt(parameter.replace("ts", ""));
-					messenger.sendMessage(ChatColor.BLUE + "Trunk Slope set to " + this.slopeChance);
+					messenger.sendMessage(TextFormat.BLUE + "Trunk Slope set to " + this.slopeChance);
 				} else if (parameter.startsWith("minh")) { // Height Minimum
 					this.heightMinimum = Integer.parseInt(parameter.replace("minh", ""));
 					if (this.heightMinimum > this.heightMaximum) {
 						this.heightMinimum = this.heightMaximum;
-						messenger.sendMessage(ChatColor.RED + "Minimum Height exceed than Maximum Height, has been set to " + this.heightMinimum + " Instead!");
+						messenger.sendMessage(TextFormat.RED + "Minimum Height exceed than Maximum Height, has been set to " + this.heightMinimum + " Instead!");
 					} else {
-						messenger.sendMessage(ChatColor.BLUE + "Minimum Height set to " + this.heightMinimum);
+						messenger.sendMessage(TextFormat.BLUE + "Minimum Height set to " + this.heightMinimum);
 					}
 				} else if (parameter.startsWith("maxh")) { // Height Maximum
 					this.heightMaximum = Integer.parseInt(parameter.replace("maxh", ""));
 					if (this.heightMinimum > this.heightMaximum) {
 						this.heightMaximum = this.heightMinimum;
-						messenger.sendMessage(ChatColor.RED + "Maximum Height can't be lower than Minimum Height, has been set to " + this.heightMaximum + " Instead!");
+						messenger.sendMessage(TextFormat.RED + "Maximum Height can't be lower than Minimum Height, has been set to " + this.heightMaximum + " Instead!");
 					} else {
-						messenger.sendMessage(ChatColor.BLUE + "Maximum Roots set to " + this.heightMaximum);
+						messenger.sendMessage(TextFormat.BLUE + "Maximum Roots set to " + this.heightMaximum);
 					}
 				} else if (parameter.startsWith("bl")) { // Branch Length
 					this.branchLength = Integer.parseInt(parameter.replace("bl", ""));
-					messenger.sendMessage(ChatColor.BLUE + "Branch Length set to " + this.branchLength);
+					messenger.sendMessage(TextFormat.BLUE + "Branch Length set to " + this.branchLength);
 				} else if (parameter.startsWith("maxl")) { // Leaf Node Max Size
 					this.nodeMax = Integer.parseInt(parameter.replace("maxl", ""));
-					messenger.sendMessage(ChatColor.BLUE + "Leaf Max Thickness set to " + this.nodeMax + " (Default 4)");
+					messenger.sendMessage(TextFormat.BLUE + "Leaf Max Thickness set to " + this.nodeMax + " (Default 4)");
 				} else if (parameter.startsWith("minl")) { // Leaf Node Min Size
 					this.nodeMin = Integer.parseInt(parameter.replace("minl", ""));
-					messenger.sendMessage(ChatColor.BLUE + "Leaf Min Thickness set to " + this.nodeMin + " (Default 3)");
+					messenger.sendMessage(TextFormat.BLUE + "Leaf Min Thickness set to " + this.nodeMin + " (Default 3)");
 					// -------
 					// Presets
 					// -------
@@ -165,12 +160,12 @@ public class GenerateTreeBrush extends AbstractBrush {
 					this.branchLength = 8;
 					this.nodeMax = 4;
 					this.nodeMin = 3;
-					messenger.sendMessage(ChatColor.GOLD + "Brush reset to default parameters.");
+					messenger.sendMessage(TextFormat.GOLD + "Brush reset to default parameters.");
 				} else {
-					messenger.sendMessage(ChatColor.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
+					messenger.sendMessage(TextFormat.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
 				}
 			} catch (NumberFormatException exception) {
-				messenger.sendMessage(ChatColor.RED + "Invalid brush parameters! \"" + parameter + "\" is not a valid statement. Please use the 'info' parameter to display parameter info.");
+				messenger.sendMessage(TextFormat.RED + "Invalid brush parameters! \"" + parameter + "\" is not a valid statement. Please use the 'info' parameter to display parameter info.");
 			}
 		}
 	}

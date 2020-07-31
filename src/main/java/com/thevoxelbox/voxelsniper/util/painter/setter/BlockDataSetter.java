@@ -1,41 +1,40 @@
 package com.thevoxelbox.voxelsniper.util.painter.setter;
 
-import com.thevoxelbox.voxelsniper.util.math.vector.Vector3i;
+import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
 import com.thevoxelbox.voxelsniper.util.painter.BlockSetter;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.level.Level;
 
 public class BlockDataSetter implements BlockSetter {
 
-	private World world;
-	private BlockData blockData;
+	private Level world;
+	private BlockState blockData;
 	private boolean applyPhysics;
 
 	public static BlockDataSetterBuilder builder() {
 		return new BlockDataSetterBuilder();
 	}
 
-	public BlockDataSetter(World world, BlockData blockData, boolean applyPhysics) {
+	public BlockDataSetter(Level world, BlockState blockData, boolean applyPhysics) {
 		this.world = world;
 		this.blockData = blockData;
 		this.applyPhysics = applyPhysics;
 	}
 
 	@Override
-	public void setBlockAt(Vector3i position) {
+	public void setBlockAt(VectorVS position) {
 		int x = position.getX();
 		int y = position.getY();
 		int z = position.getZ();
-		Block block = this.world.getBlockAt(x, y, z);
-		block.setBlockData(this.blockData, this.applyPhysics);
+		this.world.setBlockAt(x, y, z, this.blockData);
 	}
 
-	public World getWorld() {
+	public Level getWorld() {
 		return this.world;
 	}
 
-	public BlockData getBlockData() {
+	public BlockState getBlockData() {
 		return this.blockData;
 	}
 

@@ -3,10 +3,12 @@ package com.thevoxelbox.voxelsniper.util.message;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.command.CommandSender;
+
+import org.cloudburstmc.server.Server;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.command.CommandSender;
+import org.cloudburstmc.server.utils.Identifier;
+import org.cloudburstmc.server.utils.TextFormat;
 
 public class MessageSender {
 
@@ -20,61 +22,63 @@ public class MessageSender {
 	}
 
 	public MessageSender brushNameMessage(String brushName) {
-		this.messages.add(ChatColor.AQUA + "Brush Type: " + ChatColor.LIGHT_PURPLE + brushName);
+		this.messages.add(TextFormat.AQUA + "Brush Type: " + TextFormat.LIGHT_PURPLE + brushName);
 		return this;
 	}
 
 	public MessageSender performerNameMessage(String performerName) {
-		this.messages.add(ChatColor.DARK_PURPLE + "Performer: " + ChatColor.DARK_GREEN + performerName);
+		this.messages.add(TextFormat.DARK_PURPLE + "Performer: " + TextFormat.DARK_GREEN + performerName);
 		return this;
 	}
 
-	public MessageSender blockTypeMessage(Material blockType) {
-		this.messages.add(ChatColor.GOLD + "Voxel: " + ChatColor.RED + blockType.getKey());
+	public MessageSender blockTypeMessage(Identifier blockType) {
+		BlockState state = BlockState.get(blockType);
+		this.messages.add(TextFormat.GOLD + "Voxel: " + TextFormat.RED + Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)));
 		return this;
 	}
 
-	public MessageSender blockDataMessage(BlockData blockData) {
-		this.messages.add(ChatColor.BLUE + "Data Variable: " + ChatColor.DARK_RED + blockData.getAsString(true));
+	public MessageSender blockDataMessage(BlockState state) {
+		this.messages.add(TextFormat.BLUE + "Data Variable: " + TextFormat.DARK_RED + Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)));
 		return this;
 	}
 
-	public MessageSender replaceBlockTypeMessage(Material replaceBlockType) {
-		this.messages.add(ChatColor.AQUA + "Replace Material: " + ChatColor.RED + replaceBlockType.getKey());
+	public MessageSender replaceBlockTypeMessage(Identifier replaceBlockType) {
+		BlockState state = BlockState.get(replaceBlockType);
+		this.messages.add(TextFormat.AQUA + "Replace Material: " + TextFormat.RED + Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)));
 		return this;
 	}
 
-	public MessageSender replaceBlockDataMessage(BlockData replaceBlockData) {
-		this.messages.add(ChatColor.DARK_GRAY + "Replace Data Variable: " + ChatColor.DARK_RED + replaceBlockData.getAsString(true));
+	public MessageSender replaceBlockDataMessage(BlockState state) {
+		this.messages.add(TextFormat.DARK_GRAY + "Replace Data Variable: " + TextFormat.DARK_RED + Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)));
 		return this;
 	}
 
 	public MessageSender brushSizeMessage(int brushSize) {
-		this.messages.add(ChatColor.GREEN + "Brush Size: " + ChatColor.DARK_RED + brushSize);
+		this.messages.add(TextFormat.GREEN + "Brush Size: " + TextFormat.DARK_RED + brushSize);
 		if (brushSize >= BRUSH_SIZE_WARNING_THRESHOLD) {
-			this.messages.add(ChatColor.RED + "WARNING: Large brush size selected!");
+			this.messages.add(TextFormat.RED + "WARNING: Large brush size selected!");
 		}
 		return this;
 	}
 
 	public MessageSender cylinderCenterMessage(int cylinderCenter) {
-		this.messages.add(ChatColor.DARK_BLUE + "Brush Center: " + ChatColor.DARK_RED + cylinderCenter);
+		this.messages.add(TextFormat.DARK_BLUE + "Brush Center: " + TextFormat.DARK_RED + cylinderCenter);
 		return this;
 	}
 
 	public MessageSender voxelHeightMessage(int voxelHeight) {
-		this.messages.add(ChatColor.DARK_AQUA + "Brush Height: " + ChatColor.DARK_RED + voxelHeight);
+		this.messages.add(TextFormat.DARK_AQUA + "Brush Height: " + TextFormat.DARK_RED + voxelHeight);
 		return this;
 	}
 
-	public MessageSender voxelListMessage(List<? extends BlockData> voxelList) {
+	public MessageSender voxelListMessage(List<? extends BlockState> voxelList) {
 		if (voxelList.isEmpty()) {
-			this.messages.add(ChatColor.DARK_GREEN + "No blocks selected!");
+			this.messages.add(TextFormat.DARK_GREEN + "No blocks selected!");
 		}
 		String message = voxelList.stream()
-			.map(blockData -> blockData.getAsString(true))
+			.map(blockData -> Server.getInstance().getLanguage().get(blockData.getBehavior().getDescriptionId(blockData)))
 			.map(dataAsString -> dataAsString + " ")
-			.collect(Collectors.joining("", ChatColor.DARK_GREEN + "Block Types Selected: " + ChatColor.AQUA, ""));
+			.collect(Collectors.joining("", TextFormat.DARK_GREEN + "Block Types Selected: " + TextFormat.AQUA, ""));
 		this.messages.add(message);
 		return this;
 	}

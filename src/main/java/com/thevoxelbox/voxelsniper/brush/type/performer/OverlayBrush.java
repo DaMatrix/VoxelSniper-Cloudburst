@@ -6,10 +6,7 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class OverlayBrush extends AbstractPerformerBrush {
 
 	private static final int DEFAULT_DEPTH = 3;
@@ -22,9 +19,9 @@ public class OverlayBrush extends AbstractPerformerBrush {
 		SnipeMessenger messenger = snipe.createMessenger();
 		for (String parameter : parameters) {
 			if (parameter.equalsIgnoreCase("info")) {
-				messenger.sendMessage(ChatColor.GOLD + "Overlay brush parameters:");
-				messenger.sendMessage(ChatColor.AQUA + "d[number] (ex:  d3) How many blocks deep you want to replace from the surface.");
-				messenger.sendMessage(ChatColor.BLUE + "all (ex:  /b over all) Sets the brush to overlay over ALL materials, not just natural surface ones (will no longer ignore trees and buildings).  The parameter /some will set it back to default.");
+				messenger.sendMessage(TextFormat.GOLD + "Overlay brush parameters:");
+				messenger.sendMessage(TextFormat.AQUA + "d[number] (ex:  d3) How many blocks deep you want to replace from the surface.");
+				messenger.sendMessage(TextFormat.BLUE + "all (ex:  /b over all) Sets the brush to overlay over ALL materials, not just natural surface ones (will no longer ignore trees and buildings).  The parameter /some will set it back to default.");
 				return;
 			}
 			if (!parameter.isEmpty() && parameter.charAt(0) == 'd') {
@@ -33,18 +30,18 @@ public class OverlayBrush extends AbstractPerformerBrush {
 					if (this.depth < 1) {
 						this.depth = 1;
 					}
-					messenger.sendMessage(ChatColor.AQUA + "Depth set to " + this.depth);
+					messenger.sendMessage(TextFormat.AQUA + "Depth set to " + this.depth);
 				} catch (NumberFormatException e) {
-					messenger.sendMessage(ChatColor.RED + "Depth isn't a number.");
+					messenger.sendMessage(TextFormat.RED + "Depth isn't a number.");
 				}
 			} else if (parameter.startsWith("all")) {
 				this.allBlocks = true;
-				messenger.sendMessage(ChatColor.BLUE + "Will overlay over any block." + this.depth);
+				messenger.sendMessage(TextFormat.BLUE + "Will overlay over any block." + this.depth);
 			} else if (parameter.startsWith("some")) {
 				this.allBlocks = false;
-				messenger.sendMessage(ChatColor.BLUE + "Will overlay only natural block types." + this.depth);
+				messenger.sendMessage(TextFormat.BLUE + "Will overlay only natural block types." + this.depth);
 			} else {
-				messenger.sendMessage(ChatColor.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
+				messenger.sendMessage(TextFormat.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
 			}
 		}
 	}

@@ -3,10 +3,6 @@ package com.thevoxelbox.voxelsniper.command;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import com.thevoxelbox.voxelsniper.command.property.CommandProperties;
-import org.bukkit.Server;
-import org.bukkit.command.CommandMap;
-import org.bukkit.plugin.Plugin;
-
 public class CommandRegistry {
 
 	private Plugin plugin;

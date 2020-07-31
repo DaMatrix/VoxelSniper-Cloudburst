@@ -7,10 +7,7 @@ import com.thevoxelbox.voxelsniper.brush.type.AbstractBrush;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
-import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
-import org.bukkit.entity.Entity;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class EntityRemovalBrush extends AbstractBrush {
 
 	private List<String> exemptions = new ArrayList<>(3);
@@ -39,7 +36,7 @@ public class EntityRemovalBrush extends AbstractBrush {
 			}
 			if (currentParam.equalsIgnoreCase("list-exemptions") || currentParam.equalsIgnoreCase("lex")) {
 				for (String exemption : this.exemptions) {
-					messenger.sendMessage(ChatColor.LIGHT_PURPLE + exemption);
+					messenger.sendMessage(TextFormat.LIGHT_PURPLE + exemption);
 				}
 			}
 		}
@@ -72,10 +69,10 @@ public class EntityRemovalBrush extends AbstractBrush {
 			}
 		} catch (PatternSyntaxException exception) {
 			exception.printStackTrace();
-			messenger.sendMessage(ChatColor.RED + "Error in RegEx: " + ChatColor.LIGHT_PURPLE + exception.getPattern());
-			messenger.sendMessage(ChatColor.RED + String.format("%s (Index: %d)", exception.getDescription(), exception.getIndex()));
+			messenger.sendMessage(TextFormat.RED + "Error in RegEx: " + TextFormat.LIGHT_PURPLE + exception.getPattern());
+			messenger.sendMessage(TextFormat.RED + String.format("%s (Index: %d)", exception.getDescription(), exception.getIndex()));
 		}
-		messenger.sendMessage(ChatColor.GREEN + "Removed " + ChatColor.RED + entityCount + ChatColor.GREEN + " entities out of " + ChatColor.BLUE + chunkCount + ChatColor.GREEN + (chunkCount == 1 ? " chunk." : " chunks."));
+		messenger.sendMessage(TextFormat.GREEN + "Removed " + TextFormat.RED + entityCount + TextFormat.GREEN + " entities out of " + TextFormat.BLUE + chunkCount + TextFormat.GREEN + (chunkCount == 1 ? " chunk." : " chunks."));
 	}
 
 	private int removeEntities(Chunk chunk) {
@@ -109,7 +106,7 @@ public class EntityRemovalBrush extends AbstractBrush {
 	public void sendInfo(Snipe snipe) {
 		snipe.createMessageSender()
 			.brushNameMessage()
-			.message(ChatColor.GREEN + "Exemptions: " + ChatColor.LIGHT_PURPLE + String.join(", ", this.exemptions))
+			.message(TextFormat.GREEN + "Exemptions: " + TextFormat.LIGHT_PURPLE + String.join(", ", this.exemptions))
 			.brushSizeMessage()
 			.send();
 	}

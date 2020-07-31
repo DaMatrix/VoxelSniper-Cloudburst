@@ -15,17 +15,7 @@ import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolAction;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
+import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
 public class Sniper {
@@ -172,7 +162,7 @@ public class Sniper {
 		} else {
 			if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
 				if (Materials.isEmpty(targetBlock.getType())) {
-					player.sendMessage(ChatColor.RED + "Snipe target block must be visible.");
+					player.sendMessage(TextFormat.RED + "Snipe target block must be visible.");
 					return true;
 				}
 				Brush currentBrush = toolkit.getCurrentBrush();
@@ -207,7 +197,7 @@ public class Sniper {
 
 	public void undo(CommandSender sender, int amount) {
 		if (this.undoList.isEmpty()) {
-			sender.sendMessage(ChatColor.GREEN + "There's nothing to undo.");
+			sender.sendMessage(TextFormat.GREEN + "There's nothing to undo.");
 			return;
 		}
 		int sum = 0;
@@ -216,7 +206,7 @@ public class Sniper {
 			undo.undo();
 			sum += undo.getSize();
 		}
-		sender.sendMessage(ChatColor.GREEN + "Undo successful:  " + ChatColor.RED + sum + ChatColor.GREEN + " blocks have been replaced.");
+		sender.sendMessage(TextFormat.GREEN + "Undo successful:  " + TextFormat.RED + sum + TextFormat.GREEN + " blocks have been replaced.");
 	}
 
 	public void sendInfo(CommandSender sender) {

@@ -2,10 +2,12 @@ package com.thevoxelbox.voxelsniper.util.message;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.command.CommandSender;
+
+import org.cloudburstmc.server.Server;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.command.CommandSender;
+import org.cloudburstmc.server.utils.Identifier;
+import org.cloudburstmc.server.utils.TextFormat;
 
 public class Messenger {
 
@@ -18,52 +20,54 @@ public class Messenger {
 	}
 
 	public void sendBrushNameMessage(String brushName) {
-		sendMessage(ChatColor.AQUA + "Brush Type: " + ChatColor.LIGHT_PURPLE + brushName);
+		sendMessage(TextFormat.AQUA + "Brush Type: " + TextFormat.LIGHT_PURPLE + brushName);
 	}
 
 	public void sendPerformerNameMessage(String performerName) {
-		sendMessage(ChatColor.DARK_PURPLE + "Performer: " + ChatColor.DARK_GREEN + performerName);
+		sendMessage(TextFormat.DARK_PURPLE + "Performer: " + TextFormat.DARK_GREEN + performerName);
 	}
 
-	public void sendBlockTypeMessage(Material blockType) {
-		sendMessage(ChatColor.GOLD + "Voxel: " + ChatColor.RED + blockType.getKey());
+	public void sendBlockTypeMessage(Identifier blockType) {
+		BlockState state = BlockState.get(blockType);
+		sendMessage(TextFormat.GOLD + "Voxel: " + TextFormat.RED + Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)));
 	}
 
-	public void sendBlockDataMessage(BlockData blockData) {
-		sendMessage(ChatColor.BLUE + "Data Variable: " + ChatColor.DARK_RED + blockData.getAsString(true));
+	public void sendBlockDataMessage(BlockState state) {
+		sendMessage(TextFormat.BLUE + "Data Variable: " + TextFormat.DARK_RED + Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)));
 	}
 
-	public void sendReplaceBlockTypeMessage(Material replaceBlockType) {
-		sendMessage(ChatColor.AQUA + "Replace Material: " + ChatColor.RED + replaceBlockType.getKey());
+	public void sendReplaceBlockTypeMessage(Identifier replaceBlockType) {
+		BlockState state = BlockState.get(replaceBlockType);
+		sendMessage(TextFormat.AQUA + "Replace Material: " + TextFormat.RED + Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)));
 	}
 
-	public void sendReplaceBlockDataMessage(BlockData replaceBlockData) {
-		sendMessage(ChatColor.DARK_GRAY + "Replace Data Variable: " + ChatColor.DARK_RED + replaceBlockData.getAsString(true));
+	public void sendReplaceBlockDataMessage(BlockState state) {
+		sendMessage(TextFormat.DARK_GRAY + "Replace Data Variable: " + TextFormat.DARK_RED + Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)));
 	}
 
 	public void sendBrushSizeMessage(int brushSize) {
-		sendMessage(ChatColor.GREEN + "Brush Size: " + ChatColor.DARK_RED + brushSize);
+		sendMessage(TextFormat.GREEN + "Brush Size: " + TextFormat.DARK_RED + brushSize);
 		if (brushSize >= BRUSH_SIZE_WARNING_THRESHOLD) {
-			sendMessage(ChatColor.RED + "WARNING: Large brush size selected!");
+			sendMessage(TextFormat.RED + "WARNING: Large brush size selected!");
 		}
 	}
 
 	public void sendCylinderCenterMessage(int cylinderCenter) {
-		sendMessage(ChatColor.DARK_BLUE + "Brush Center: " + ChatColor.DARK_RED + cylinderCenter);
+		sendMessage(TextFormat.DARK_BLUE + "Brush Center: " + TextFormat.DARK_RED + cylinderCenter);
 	}
 
 	public void sendVoxelHeightMessage(int voxelHeight) {
-		sendMessage(ChatColor.DARK_AQUA + "Brush Height: " + ChatColor.DARK_RED + voxelHeight);
+		sendMessage(TextFormat.DARK_AQUA + "Brush Height: " + TextFormat.DARK_RED + voxelHeight);
 	}
 
-	public void sendVoxelListMessage(List<? extends BlockData> voxelList) {
+	public void sendVoxelListMessage(List<? extends BlockState> voxelList) {
 		if (voxelList.isEmpty()) {
-			sendMessage(ChatColor.DARK_GREEN + "No blocks selected!");
+			sendMessage(TextFormat.DARK_GREEN + "No blocks selected!");
 		}
 		String message = voxelList.stream()
-			.map(blockData -> blockData.getAsString(true))
+			.map(state -> Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)))
 			.map(dataAsString -> dataAsString + " ")
-			.collect(Collectors.joining("", ChatColor.DARK_GREEN + "Block Types Selected: " + ChatColor.AQUA, ""));
+			.collect(Collectors.joining("", TextFormat.DARK_GREEN + "Block Types Selected: " + TextFormat.AQUA, ""));
 		sendMessage(message);
 	}
 

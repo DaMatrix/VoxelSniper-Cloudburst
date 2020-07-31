@@ -5,14 +5,7 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.util.BlockIterator;
-import org.bukkit.util.NumberConversions;
-import org.bukkit.util.Vector;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class JaggedLineBrush extends AbstractPerformerBrush {
 
 	private static final Vector HALF_BLOCK_OFFSET = new Vector(0.5, 0.5, 0.5);
@@ -32,32 +25,32 @@ public class JaggedLineBrush extends AbstractPerformerBrush {
 		SnipeMessenger messenger = snipe.createMessenger();
 		for (String parameter : parameters) {
 			if (parameter.equalsIgnoreCase("info")) {
-				messenger.sendMessage(ChatColor.GOLD + "Jagged Line Brush instructions: Right click first point with the arrow. Right click with powder to draw a jagged line to set the second point.");
-				messenger.sendMessage(ChatColor.AQUA + "/b j r# - sets the number of recursions (default 3, must be 1-10)");
-				messenger.sendMessage(ChatColor.AQUA + "/b j s# - sets the spread (default 3, must be 1-10)");
+				messenger.sendMessage(TextFormat.GOLD + "Jagged Line Brush instructions: Right click first point with the arrow. Right click with powder to draw a jagged line to set the second point.");
+				messenger.sendMessage(TextFormat.AQUA + "/b j r# - sets the number of recursions (default 3, must be 1-10)");
+				messenger.sendMessage(TextFormat.AQUA + "/b j s# - sets the spread (default 3, must be 1-10)");
 				return;
 			}
 			if (!parameter.isEmpty() && parameter.charAt(0) == 'r') {
 				Integer temp = NumericParser.parseInteger(parameter.substring(1));
 				if (temp == null) {
-					messenger.sendMessage(ChatColor.RED + String.format("Exception while parsing parameter: %s", parameter));
+					messenger.sendMessage(TextFormat.RED + String.format("Exception while parsing parameter: %s", parameter));
 					return;
 				}
 				if (temp >= RECURSION_MIN && temp <= RECURSION_MAX) {
 					this.recursion = temp;
-					messenger.sendMessage(ChatColor.GREEN + "Recursion set to: " + this.recursion);
+					messenger.sendMessage(TextFormat.GREEN + "Recursion set to: " + this.recursion);
 				} else {
-					messenger.sendMessage(ChatColor.RED + "ERROR: Recursion must be " + RECURSION_MIN + "-" + RECURSION_MAX);
+					messenger.sendMessage(TextFormat.RED + "ERROR: Recursion must be " + RECURSION_MIN + "-" + RECURSION_MAX);
 				}
 				return;
 			} else if (!parameter.isEmpty() && parameter.charAt(0) == 's') {
 				Integer spread = NumericParser.parseInteger(parameter.substring(1));
 				if (spread == null) {
-					messenger.sendMessage(ChatColor.RED + String.format("Exception while parsing parameter: %s", parameter));
+					messenger.sendMessage(TextFormat.RED + String.format("Exception while parsing parameter: %s", parameter));
 					return;
 				}
 				this.spread = spread;
-				messenger.sendMessage(ChatColor.GREEN + "Spread set to: " + this.spread);
+				messenger.sendMessage(TextFormat.GREEN + "Spread set to: " + this.spread);
 			}
 		}
 	}
@@ -71,14 +64,14 @@ public class JaggedLineBrush extends AbstractPerformerBrush {
 		Location targetBlockLocation = targetBlock.getLocation();
 		this.originCoordinates = targetBlockLocation.toVector();
 		SnipeMessenger messenger = snipe.createMessenger();
-		messenger.sendMessage(ChatColor.DARK_PURPLE + "First point selected.");
+		messenger.sendMessage(TextFormat.DARK_PURPLE + "First point selected.");
 	}
 
 	@Override
 	public void handleGunpowderAction(Snipe snipe) {
 		if (this.originCoordinates == null) {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.RED + "Warning: You did not select a first coordinate with the arrow");
+			messenger.sendMessage(TextFormat.RED + "Warning: You did not select a first coordinate with the arrow");
 		} else {
 			Block targetBlock = getTargetBlock();
 			Location targetBlockLocation = targetBlock.getLocation();
@@ -119,8 +112,8 @@ public class JaggedLineBrush extends AbstractPerformerBrush {
 	public void sendInfo(Snipe snipe) {
 		snipe.createMessageSender()
 			.brushNameMessage()
-			.message(ChatColor.GRAY + "Recursion set to: " + this.recursion)
-			.message(ChatColor.GRAY + "Spread set to: " + this.spread)
+			.message(TextFormat.GRAY + "Recursion set to: " + this.recursion)
+			.message(TextFormat.GRAY + "Spread set to: " + this.spread)
 			.send();
 	}
 }

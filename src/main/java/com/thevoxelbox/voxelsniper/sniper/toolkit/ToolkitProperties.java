@@ -3,10 +3,6 @@ package com.thevoxelbox.voxelsniper.sniper.toolkit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 public class ToolkitProperties {

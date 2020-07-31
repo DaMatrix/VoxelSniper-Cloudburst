@@ -1,8 +1,6 @@
 package com.thevoxelbox.voxelsniper.config;
 
 import java.util.List;
-import org.bukkit.Material;
-
 public class VoxelSniperConfig {
 
 	private int undoCacheSize;

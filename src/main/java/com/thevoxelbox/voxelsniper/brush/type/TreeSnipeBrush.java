@@ -8,16 +8,7 @@ import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
-import org.bukkit.BlockChangeDelegate;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.TreeType;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.data.BlockData;
+import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.NotNull;
 
 public class TreeSnipeBrush extends AbstractBrush {
@@ -29,8 +20,8 @@ public class TreeSnipeBrush extends AbstractBrush {
 		SnipeMessenger messenger = snipe.createMessenger();
 		for (String parameter : parameters) {
 			if (parameter.equalsIgnoreCase("info")) {
-				messenger.sendMessage(ChatColor.GOLD + "Tree snipe brush:");
-				messenger.sendMessage(ChatColor.AQUA + "/b t treetype");
+				messenger.sendMessage(TextFormat.GOLD + "Tree snipe brush:");
+				messenger.sendMessage(TextFormat.AQUA + "/b t treetype");
 				printTreeType(messenger);
 				return;
 			}
@@ -38,7 +29,7 @@ public class TreeSnipeBrush extends AbstractBrush {
 				this.treeType = TreeType.valueOf(parameter.toUpperCase());
 				printTreeType(messenger);
 			} catch (IllegalArgumentException exception) {
-				messenger.sendMessage(ChatColor.LIGHT_PURPLE + "No such tree type.");
+				messenger.sendMessage(TextFormat.LIGHT_PURPLE + "No such tree type.");
 			}
 		}
 	}
@@ -87,9 +78,9 @@ public class TreeSnipeBrush extends AbstractBrush {
 
 	private void printTreeType(SnipeMessenger messenger) {
 		String printout = Arrays.stream(TreeType.values())
-			.map(treeType -> ((treeType == this.treeType) ? ChatColor.GRAY + treeType.name()
-				.toLowerCase() : ChatColor.DARK_GRAY + treeType.name()
-				.toLowerCase()) + ChatColor.WHITE)
+			.map(treeType -> ((treeType == this.treeType) ? TextFormat.GRAY + treeType.name()
+				.toLowerCase() : TextFormat.DARK_GRAY + treeType.name()
+				.toLowerCase()) + TextFormat.WHITE)
 			.collect(Collectors.joining(", "));
 		messenger.sendMessage(printout);
 	}

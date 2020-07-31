@@ -6,9 +6,7 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class UnderlayBrush extends AbstractPerformerBrush {
 
 	private static final int DEFAULT_DEPTH = 3;
@@ -22,9 +20,9 @@ public class UnderlayBrush extends AbstractPerformerBrush {
 		for (String parameter : parameters) {
 			if (parameter.equalsIgnoreCase("info")) {
 				snipe.createMessageSender()
-					.message(ChatColor.GOLD + "Reverse Overlay brush parameters:")
-					.message(ChatColor.AQUA + "d[number] (ex: d3) The number of blocks thick to change.")
-					.message(ChatColor.BLUE + "all (ex: /b reover all) Sets the brush to affect ALL materials")
+					.message(TextFormat.GOLD + "Reverse Overlay brush parameters:")
+					.message(TextFormat.AQUA + "d[number] (ex: d3) The number of blocks thick to change.")
+					.message(TextFormat.BLUE + "all (ex: /b reover all) Sets the brush to affect ALL materials")
 					.send();
 				if (this.depth < 1) {
 					this.depth = 1;
@@ -33,15 +31,15 @@ public class UnderlayBrush extends AbstractPerformerBrush {
 			}
 			if (!parameter.isEmpty() && parameter.charAt(0) == 'd') {
 				this.depth = Integer.parseInt(parameter.replace("d", ""));
-				messenger.sendMessage(ChatColor.AQUA + "Depth set to " + this.depth);
+				messenger.sendMessage(TextFormat.AQUA + "Depth set to " + this.depth);
 			} else if (parameter.startsWith("all")) {
 				this.allBlocks = true;
-				messenger.sendMessage(ChatColor.BLUE + "Will underlay over any block." + this.depth);
+				messenger.sendMessage(TextFormat.BLUE + "Will underlay over any block." + this.depth);
 			} else if (parameter.startsWith("some")) {
 				this.allBlocks = false;
-				messenger.sendMessage(ChatColor.BLUE + "Will underlay only natural block types." + this.depth);
+				messenger.sendMessage(TextFormat.BLUE + "Will underlay only natural block types." + this.depth);
 			} else {
-				messenger.sendMessage(ChatColor.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
+				messenger.sendMessage(TextFormat.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
 			}
 		}
 	}

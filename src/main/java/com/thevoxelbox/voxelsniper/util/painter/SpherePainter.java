@@ -2,30 +2,30 @@ package com.thevoxelbox.voxelsniper.util.painter;
 
 import com.thevoxelbox.voxelsniper.util.Vectors;
 import com.thevoxelbox.voxelsniper.util.math.MathHelper;
-import com.thevoxelbox.voxelsniper.util.math.vector.Vector3i;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
+import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.level.Location;
 
 public class SpherePainter implements Painter {
 
 	private static final double TRUE_CIRCLE_ADDITIONAL_RADIUS = 0.5;
 
-	private Vector3i center;
+	private VectorVS center;
 	private int radius;
 	private boolean trueCircle;
 	private BlockSetter blockSetter;
 
 	public SpherePainter center(Block block) {
-		Vector3i center = Vectors.of(block);
+		VectorVS center = Vectors.of(block);
 		return center(center);
 	}
 
 	public SpherePainter center(Location location) {
-		Vector3i center = Vectors.of(location);
+		VectorVS center = Vectors.of(location);
 		return center(center);
 	}
 
-	public SpherePainter center(Vector3i center) {
+	public SpherePainter center(VectorVS center) {
 		this.center = center;
 		return this;
 	}
@@ -113,7 +113,7 @@ public class SpherePainter implements Painter {
 	}
 
 	@Override
-	public Vector3i getCenter() {
+	public VectorVS getCenter() {
 		return this.center;
 	}
 

@@ -3,10 +3,6 @@ package com.thevoxelbox.voxelsniper.brush.type;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-
 public class WarpBrush extends AbstractBrush {
 
 	@Override

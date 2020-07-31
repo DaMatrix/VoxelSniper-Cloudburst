@@ -4,11 +4,7 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
-import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 /**
  * Regenerates the target chunk.
  */
@@ -49,7 +45,7 @@ public class RegenerateChunkBrush extends AbstractBrush {
 	public void sendInfo(Snipe snipe) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		messenger.sendBrushNameMessage();
-		messenger.sendMessage(ChatColor.LIGHT_PURPLE + "Tread lightly.");
-		messenger.sendMessage(ChatColor.LIGHT_PURPLE + "This brush will melt your spleen and sell your kidneys.");
+		messenger.sendMessage(TextFormat.LIGHT_PURPLE + "Tread lightly.");
+		messenger.sendMessage(TextFormat.LIGHT_PURPLE + "This brush will melt your spleen and sell your kidneys.");
 	}
 }

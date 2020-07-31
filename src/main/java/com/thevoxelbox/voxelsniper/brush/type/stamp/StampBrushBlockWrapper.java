@@ -1,8 +1,5 @@
 package com.thevoxelbox.voxelsniper.brush.type.stamp;
 
-import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
-
 public class StampBrushBlockWrapper {
 
 	private BlockData blockData;

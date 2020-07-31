@@ -1,6 +1,6 @@
 package com.thevoxelbox.voxelsniper.util.painter;
 
-import com.thevoxelbox.voxelsniper.util.math.vector.Vector3i;
+import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
 
 public final class Painters {
 
@@ -25,7 +25,7 @@ public final class Painters {
 	}
 
 	public static BlockPainter block(Painter painter) {
-		Vector3i center = painter.getCenter();
+		VectorVS center = painter.getCenter();
 		BlockSetter blockSetter = painter.getBlockSetter();
 		return new BlockPainter(center, blockSetter);
 	}

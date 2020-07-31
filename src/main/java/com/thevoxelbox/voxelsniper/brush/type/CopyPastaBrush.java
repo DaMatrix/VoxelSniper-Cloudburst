@@ -6,12 +6,7 @@ import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class CopyPastaBrush extends AbstractBrush {
 
 	private static final int BLOCK_LIMIT = 10000;
@@ -35,21 +30,21 @@ public class CopyPastaBrush extends AbstractBrush {
 		String parameter = parameters[0];
 		if (parameter.equalsIgnoreCase("info")) {
 			snipe.createMessageSender()
-				.message(ChatColor.GOLD + "CopyPasta Parameters:")
-				.message(ChatColor.AQUA + "/b cp air -- toggle include (default) or exclude  air during paste")
-				.message(ChatColor.AQUA + "/b cp 0|90|180|270 -- toggle rotation (0 default)")
+				.message(TextFormat.GOLD + "CopyPasta Parameters:")
+				.message(TextFormat.AQUA + "/b cp air -- toggle include (default) or exclude  air during paste")
+				.message(TextFormat.AQUA + "/b cp 0|90|180|270 -- toggle rotation (0 default)")
 				.send();
 			return;
 		}
 		if (parameter.equalsIgnoreCase("air")) {
 			this.pasteAir = !this.pasteAir;
-			messenger.sendMessage(ChatColor.GOLD + "Paste air: " + this.pasteAir);
+			messenger.sendMessage(TextFormat.GOLD + "Paste air: " + this.pasteAir);
 			return;
 		}
 		if (Stream.of("90", "180", "270", "0")
 			.anyMatch(parameter::equalsIgnoreCase)) {
 			this.pivot = Integer.parseInt(parameter);
-			messenger.sendMessage(ChatColor.GOLD + "Pivot angle: " + this.pivot);
+			messenger.sendMessage(TextFormat.GOLD + "Pivot angle: " + this.pivot);
 		}
 	}
 
@@ -61,13 +56,13 @@ public class CopyPastaBrush extends AbstractBrush {
 			this.firstPoint[0] = targetBlock.getX();
 			this.firstPoint[1] = targetBlock.getY();
 			this.firstPoint[2] = targetBlock.getZ();
-			messenger.sendMessage(ChatColor.GRAY + "First point");
+			messenger.sendMessage(TextFormat.GRAY + "First point");
 			this.points = 1;
 		} else if (this.points == 1) {
 			this.secondPoint[0] = targetBlock.getX();
 			this.secondPoint[1] = targetBlock.getY();
 			this.secondPoint[2] = targetBlock.getZ();
-			messenger.sendMessage(ChatColor.GRAY + "Second point");
+			messenger.sendMessage(TextFormat.GRAY + "Second point");
 			this.points = 2;
 		} else {
 			this.firstPoint = new int[3];
@@ -76,7 +71,7 @@ public class CopyPastaBrush extends AbstractBrush {
 			this.blockArray = new Material[1];
 			this.dataArray = new BlockData[1];
 			this.points = 0;
-			messenger.sendMessage(ChatColor.GRAY + "Points cleared.");
+			messenger.sendMessage(TextFormat.GRAY + "Points cleared.");
 		}
 	}
 
@@ -93,10 +88,10 @@ public class CopyPastaBrush extends AbstractBrush {
 				this.pastePoint[2] = targetBlock.getZ();
 				doPasta(snipe);
 			} else {
-				messenger.sendMessage(ChatColor.RED + "Error");
+				messenger.sendMessage(TextFormat.RED + "Error");
 			}
 		} else {
-			messenger.sendMessage(ChatColor.RED + "You must select exactly two points.");
+			messenger.sendMessage(TextFormat.RED + "You must select exactly two points.");
 		}
 	}
 
@@ -123,9 +118,9 @@ public class CopyPastaBrush extends AbstractBrush {
 					}
 				}
 			}
-			messenger.sendMessage(ChatColor.AQUA + String.valueOf(this.numBlocks) + " blocks copied.");
+			messenger.sendMessage(TextFormat.AQUA + String.valueOf(this.numBlocks) + " blocks copied.");
 		} else {
-			messenger.sendMessage(ChatColor.RED + "Copy area too big: " + this.numBlocks + "(Limit: " + BLOCK_LIMIT + ")");
+			messenger.sendMessage(TextFormat.RED + "Copy area too big: " + this.numBlocks + "(Limit: " + BLOCK_LIMIT + ")");
 		}
 	}
 
@@ -161,7 +156,7 @@ public class CopyPastaBrush extends AbstractBrush {
 			}
 		}
 		SnipeMessenger messenger = snipe.createMessenger();
-		messenger.sendMessage(ChatColor.AQUA + String.valueOf(this.numBlocks) + " blocks pasted.");
+		messenger.sendMessage(TextFormat.AQUA + String.valueOf(this.numBlocks) + " blocks pasted.");
 		Sniper sniper = snipe.getSniper();
 		sniper.storeUndo(undo);
 	}
@@ -170,8 +165,8 @@ public class CopyPastaBrush extends AbstractBrush {
 	public void sendInfo(Snipe snipe) {
 		snipe.createMessageSender()
 			.brushNameMessage()
-			.message(ChatColor.GOLD + "Paste air: " + this.pasteAir)
-			.message(ChatColor.GOLD + "Pivot angle: " + this.pivot)
+			.message(TextFormat.GOLD + "Paste air: " + this.pasteAir)
+			.message(TextFormat.GOLD + "Pivot angle: " + this.pivot)
 			.send();
 	}
 }

@@ -4,14 +4,8 @@ import com.thevoxelbox.voxelsniper.brush.Brush;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolAction;
-import com.thevoxelbox.voxelsniper.util.math.vector.Vector3i;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.entity.Player;
-
+import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
+import org.cloudburstmc.server.utils.TextFormat;
 public abstract class AbstractBrush implements Brush {
 
 	protected static final int CHUNK_SIZE = 16;
@@ -23,7 +17,7 @@ public abstract class AbstractBrush implements Brush {
 	public void handleCommand(String[] parameters, Snipe snipe) {
 		Sniper sniper = snipe.getSniper();
 		Player player = sniper.getPlayer();
-		player.sendMessage(ChatColor.RED + "This brush does not accept additional parameters.");
+		player.sendMessage(TextFormat.RED + "This brush does not accept additional parameters.");
 	}
 
 	@Override
@@ -37,7 +31,7 @@ public abstract class AbstractBrush implements Brush {
 		}
 	}
 
-	public Block clampY(Vector3i position) {
+	public Block clampY(VectorVS position) {
 		int x = position.getX();
 		int y = position.getY();
 		int z = position.getZ();
@@ -58,7 +52,7 @@ public abstract class AbstractBrush implements Brush {
 		return getBlock(x, clampedY, z);
 	}
 
-	public Material getBlockType(Vector3i position) {
+	public Material getBlockType(VectorVS position) {
 		int x = position.getX();
 		int y = position.getY();
 		int z = position.getZ();
@@ -70,7 +64,7 @@ public abstract class AbstractBrush implements Brush {
 		return block.getType();
 	}
 
-	public BlockData getBlockData(Vector3i position) {
+	public BlockData getBlockData(VectorVS position) {
 		int x = position.getX();
 		int y = position.getY();
 		int z = position.getZ();
@@ -82,7 +76,7 @@ public abstract class AbstractBrush implements Brush {
 		return block.getBlockData();
 	}
 
-	public void setBlockType(Vector3i position, Material type) {
+	public void setBlockType(VectorVS position, Material type) {
 		int x = position.getX();
 		int y = position.getY();
 		int z = position.getZ();
@@ -94,7 +88,7 @@ public abstract class AbstractBrush implements Brush {
 		block.setType(type);
 	}
 
-	public void setBlockData(Vector3i position, BlockData blockData) {
+	public void setBlockData(VectorVS position, BlockData blockData) {
 		int x = position.getX();
 		int y = position.getY();
 		int z = position.getZ();
@@ -106,7 +100,7 @@ public abstract class AbstractBrush implements Brush {
 		block.setBlockData(blockData);
 	}
 
-	public Block getBlock(Vector3i position) {
+	public Block getBlock(VectorVS position) {
 		int x = position.getX();
 		int y = position.getY();
 		int z = position.getZ();

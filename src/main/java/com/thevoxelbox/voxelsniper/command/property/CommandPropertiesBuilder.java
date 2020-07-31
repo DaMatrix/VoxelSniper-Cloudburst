@@ -2,8 +2,6 @@ package com.thevoxelbox.voxelsniper.command.property;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.bukkit.command.CommandSender;
-
 public class CommandPropertiesBuilder {
 
 	private String name;

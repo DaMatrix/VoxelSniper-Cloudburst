@@ -10,20 +10,17 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.Vectors;
 import com.thevoxelbox.voxelsniper.util.math.MathHelper;
-import com.thevoxelbox.voxelsniper.util.math.vector.Vector3i;
+import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
 import com.thevoxelbox.voxelsniper.util.painter.Painters;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class BlendVoxelBrush extends AbstractBlendBrush {
 
 	@Override
 	public void handleCommand(String[] parameters, Snipe snipe) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		if (parameters[0].equalsIgnoreCase("info")) {
-			messenger.sendMessage(ChatColor.GOLD + "Blend Voxel Parameters:");
-			messenger.sendMessage(ChatColor.AQUA + "/b bv water -- toggle include or exclude (default) water");
+			messenger.sendMessage(TextFormat.GOLD + "Blend Voxel Parameters:");
+			messenger.sendMessage(TextFormat.AQUA + "/b bv water -- toggle include or exclude (default) water");
 			return;
 		}
 		super.handleCommand(parameters, snipe);
@@ -35,7 +32,7 @@ public class BlendVoxelBrush extends AbstractBlendBrush {
 		int brushSize = toolkitProperties.getBrushSize();
 		int cubeEdge = 2 * brushSize + 1;
 		int largeCubeVolume = MathHelper.cube(cubeEdge + 2);
-		Map<Vector3i, Block> largeCube = new HashMap<>(largeCubeVolume);
+		Map<VectorVS, Block> largeCube = new HashMap<>(largeCubeVolume);
 		Block targetBlock = getTargetBlock();
 		Painters.cube()
 			.center(targetBlock)
@@ -46,8 +43,8 @@ public class BlendVoxelBrush extends AbstractBlendBrush {
 			})
 			.paint();
 		int smallCubeVolume = MathHelper.cube(cubeEdge);
-		Map<Vector3i, Block> smallCube = new HashMap<>(smallCubeVolume);
-		Map<Vector3i, Material> smallCubeMaterials = new HashMap<>(smallCubeVolume);
+		Map<VectorVS, Block> smallCube = new HashMap<>(smallCubeVolume);
+		Map<VectorVS, Material> smallCubeMaterials = new HashMap<>(smallCubeVolume);
 		Painters.cube()
 			.center(targetBlock)
 			.radius(brushSize)
@@ -58,7 +55,7 @@ public class BlendVoxelBrush extends AbstractBlendBrush {
 			})
 			.paint();
 		for (Block smallCubeBlock : smallCube.values()) {
-			Vector3i blockPosition = Vectors.of(smallCubeBlock);
+			VectorVS blockPosition = Vectors.of(smallCubeBlock);
 			Map<Material, Integer> materialsFrequencies = new EnumMap<>(Material.class);
 			Painters.cube()
 				.center(smallCubeBlock)

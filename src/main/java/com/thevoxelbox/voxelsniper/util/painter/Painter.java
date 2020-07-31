@@ -1,12 +1,12 @@
 package com.thevoxelbox.voxelsniper.util.painter;
 
-import com.thevoxelbox.voxelsniper.util.math.vector.Vector3i;
+import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
 
 public interface Painter {
 
 	void paint();
 
-	Vector3i getCenter();
+	VectorVS getCenter();
 
 	BlockSetter getBlockSetter();
 }

@@ -1,6 +1,5 @@
 package com.thevoxelbox.voxelsniper.brush.type.blend;
 
-import org.bukkit.Material;
 import org.jetbrains.annotations.Nullable;
 
 class CommonMaterial {

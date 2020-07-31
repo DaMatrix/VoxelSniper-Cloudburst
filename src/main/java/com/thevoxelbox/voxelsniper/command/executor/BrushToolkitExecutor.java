@@ -7,13 +7,7 @@ import com.thevoxelbox.voxelsniper.sniper.SniperRegistry;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolAction;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class BrushToolkitExecutor implements CommandExecutor {
 
 	private VoxelSniperPlugin plugin;
@@ -28,7 +22,7 @@ public class BrushToolkitExecutor implements CommandExecutor {
 		Player player = (Player) sender;
 		Sniper sniper = sniperRegistry.getSniper(player);
 		if (sniper == null) {
-			sender.sendMessage(ChatColor.RED + "Sniper not found.");
+			sender.sendMessage(TextFormat.RED + "Sniper not found.");
 			return;
 		}
 		int length = arguments.length;
@@ -59,7 +53,7 @@ public class BrushToolkitExecutor implements CommandExecutor {
 		if (length == 2 && firstArgument.equalsIgnoreCase("remove")) {
 			Toolkit toolkit = sniper.getToolkit(arguments[1]);
 			if (toolkit == null) {
-				sender.sendMessage(ChatColor.RED + "Toolkit " + arguments[1] + " not found.");
+				sender.sendMessage(TextFormat.RED + "Toolkit " + arguments[1] + " not found.");
 				return;
 			}
 			sniper.removeToolkit(toolkit);

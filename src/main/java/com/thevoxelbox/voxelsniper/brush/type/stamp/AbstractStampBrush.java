@@ -10,12 +10,7 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSet;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Tag;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public abstract class AbstractStampBrush extends AbstractBrush {
 
 	protected Set<StampBrushBlockWrapper> clone = new HashSet<>();
@@ -40,7 +35,7 @@ public abstract class AbstractStampBrush extends AbstractBrush {
 				break;
 			default:
 				SnipeMessenger messenger = snipe.createMessenger();
-				messenger.sendMessage(ChatColor.DARK_RED + "Error while stamping! Report");
+				messenger.sendMessage(TextFormat.DARK_RED + "Error while stamping! Report");
 				break;
 		}
 	}

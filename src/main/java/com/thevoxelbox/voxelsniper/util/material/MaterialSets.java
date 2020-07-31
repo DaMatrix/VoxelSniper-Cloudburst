@@ -1,140 +1,112 @@
 package com.thevoxelbox.voxelsniper.util.material;
 
-import org.bukkit.Material;
-import org.bukkit.Tag;
+import org.cloudburstmc.server.block.BlockTypes;
 
 public final class MaterialSets {
 
 	public static final MaterialSet AIRS = MaterialSet.builder()
-		.add(Material.AIR)
-		.add(Material.CAVE_AIR)
-		.add(Material.VOID_AIR)
+		.add(BlockTypes.AIR)
 		.build();
 
 	public static final MaterialSet CHESTS = MaterialSet.builder()
-		.add(Material.CHEST)
-		.add(Material.TRAPPED_CHEST)
-		.add(Material.ENDER_CHEST)
+		.add(BlockTypes.CHEST)
+		.add(BlockTypes.TRAPPED_CHEST)
+		.add(BlockTypes.ENDER_CHEST)
 		.build();
 
 	public static final MaterialSet FENCE_GATES = MaterialSet.builder()
-		.add(Material.ACACIA_FENCE_GATE)
-		.add(Material.BIRCH_FENCE_GATE)
-		.add(Material.DARK_OAK_FENCE_GATE)
-		.add(Material.JUNGLE_FENCE_GATE)
-		.add(Material.OAK_FENCE_GATE)
-		.add(Material.SPRUCE_FENCE_GATE)
+		.add(BlockTypes.ACACIA_FENCE_GATE)
+		.add(BlockTypes.BIRCH_FENCE_GATE)
+		.add(BlockTypes.DARK_OAK_FENCE_GATE)
+		.add(BlockTypes.JUNGLE_FENCE_GATE)
+		.add(BlockTypes.FENCE_GATE)
+		.add(BlockTypes.SPRUCE_FENCE_GATE)
 		.build();
 
 	public static final MaterialSet SNOWS = MaterialSet.builder()
-		.add(Material.SNOW)
-		.add(Material.SNOW_BLOCK)
+		.add(BlockTypes.SNOW)
+		.add(BlockTypes.SNOW_LAYER)
 		.build();
 
 	public static final MaterialSet WOODEN_FENCES = MaterialSet.builder()
-		.add(Material.ACACIA_FENCE)
-		.add(Material.BIRCH_FENCE)
-		.add(Material.DARK_OAK_FENCE)
-		.add(Material.JUNGLE_FENCE)
-		.add(Material.OAK_FENCE)
-		.add(Material.SPRUCE_FENCE)
+		.add(BlockTypes.FENCE)
 		.build();
 
 	public static final MaterialSet FENCES = MaterialSet.builder()
 		.with(WOODEN_FENCES)
-		.add(Material.NETHER_BRICK_FENCE)
+		.add(BlockTypes.NETHER_BRICK_FENCE)
 		.build();
 
 	public static final MaterialSet TORCHES = MaterialSet.builder()
-		.add(Material.TORCH)
-		.add(Material.WALL_TORCH)
+		.add(BlockTypes.TORCH)
+		.add(BlockTypes.UNDERWATER_TORCH)
 		.build();
 
 	public static final MaterialSet REDSTONE_TORCHES = MaterialSet.builder()
-		.add(Material.REDSTONE_TORCH)
-		.add(Material.REDSTONE_WALL_TORCH)
+		.add(BlockTypes.REDSTONE_TORCH)
+		.add(BlockTypes.UNLIT_REDSTONE_TORCH)
 		.build();
 
 	public static final MaterialSet FLOWERS = MaterialSet.builder()
-		.add(Material.DANDELION)
-		.add(Material.POPPY)
-		.add(Material.BLUE_ORCHID)
-		.add(Material.ALLIUM)
-		.add(Material.AZURE_BLUET)
-		.add(Material.RED_TULIP)
-		.add(Material.ORANGE_TULIP)
-		.add(Material.WHITE_TULIP)
-		.add(Material.PINK_TULIP)
-		.add(Material.OXEYE_DAISY)
+		.add(BlockTypes.RED_FLOWER)
+		.add(BlockTypes.YELLOW_FLOWER)
 		.build();
 
 	public static final MaterialSet MUSHROOMS = MaterialSet.builder()
-		.add(Material.BROWN_MUSHROOM)
-		.add(Material.RED_MUSHROOM)
+		.add(BlockTypes.BROWN_MUSHROOM)
+		.add(BlockTypes.RED_MUSHROOM)
 		.build();
 
 	public static final MaterialSet STEMS = MaterialSet.builder()
-		.add(Material.ATTACHED_MELON_STEM)
-		.add(Material.ATTACHED_PUMPKIN_STEM)
-		.add(Material.MELON_STEM)
-		.add(Material.PUMPKIN_STEM)
+		.add(BlockTypes.MELON_STEM)
+		.add(BlockTypes.PUMPKIN_STEM)
 		.build();
 
 	public static final MaterialSet FLORA = MaterialSet.builder()
 		.with(FLOWERS)
 		.with(MUSHROOMS)
 		.with(STEMS)
-		.add(Material.GRASS)
-		.add(Material.TALL_GRASS)
-		.add(Material.DEAD_BUSH)
-		.add(Material.WHEAT)
-		.add(Material.SUGAR_CANE)
-		.add(Material.VINE)
-		.add(Material.LILY_PAD)
-		.add(Material.CACTUS)
-		.add(Material.NETHER_WART)
+		.add(BlockTypes.TALL_GRASS)
+		.add(BlockTypes.TALL_GRASS)
+		.add(BlockTypes.DEADBUSH)
+		.add(BlockTypes.WHEAT)
+		.add(BlockTypes.REEDS)
+		.add(BlockTypes.VINE)
+		.add(BlockTypes.WATERLILY)
+		.add(BlockTypes.CACTUS)
+		.add(BlockTypes.NETHER_WART)
 		.build();
 
 	public static final MaterialSet STONES = MaterialSet.builder()
-		.add(Material.STONE)
-		.add(Material.GRANITE)
-		.add(Material.DIORITE)
-		.add(Material.ANDESITE)
+		.add(BlockTypes.STONE)
 		.build();
 
 	public static final MaterialSet GRASSES = MaterialSet.builder()
-		.add(Material.GRASS_BLOCK)
-		.add(Material.PODZOL)
+		.add(BlockTypes.GRASS)
+		.add(BlockTypes.PODZOL)
 		.build();
 
 	public static final MaterialSet DIRT = MaterialSet.builder()
-		.add(Material.DIRT)
-		.add(Material.COARSE_DIRT)
+		.add(BlockTypes.DIRT)
 		.build();
 
 	public static final MaterialSet LIQUIDS = MaterialSet.builder()
-		.add(Material.WATER)
-		.add(Material.LAVA)
+		.add(BlockTypes.WATER)
+		.add(BlockTypes.LAVA)
 		.build();
 
 	public static final MaterialSet FALLING = MaterialSet.builder()
 		.with(LIQUIDS)
-		.with(Tag.SAND)
-		.add(Material.GRAVEL)
+		.add(BlockTypes.SAND)
+		.add(BlockTypes.GRAVEL)
 		.build();
 
 	public static final MaterialSet SANDSTONES = MaterialSet.builder()
-		.add(Material.SANDSTONE)
-		.add(Material.CHISELED_SANDSTONE)
-		.add(Material.CUT_SANDSTONE)
-		.add(Material.SMOOTH_SANDSTONE)
+		.add(BlockTypes.SANDSTONE)
 		.build();
 
 	public static final MaterialSet RED_SANDSTONES = MaterialSet.builder()
-		.add(Material.RED_SANDSTONE)
-		.add(Material.CHISELED_RED_SANDSTONE)
-		.add(Material.CUT_RED_SANDSTONE)
-		.add(Material.SMOOTH_RED_SANDSTONE)
+		.add(BlockTypes.RED_SANDSTONE)
 		.build();
 
 	public static final MaterialSet OVERRIDEABLE = MaterialSet.builder()
@@ -143,23 +115,23 @@ public final class MaterialSets {
 		.with(DIRT)
 		.with(SANDSTONES)
 		.with(RED_SANDSTONES)
-		.with(Tag.SAND)
-		.add(Material.GRAVEL)
-		.add(Material.MOSSY_COBBLESTONE)
-		.add(Material.OBSIDIAN)
-		.add(Material.SNOW)
-		.add(Material.CLAY)
+		.add(BlockTypes.SAND)
+		.add(BlockTypes.GRAVEL)
+		.add(BlockTypes.MOSSY_COBBLESTONE)
+		.add(BlockTypes.OBSIDIAN)
+		.add(BlockTypes.SNOW)
+		.add(BlockTypes.CLAY)
 		.build();
 
 	public static final MaterialSet ORES = MaterialSet.builder()
-		.add(Material.COAL_ORE)
-		.add(Material.DIAMOND_ORE)
-		.add(Material.EMERALD_ORE)
-		.add(Material.GOLD_ORE)
-		.add(Material.IRON_ORE)
-		.add(Material.LAPIS_ORE)
-		.add(Material.NETHER_QUARTZ_ORE)
-		.add(Material.REDSTONE_ORE)
+		.add(BlockTypes.COAL_ORE)
+		.add(BlockTypes.DIAMOND_ORE)
+		.add(BlockTypes.EMERALD_ORE)
+		.add(BlockTypes.GOLD_ORE)
+		.add(BlockTypes.IRON_ORE)
+		.add(BlockTypes.LAPIS_ORE)
+		.add(BlockTypes.QUARTZ_ORE)
+		.add(BlockTypes.REDSTONE_ORE)
 		.build();
 
 	public static final MaterialSet OVERRIDEABLE_WITH_ORES = MaterialSet.builder()
@@ -168,46 +140,35 @@ public final class MaterialSets {
 		.build();
 
 	public static final MaterialSet PISTONS = MaterialSet.builder()
-		.add(Material.MOVING_PISTON)
-		.add(Material.PISTON)
-		.add(Material.PISTON_HEAD)
-		.add(Material.STICKY_PISTON)
+		.add(BlockTypes.PISTON_ARM_COLLISION)
+		.add(BlockTypes.PISTON)
+		.add(BlockTypes.STICKY_PISTON_ARM_COLLISION)
+		.add(BlockTypes.STICKY_PISTON)
 		.build();
 
 	public static final MaterialSet PRESSURE_PLATES = MaterialSet.builder()
-		.add(Material.ACACIA_PRESSURE_PLATE)
-		.add(Material.BIRCH_PRESSURE_PLATE)
-		.add(Material.DARK_OAK_PRESSURE_PLATE)
-		.add(Material.JUNGLE_PRESSURE_PLATE)
-		.add(Material.OAK_PRESSURE_PLATE)
-		.add(Material.SPRUCE_PRESSURE_PLATE)
-		.add(Material.STONE_PRESSURE_PLATE)
-		.add(Material.LIGHT_WEIGHTED_PRESSURE_PLATE)
-		.add(Material.HEAVY_WEIGHTED_PRESSURE_PLATE)
+		.add(BlockTypes.ACACIA_PRESSURE_PLATE)
+		.add(BlockTypes.BIRCH_PRESSURE_PLATE)
+		.add(BlockTypes.DARK_OAK_PRESSURE_PLATE)
+		.add(BlockTypes.JUNGLE_PRESSURE_PLATE)
+		.add(BlockTypes.WOODEN_PRESSURE_PLATE)
+		.add(BlockTypes.SPRUCE_PRESSURE_PLATE)
+		.add(BlockTypes.STONE_PRESSURE_PLATE)
+		.add(BlockTypes.LIGHT_WEIGHTED_PRESSURE_PLATE)
+		.add(BlockTypes.HEAVY_WEIGHTED_PRESSURE_PLATE)
 		.build();
 
 	public static final MaterialSet SIGNS = MaterialSet.builder()
-		.add(Material.SIGN)
-		.add(Material.WALL_SIGN)
+		.with(BlockTypes.STANDING_SIGN, BlockTypes.WALL_SIGN)
+		.with(BlockTypes.ACACIA_STANDING_SIGN, BlockTypes.ACACIA_WALL_SIGN)
+		.with(BlockTypes.BIRCH_STANDING_SIGN, BlockTypes.BIRCH_WALL_SIGN)
+		.with(BlockTypes.DARK_OAK_STANDING_SIGN, BlockTypes.DARK_OAK_WALL_SIGN)
+		.with(BlockTypes.JUNGLE_STANDING_SIGN, BlockTypes.JUNGLE_WALL_SIGN)
+		.with(BlockTypes.SPRUCE_STANDING_SIGN, BlockTypes.SPRUCE_WALL_SIGN)
 		.build();
 
 	public static final MaterialSet BEDS = MaterialSet.builder()
-		.add(Material.BLACK_BED)
-		.add(Material.BLUE_BED)
-		.add(Material.BROWN_BED)
-		.add(Material.CYAN_BED)
-		.add(Material.GRAY_BED)
-		.add(Material.GREEN_BED)
-		.add(Material.LIGHT_GRAY_BED)
-		.add(Material.LIGHT_BLUE_BED)
-		.add(Material.LIME_BED)
-		.add(Material.MAGENTA_BED)
-		.add(Material.ORANGE_BED)
-		.add(Material.PINK_BED)
-		.add(Material.PURPLE_BED)
-		.add(Material.RED_BED)
-		.add(Material.WHITE_BED)
-		.add(Material.YELLOW_BED)
+		.add(BlockTypes.BED)
 		.build();
 
 	private MaterialSets() {

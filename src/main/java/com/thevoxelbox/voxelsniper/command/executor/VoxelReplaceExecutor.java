@@ -13,13 +13,7 @@ import com.thevoxelbox.voxelsniper.sniper.toolkit.BlockTracer;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.message.Messenger;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.block.Block;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class VoxelReplaceExecutor implements CommandExecutor, TabCompleter {
 
 	private static final List<NamespacedKey> BLOCK_KEYS = Arrays.stream(Material.values())
@@ -66,7 +60,7 @@ public class VoxelReplaceExecutor implements CommandExecutor, TabCompleter {
 				toolkitProperties.setReplaceBlockType(material);
 				messenger.sendReplaceBlockTypeMessage(material);
 			} else {
-				sender.sendMessage(ChatColor.RED + "You have entered an invalid Item ID.");
+				sender.sendMessage(TextFormat.RED + "You have entered an invalid Item ID.");
 			}
 		}
 	}

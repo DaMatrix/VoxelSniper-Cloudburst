@@ -10,20 +10,17 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.Vectors;
 import com.thevoxelbox.voxelsniper.util.math.MathHelper;
-import com.thevoxelbox.voxelsniper.util.math.vector.Vector3i;
+import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
 import com.thevoxelbox.voxelsniper.util.painter.Painters;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class BlendDiscBrush extends AbstractBlendBrush {
 
 	@Override
 	public void handleCommand(String[] parameters, Snipe snipe) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		if (parameters[0].equalsIgnoreCase("info")) {
-			messenger.sendMessage(ChatColor.GOLD + "Blend Disc Parameters:");
-			messenger.sendMessage(ChatColor.AQUA + "/b bd water -- toggle include or exclude (default) water");
+			messenger.sendMessage(TextFormat.GOLD + "Blend Disc Parameters:");
+			messenger.sendMessage(TextFormat.AQUA + "/b bd water -- toggle include or exclude (default) water");
 			return;
 		}
 		super.handleCommand(parameters, snipe);
@@ -34,7 +31,7 @@ public class BlendDiscBrush extends AbstractBlendBrush {
 		ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
 		int brushSize = toolkitProperties.getBrushSize();
 		int largeCircleArea = (int) MathHelper.circleArea(brushSize + 2);
-		Map<Vector3i, Block> largeCircle = new HashMap<>(largeCircleArea);
+		Map<VectorVS, Block> largeCircle = new HashMap<>(largeCircleArea);
 		Block targetBlock = getTargetBlock();
 		Painters.circle()
 			.center(targetBlock)
@@ -45,8 +42,8 @@ public class BlendDiscBrush extends AbstractBlendBrush {
 			})
 			.paint();
 		int smallCircleArea = (int) MathHelper.circleArea(brushSize);
-		Map<Vector3i, Block> smallCircle = new HashMap<>(smallCircleArea);
-		Map<Vector3i, Material> smallCircleMaterials = new HashMap<>(smallCircleArea);
+		Map<VectorVS, Block> smallCircle = new HashMap<>(smallCircleArea);
+		Map<VectorVS, Material> smallCircleMaterials = new HashMap<>(smallCircleArea);
 		Painters.circle()
 			.center(targetBlock)
 			.radius(brushSize)
@@ -57,7 +54,7 @@ public class BlendDiscBrush extends AbstractBlendBrush {
 			})
 			.paint();
 		for (Block smallCircleBlock : smallCircle.values()) {
-			Vector3i blockPosition = Vectors.of(smallCircleBlock);
+			VectorVS blockPosition = Vectors.of(smallCircleBlock);
 			Map<Material, Integer> materialsFrequencies = new EnumMap<>(Material.class);
 			Painters.square()
 				.center(smallCircleBlock)

@@ -14,10 +14,7 @@ import com.thevoxelbox.voxelsniper.sniper.SniperRegistry;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class VoxelSniperExecutor implements CommandExecutor {
 
 	private VoxelSniperPlugin plugin;
@@ -66,14 +63,14 @@ public class VoxelSniperExecutor implements CommandExecutor {
 					toolkitProperties.setBlockTracerRange(0);
 				}
 				Integer blockTracerRange = toolkitProperties.getBlockTracerRange();
-				sender.sendMessage(ChatColor.GOLD + "Distance Restriction toggled " + ChatColor.DARK_RED + (blockTracerRange == null ? "off" : "on") + ChatColor.GOLD + ". Range is " + ChatColor.LIGHT_PURPLE + blockTracerRange);
+				sender.sendMessage(TextFormat.GOLD + "Distance Restriction toggled " + TextFormat.DARK_RED + (blockTracerRange == null ? "off" : "on") + TextFormat.GOLD + ". Range is " + TextFormat.LIGHT_PURPLE + blockTracerRange);
 				return;
 			} else if (firstArgument.equalsIgnoreCase("perf")) {
 				PerformerRegistry performerRegistry = this.plugin.getPerformerRegistry();
 				Map<String, PerformerProperties> performerProperties = performerRegistry.getPerformerProperties();
 				Set<String> aliases = performerProperties.keySet();
 				String aliasesString = String.join(", ", aliases);
-				sender.sendMessage(ChatColor.AQUA + "Available performers (abbreviated):");
+				sender.sendMessage(TextFormat.AQUA + "Available performers (abbreviated):");
 				sender.sendMessage(aliasesString);
 				return;
 			} else if (firstArgument.equalsIgnoreCase("perflong")) {
@@ -83,7 +80,7 @@ public class VoxelSniperExecutor implements CommandExecutor {
 					.stream()
 					.map(PerformerProperties::getName)
 					.collect(Collectors.joining(", "));
-				sender.sendMessage(ChatColor.AQUA + "Available performers:");
+				sender.sendMessage(TextFormat.AQUA + "Available performers:");
 				sender.sendMessage(names);
 				return;
 			} else if (firstArgument.equalsIgnoreCase("enable")) {
@@ -100,7 +97,7 @@ public class VoxelSniperExecutor implements CommandExecutor {
 				return;
 			}
 		}
-		sender.sendMessage(ChatColor.DARK_RED + "VoxelSniper - Current Brush Settings:");
+		sender.sendMessage(TextFormat.DARK_RED + "VoxelSniper - Current Brush Settings:");
 		sniper.sendInfo(sender);
 	}
 }

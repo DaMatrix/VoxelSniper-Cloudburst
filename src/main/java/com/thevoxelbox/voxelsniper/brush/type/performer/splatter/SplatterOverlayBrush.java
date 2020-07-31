@@ -8,10 +8,7 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class SplatterOverlayBrush extends AbstractPerformerBrush {
 
 	private static final int GROW_PERCENT_MIN = 1;
@@ -40,63 +37,63 @@ public class SplatterOverlayBrush extends AbstractPerformerBrush {
 			try {
 				if (parameter.equalsIgnoreCase("info")) {
 					snipe.createMessageSender()
-						.message(ChatColor.GOLD + "Splatter Overlay brush parameters:")
-						.message(ChatColor.AQUA + "d[number] (ex:  d3) How many blocks deep you want to replace from the surface.")
-						.message(ChatColor.BLUE + "all (ex:  /b over all) Sets the brush to overlay over ALL materials, not just natural surface ones (will no longer ignore trees and buildings).  The parameter /some will set it back to default.")
-						.message(ChatColor.AQUA + "/b sover s[int] -- set a seed percentage (1-9999). 100 = 1% Default is 1000")
-						.message(ChatColor.AQUA + "/b sover g[int] -- set a growth percentage (1-9999).  Default is 1000")
-						.message(ChatColor.AQUA + "/b sover r[int] -- set a recursion (1-10).  Default is 3")
+						.message(TextFormat.GOLD + "Splatter Overlay brush parameters:")
+						.message(TextFormat.AQUA + "d[number] (ex:  d3) How many blocks deep you want to replace from the surface.")
+						.message(TextFormat.BLUE + "all (ex:  /b over all) Sets the brush to overlay over ALL materials, not just natural surface ones (will no longer ignore trees and buildings).  The parameter /some will set it back to default.")
+						.message(TextFormat.AQUA + "/b sover s[int] -- set a seed percentage (1-9999). 100 = 1% Default is 1000")
+						.message(TextFormat.AQUA + "/b sover g[int] -- set a growth percentage (1-9999).  Default is 1000")
+						.message(TextFormat.AQUA + "/b sover r[int] -- set a recursion (1-10).  Default is 3")
 						.send();
 					return;
 				} else if (!parameter.isEmpty() && parameter.charAt(0) == 'd') {
 					this.depth = Integer.parseInt(parameter.replace("d", ""));
-					messenger.sendMessage(ChatColor.AQUA + "Depth set to " + this.depth);
+					messenger.sendMessage(TextFormat.AQUA + "Depth set to " + this.depth);
 					if (this.depth < 1) {
 						this.depth = 1;
 					}
 				} else if (parameter.startsWith("all")) {
 					this.allBlocks = true;
-					messenger.sendMessage(ChatColor.BLUE + "Will overlay over any block." + this.depth);
+					messenger.sendMessage(TextFormat.BLUE + "Will overlay over any block." + this.depth);
 				} else if (parameter.startsWith("some")) {
 					this.allBlocks = false;
-					messenger.sendMessage(ChatColor.BLUE + "Will overlay only natural block types." + this.depth);
+					messenger.sendMessage(TextFormat.BLUE + "Will overlay only natural block types." + this.depth);
 				} else if (!parameter.isEmpty() && parameter.charAt(0) == 's') {
 					double temp = Integer.parseInt(parameter.replace("s", ""));
 					if (temp >= SEED_PERCENT_MIN && temp <= SEED_PERCENT_MAX) {
-						messenger.sendMessage(ChatColor.AQUA + "Seed percent set to: " + temp / 100 + "%");
+						messenger.sendMessage(TextFormat.AQUA + "Seed percent set to: " + temp / 100 + "%");
 						this.seedPercent = (int) temp;
 					} else {
-						messenger.sendMessage(ChatColor.RED + "Seed percent must be an integer 1-9999!");
+						messenger.sendMessage(TextFormat.RED + "Seed percent must be an integer 1-9999!");
 					}
 				} else if (!parameter.isEmpty() && parameter.charAt(0) == 'g') {
 					double temp = Integer.parseInt(parameter.replace("g", ""));
 					if (temp >= GROW_PERCENT_MIN && temp <= GROW_PERCENT_MAX) {
-						messenger.sendMessage(ChatColor.AQUA + "Growth percent set to: " + temp / 100 + "%");
+						messenger.sendMessage(TextFormat.AQUA + "Growth percent set to: " + temp / 100 + "%");
 						this.growPercent = (int) temp;
 					} else {
-						messenger.sendMessage(ChatColor.RED + "Growth percent must be an integer 1-9999!");
+						messenger.sendMessage(TextFormat.RED + "Growth percent must be an integer 1-9999!");
 					}
 				} else if (parameter.startsWith("randh")) {
 					this.randomizeHeight = !this.randomizeHeight;
-					messenger.sendMessage(ChatColor.RED + "RandomizeHeight set to: " + this.randomizeHeight);
+					messenger.sendMessage(TextFormat.RED + "RandomizeHeight set to: " + this.randomizeHeight);
 				} else if (!parameter.isEmpty() && parameter.charAt(0) == 'r') {
 					int temp = Integer.parseInt(parameter.replace("r", ""));
 					if (temp >= SPLATTER_RECURSIONS_PERCENT_MIN && temp <= SPLATTER_RECURSIONS_PERCENT_MAX) {
-						messenger.sendMessage(ChatColor.AQUA + "Recursions set to: " + temp);
+						messenger.sendMessage(TextFormat.AQUA + "Recursions set to: " + temp);
 						this.splatterRecursions = temp;
 					} else {
-						messenger.sendMessage(ChatColor.RED + "Recursions must be an integer 1-10!");
+						messenger.sendMessage(TextFormat.RED + "Recursions must be an integer 1-10!");
 					}
 				} else if (parameter.startsWith("yoff")) {
 					int temp = Integer.parseInt(parameter.replace("yoff", ""));
 					if (temp >= SPLATTER_RECURSIONS_PERCENT_MIN && temp <= SPLATTER_RECURSIONS_PERCENT_MAX) {
-						messenger.sendMessage(ChatColor.AQUA + "Y-Offset set to: " + temp);
+						messenger.sendMessage(TextFormat.AQUA + "Y-Offset set to: " + temp);
 						this.yOffset = temp;
 					} else {
-						messenger.sendMessage(ChatColor.RED + "Recursions must be an integer 1-10!");
+						messenger.sendMessage(TextFormat.RED + "Recursions must be an integer 1-10!");
 					}
 				} else {
-					messenger.sendMessage(ChatColor.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
+					messenger.sendMessage(TextFormat.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
 				}
 			} catch (NumberFormatException exception) {
 				messenger.sendMessage(String.format("An error occured while processing parameter %s.", parameter));
@@ -314,10 +311,10 @@ public class SplatterOverlayBrush extends AbstractPerformerBrush {
 		snipe.createMessageSender()
 			.brushNameMessage()
 			.brushSizeMessage()
-			.message(ChatColor.BLUE + "Seed percent set to: " + this.seedPercent / 100 + "%")
-			.message(ChatColor.BLUE + "Growth percent set to: " + this.growPercent / 100 + "%")
-			.message(ChatColor.BLUE + "Recursions set to: " + this.splatterRecursions)
-			.message(ChatColor.BLUE + "Y-Offset set to: " + this.yOffset)
+			.message(TextFormat.BLUE + "Seed percent set to: " + this.seedPercent / 100 + "%")
+			.message(TextFormat.BLUE + "Growth percent set to: " + this.growPercent / 100 + "%")
+			.message(TextFormat.BLUE + "Recursions set to: " + this.splatterRecursions)
+			.message(TextFormat.BLUE + "Y-Offset set to: " + this.yOffset)
 			.send();
 	}
 }

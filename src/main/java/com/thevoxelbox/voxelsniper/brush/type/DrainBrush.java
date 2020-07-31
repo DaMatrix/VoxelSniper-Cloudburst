@@ -7,11 +7,8 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.Vectors;
 import com.thevoxelbox.voxelsniper.util.math.MathHelper;
-import com.thevoxelbox.voxelsniper.util.math.vector.Vector3i;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-
+import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
+import org.cloudburstmc.server.utils.TextFormat;
 public class DrainBrush extends AbstractBrush {
 
 	private double trueCircle;
@@ -22,26 +19,26 @@ public class DrainBrush extends AbstractBrush {
 		SnipeMessenger messenger = snipe.createMessenger();
 		for (String parameter : parameters) {
 			if (parameter.equalsIgnoreCase("info")) {
-				messenger.sendMessage(ChatColor.GOLD + "Drain Brush Parameters:");
-				messenger.sendMessage(ChatColor.AQUA + "/b drain true -- will use a true sphere algorithm instead of the skinnier version with classic sniper nubs. /b drain false will switch back. (false is default)");
-				messenger.sendMessage(ChatColor.AQUA + "/b drain d -- toggles disc drain mode, as opposed to a ball drain mode");
+				messenger.sendMessage(TextFormat.GOLD + "Drain Brush Parameters:");
+				messenger.sendMessage(TextFormat.AQUA + "/b drain true -- will use a true sphere algorithm instead of the skinnier version with classic sniper nubs. /b drain false will switch back. (false is default)");
+				messenger.sendMessage(TextFormat.AQUA + "/b drain d -- toggles disc drain mode, as opposed to a ball drain mode");
 				return;
 			} else if (parameter.startsWith("true")) {
 				this.trueCircle = 0.5;
-				messenger.sendMessage(ChatColor.AQUA + "True circle mode ON.");
+				messenger.sendMessage(TextFormat.AQUA + "True circle mode ON.");
 			} else if (parameter.startsWith("false")) {
 				this.trueCircle = 0;
-				messenger.sendMessage(ChatColor.AQUA + "True circle mode OFF.");
+				messenger.sendMessage(TextFormat.AQUA + "True circle mode OFF.");
 			} else if (parameter.equalsIgnoreCase("d")) {
 				if (this.disc) {
 					this.disc = false;
-					messenger.sendMessage(ChatColor.AQUA + "Disc drain mode OFF");
+					messenger.sendMessage(TextFormat.AQUA + "Disc drain mode OFF");
 				} else {
 					this.disc = true;
-					messenger.sendMessage(ChatColor.AQUA + "Disc drain mode ON");
+					messenger.sendMessage(TextFormat.AQUA + "Disc drain mode ON");
 				}
 			} else {
-				messenger.sendMessage(ChatColor.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
+				messenger.sendMessage(TextFormat.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
 			}
 		}
 	}
@@ -65,7 +62,7 @@ public class DrainBrush extends AbstractBrush {
 		int targetBlockX = targetBlock.getX();
 		int targetBlockY = targetBlock.getY();
 		int targetBlockZ = targetBlock.getZ();
-		Vector3i position = Vectors.of(targetBlock);
+		VectorVS position = Vectors.of(targetBlock);
 		if (this.disc) {
 			for (int x = brushSize; x >= 0; x--) {
 				double xSquared = MathHelper.square(x);
@@ -121,7 +118,7 @@ public class DrainBrush extends AbstractBrush {
 		SnipeMessenger messenger = snipe.createMessenger();
 		messenger.sendBrushNameMessage();
 		messenger.sendBrushSizeMessage();
-		messenger.sendMessage(ChatColor.AQUA + (Double.compare(this.trueCircle, 0.5) == 0 ? "True circle mode ON" : "True circle mode OFF"));
-		messenger.sendMessage(ChatColor.AQUA + (this.disc ? "Disc drain mode ON" : "Disc drain mode OFF"));
+		messenger.sendMessage(TextFormat.AQUA + (Double.compare(this.trueCircle, 0.5) == 0 ? "True circle mode ON" : "True circle mode OFF"));
+		messenger.sendMessage(TextFormat.AQUA + (this.disc ? "Disc drain mode ON" : "Disc drain mode OFF"));
 	}
 }

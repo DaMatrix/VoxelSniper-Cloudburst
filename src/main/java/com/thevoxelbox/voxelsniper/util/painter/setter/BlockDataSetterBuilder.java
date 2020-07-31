@@ -1,38 +1,37 @@
 package com.thevoxelbox.voxelsniper.util.painter.setter;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
+
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.level.Location;
+import org.cloudburstmc.server.utils.Identifier;
 
 public class BlockDataSetterBuilder {
 
-	private World world;
-	private BlockData blockData;
+	private Level world;
+	private BlockState blockData;
 	private boolean applyPhysics;
 
 	public BlockDataSetterBuilder world(Block block) {
-		World world = block.getWorld();
+		Level world = block.getLevel();
 		return world(world);
 	}
 
 	public BlockDataSetterBuilder world(Location location) {
-		World world = location.getWorld();
-		return world(world);
+		return world(location.getLevel());
 	}
 
-	public BlockDataSetterBuilder world(World world) {
+	public BlockDataSetterBuilder world(Level world) {
 		this.world = world;
 		return this;
 	}
 
-	public BlockDataSetterBuilder blockData(Material material) {
-		BlockData blockData = material.createBlockData();
-		return blockData(blockData);
+	public BlockDataSetterBuilder blockData(Identifier material) {
+		return blockData(BlockState.get(material));
 	}
 
-	public BlockDataSetterBuilder blockData(BlockData blockData) {
+	public BlockDataSetterBuilder blockData(BlockState blockData) {
 		this.blockData = blockData;
 		return this;
 	}

@@ -3,9 +3,7 @@ package com.thevoxelbox.voxelsniper.brush.type.performer;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
-import org.bukkit.ChatColor;
-import org.bukkit.World;
-import org.bukkit.block.Block;
+import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
 public class SetBrush extends AbstractPerformerBrush {
@@ -20,7 +18,7 @@ public class SetBrush extends AbstractPerformerBrush {
 		Block targetBlock = getTargetBlock();
 		if (set(targetBlock, snipe)) {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.GRAY + "Point one");
+			messenger.sendMessage(TextFormat.GRAY + "Point one");
 		} else {
 			Sniper sniper = snipe.getSniper();
 			sniper.storeUndo(this.performer.getUndo());
@@ -32,7 +30,7 @@ public class SetBrush extends AbstractPerformerBrush {
 		Block lastBlock = getLastBlock();
 		if (set(lastBlock, snipe)) {
 			SnipeMessenger messenger = snipe.createMessenger();
-			messenger.sendMessage(ChatColor.GRAY + "Point one");
+			messenger.sendMessage(TextFormat.GRAY + "Point one");
 		} else {
 			Sniper sniper = snipe.getSniper();
 			sniper.storeUndo(this.performer.getUndo());
@@ -50,7 +48,7 @@ public class SetBrush extends AbstractPerformerBrush {
 		World parameterBlockWorld = block.getWorld();
 		String parameterBlockWorldName = parameterBlockWorld.getName();
 		if (!name.equals(parameterBlockWorldName)) {
-			messenger.sendMessage(ChatColor.RED + "You selected points in different worlds!");
+			messenger.sendMessage(TextFormat.RED + "You selected points in different worlds!");
 			this.block = null;
 			return true;
 		}
@@ -67,7 +65,7 @@ public class SetBrush extends AbstractPerformerBrush {
 		int highY = Math.max(y1, y2);
 		int highZ = Math.max(z1, z2);
 		if (Math.abs(highX - lowX) * Math.abs(highZ - lowZ) * Math.abs(highY - lowY) > SELECTION_SIZE_MAX) {
-			messenger.sendMessage(ChatColor.RED + "Selection size above hardcoded limit, please use a smaller selection.");
+			messenger.sendMessage(TextFormat.RED + "Selection size above hardcoded limit, please use a smaller selection.");
 		} else {
 			for (int y = lowY; y <= highY; y++) {
 				for (int x = lowX; x <= highX; x++) {

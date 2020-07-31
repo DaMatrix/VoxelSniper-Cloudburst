@@ -5,11 +5,7 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
-import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-
+import org.cloudburstmc.server.utils.TextFormat;
 public class CanyonBrush extends AbstractBrush {
 
 	private static final int SHIFT_LEVEL_MIN = 10;
@@ -21,7 +17,7 @@ public class CanyonBrush extends AbstractBrush {
 		SnipeMessenger messenger = snipe.createMessenger();
 		String firstParameter = parameters[0];
 		if (firstParameter.equalsIgnoreCase("info")) {
-			messenger.sendMessage(ChatColor.GREEN + "y[number] to set the Level to which the land will be shifted down");
+			messenger.sendMessage(TextFormat.GREEN + "y[number] to set the Level to which the land will be shifted down");
 		}
 		if (!firstParameter.isEmpty() && firstParameter.charAt(0) == 'y') {
 			int y = Integer.parseInt(firstParameter.replace("y", ""));
@@ -31,7 +27,7 @@ public class CanyonBrush extends AbstractBrush {
 				y = SHIFT_LEVEL_MAX;
 			}
 			this.yLevel = y;
-			messenger.sendMessage(ChatColor.GREEN + "Shift Level set to " + this.yLevel);
+			messenger.sendMessage(TextFormat.GREEN + "Shift Level set to " + this.yLevel);
 		}
 	}
 
@@ -86,7 +82,7 @@ public class CanyonBrush extends AbstractBrush {
 	public void sendInfo(Snipe snipe) {
 		snipe.createMessageSender()
 			.brushNameMessage()
-			.message(ChatColor.GREEN + "Shift Level set to " + this.yLevel)
+			.message(TextFormat.GREEN + "Shift Level set to " + this.yLevel)
 			.send();
 	}
 
