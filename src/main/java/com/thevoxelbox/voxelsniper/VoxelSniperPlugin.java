@@ -1,6 +1,8 @@
 package com.thevoxelbox.voxelsniper;
 
-import java.io.File;
+import cn.nukkit.plugin.PluginBase;
+
+/*import java.io.File;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -11,31 +13,27 @@ import com.thevoxelbox.voxelsniper.config.VoxelSniperConfigLoader;
 import com.thevoxelbox.voxelsniper.listener.PlayerInteractListener;
 import com.thevoxelbox.voxelsniper.listener.PlayerJoinListener;
 import com.thevoxelbox.voxelsniper.performer.PerformerRegistry;
-import com.thevoxelbox.voxelsniper.sniper.SniperRegistry;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
+import com.thevoxelbox.voxelsniper.sniper.SniperRegistry;*/
 
-public class VoxelSniperPlugin extends JavaPlugin {
+public class VoxelSniperPlugin extends PluginBase {
 
-	private VoxelSniperConfig voxelSniperConfig;
+	/*private VoxelSniperConfig voxelSniperConfig;
 	private BrushRegistry brushRegistry;
 	private PerformerRegistry performerRegistry;
-	private SniperRegistry sniperRegistry;
+	private SniperRegistry sniperRegistry;*/
 
 	@Override
 	public void onEnable() {
-		this.voxelSniperConfig = loadConfig();
+		/*this.voxelSniperConfig = loadConfig();
 		this.brushRegistry = loadBrushRegistry();
 		this.performerRegistry = loadPerformerRegistry();
 		this.sniperRegistry = new SniperRegistry();
 		loadCommands();
-		loadListeners();
+		loadListeners();*/
+		System.out.println("a");
 	}
 
-	private VoxelSniperConfig loadConfig() {
+	/*private VoxelSniperConfig loadConfig() {
 		saveDefaultConfig();
 		FileConfiguration config = getConfig();
 		VoxelSniperConfigLoader voxelSniperConfigLoader = new VoxelSniperConfigLoader(config);
@@ -91,5 +89,5 @@ public class VoxelSniperPlugin extends JavaPlugin {
 
 	public SniperRegistry getSniperRegistry() {
 		return this.sniperRegistry;
-	}
+	}*/
 }

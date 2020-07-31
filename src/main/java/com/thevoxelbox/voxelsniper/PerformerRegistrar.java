@@ -1,6 +1,6 @@
 package com.thevoxelbox.voxelsniper;
 
-import com.thevoxelbox.voxelsniper.performer.PerformerRegistry;
+/*import com.thevoxelbox.voxelsniper.performer.PerformerRegistry;
 import com.thevoxelbox.voxelsniper.performer.property.PerformerProperties;
 import com.thevoxelbox.voxelsniper.performer.type.combo.ComboComboNoPhysicsPerformer;
 import com.thevoxelbox.voxelsniper.performer.type.combo.ComboComboPerformer;
@@ -437,4 +437,4 @@ public class PerformerRegistrar {
 			.build();
 		this.registry.register(properties);
 	}
-}
+}*/

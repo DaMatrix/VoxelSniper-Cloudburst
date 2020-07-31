@@ -1,6 +1,6 @@
 package com.thevoxelbox.voxelsniper;
 
-import com.thevoxelbox.voxelsniper.command.CommandRegistry;
+/*import com.thevoxelbox.voxelsniper.command.CommandRegistry;
 import com.thevoxelbox.voxelsniper.command.executor.BrushExecutor;
 import com.thevoxelbox.voxelsniper.command.executor.BrushToolkitExecutor;
 import com.thevoxelbox.voxelsniper.command.executor.DefaultExecutor;
@@ -289,4 +289,4 @@ public class CommandRegistrar {
 		VoxelChunkExecutor executor = new VoxelChunkExecutor();
 		this.registry.register(properties, executor);
 	}
-}
+}*/
