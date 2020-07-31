@@ -4,10 +4,13 @@ import com.thevoxelbox.voxelsniper.performer.type.AbstractPerformer;
 import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.performer.PerformerSnipe;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+
 public class ComboInkNoPhysicsPerformer extends AbstractPerformer {
 
-	private BlockData blockData;
-	private BlockData replaceBlockData;
+	private BlockState blockData;
+	private BlockState replaceBlockData;
 
 	@Override
 	public void initialize(PerformerSnipe snipe) {
@@ -18,11 +21,11 @@ public class ComboInkNoPhysicsPerformer extends AbstractPerformer {
 
 	@Override
 	public void perform(Block block) {
-		BlockData blockData = block.getBlockData();
+		BlockState blockData = block.getState();
 		if (blockData.equals(this.replaceBlockData)) {
 			Undo undo = getUndo();
 			undo.put(block);
-			block.setBlockData(this.blockData, false);
+			block.set(this.blockData, true, false);
 		}
 	}
 

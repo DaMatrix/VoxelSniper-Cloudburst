@@ -3,9 +3,12 @@ package com.thevoxelbox.voxelsniper.performer.type.ink;
 import com.thevoxelbox.voxelsniper.performer.type.AbstractPerformer;
 import com.thevoxelbox.voxelsniper.sniper.snipe.performer.PerformerSnipe;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+
 public class InkNoUndoPerformer extends AbstractPerformer {
 
-	private BlockData blockData;
+	private BlockState blockData;
 
 	@Override
 	public void initialize(PerformerSnipe snipe) {
@@ -15,9 +18,9 @@ public class InkNoUndoPerformer extends AbstractPerformer {
 
 	@Override
 	public void perform(Block block) {
-		BlockData blockData = block.getBlockData();
+		BlockState blockData = block.getState();
 		if (!blockData.equals(this.blockData)) {
-			block.setBlockData(this.blockData);
+			block.set(this.blockData);
 		}
 	}
 

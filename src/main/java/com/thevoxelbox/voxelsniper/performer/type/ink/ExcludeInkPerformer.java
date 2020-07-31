@@ -5,10 +5,13 @@ import com.thevoxelbox.voxelsniper.performer.type.AbstractPerformer;
 import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.performer.PerformerSnipe;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+
 public class ExcludeInkPerformer extends AbstractPerformer {
 
-	private List<BlockData> excludeList;
-	private BlockData blockData;
+	private List<BlockState> excludeList;
+	private BlockState blockData;
 
 	@Override
 	public void initialize(PerformerSnipe snipe) {
@@ -19,11 +22,11 @@ public class ExcludeInkPerformer extends AbstractPerformer {
 
 	@Override
 	public void perform(Block block) {
-		BlockData blockData = block.getBlockData();
+		BlockState blockData = block.getState();
 		if (!this.excludeList.contains(blockData)) {
 			Undo undo = getUndo();
 			undo.put(block);
-			block.setBlockData(this.blockData);
+			block.set(this.blockData);
 		}
 	}
 
