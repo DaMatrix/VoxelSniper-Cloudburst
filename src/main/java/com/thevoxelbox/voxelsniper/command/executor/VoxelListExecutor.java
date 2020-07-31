@@ -9,6 +9,12 @@ import com.thevoxelbox.voxelsniper.sniper.toolkit.BlockTracer;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.message.Messenger;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.command.CommandSender;
+import org.cloudburstmc.server.player.Player;
+import org.cloudburstmc.server.utils.Identifier;
+
 public class VoxelListExecutor implements CommandExecutor {
 
 	private VoxelSniperPlugin plugin;
@@ -40,15 +46,15 @@ public class VoxelListExecutor implements CommandExecutor {
 			if (targetBlock == null) {
 				return;
 			}
-			BlockData blockData = targetBlock.getBlockData();
+			BlockState blockData = targetBlock.getState();
 			toolkitProperties.addToVoxelList(blockData);
-			List<BlockData> voxelList = toolkitProperties.getVoxelList();
+			List<BlockState> voxelList = toolkitProperties.getVoxelList();
 			messenger.sendVoxelListMessage(voxelList);
 			return;
 		} else {
 			if (arguments[0].equalsIgnoreCase("clear")) {
 				toolkitProperties.clearVoxelList();
-				List<BlockData> voxelList = toolkitProperties.getVoxelList();
+				List<BlockState> voxelList = toolkitProperties.getVoxelList();
 				messenger.sendVoxelListMessage(voxelList);
 				return;
 			}
@@ -62,15 +68,15 @@ public class VoxelListExecutor implements CommandExecutor {
 			} else {
 				materialString = string;
 			}
-			Material material = Material.matchMaterial(materialString);
-			if (material != null && material.isBlock()) {
-				BlockData blockData = material.createBlockData();
+			Identifier material = Identifier.fromString(materialString);
+			if (material != null && BlockState.get(material) != null) {
+				BlockState blockData = BlockState.get(material);
 				if (remove) {
 					toolkitProperties.removeFromVoxelList(blockData);
 				} else {
 					toolkitProperties.addToVoxelList(blockData);
 				}
-				List<BlockData> voxelList = toolkitProperties.getVoxelList();
+				List<BlockState> voxelList = toolkitProperties.getVoxelList();
 				messenger.sendVoxelListMessage(voxelList);
 			}
 		}

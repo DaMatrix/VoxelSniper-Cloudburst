@@ -14,6 +14,8 @@ import com.thevoxelbox.voxelsniper.sniper.SniperRegistry;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
+import org.cloudburstmc.server.command.CommandSender;
+import org.cloudburstmc.server.player.Player;
 import org.cloudburstmc.server.utils.TextFormat;
 public class VoxelSniperExecutor implements CommandExecutor {
 

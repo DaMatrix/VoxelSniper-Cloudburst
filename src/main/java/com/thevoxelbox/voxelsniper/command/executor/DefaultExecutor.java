@@ -5,6 +5,8 @@ import com.thevoxelbox.voxelsniper.command.CommandExecutor;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.SniperRegistry;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
+import org.cloudburstmc.server.command.CommandSender;
+import org.cloudburstmc.server.player.Player;
 import org.cloudburstmc.server.utils.TextFormat;
 public class DefaultExecutor implements CommandExecutor {
 

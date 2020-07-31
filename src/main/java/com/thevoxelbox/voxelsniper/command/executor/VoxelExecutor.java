@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import com.thevoxelbox.voxelsniper.VoxelSniperPlugin;
 import com.thevoxelbox.voxelsniper.command.CommandExecutor;
-import com.thevoxelbox.voxelsniper.command.TabCompleter;
 import com.thevoxelbox.voxelsniper.config.VoxelSniperConfig;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.SniperRegistry;
@@ -14,13 +13,19 @@ import com.thevoxelbox.voxelsniper.sniper.toolkit.BlockTracer;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.message.Messenger;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.command.CommandSender;
+import org.cloudburstmc.server.player.Player;
+import org.cloudburstmc.server.registry.BlockRegistry;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
-public class VoxelExecutor implements CommandExecutor, TabCompleter {
+public class VoxelExecutor implements CommandExecutor {
 
-	private static final List<NamespacedKey> BLOCK_KEYS = Arrays.stream(Material.values())
+	/*private static final List<Identifier> BLOCK_KEYS = Arrays.stream(Block.Material.values())
 		.filter(Material::isBlock)
 		.map(Material::getKey)
-		.collect(Collectors.toList());
+		.collect(Collectors.toList());*/
 
 	private VoxelSniperPlugin plugin;
 
@@ -46,14 +51,14 @@ public class VoxelExecutor implements CommandExecutor, TabCompleter {
 		}
 		Messenger messenger = new Messenger(sender);
 		VoxelSniperConfig config = this.plugin.getVoxelSniperConfig();
-		List<Material> liteSniperRestrictedMaterials = config.getLitesniperRestrictedMaterials();
+		List<Identifier> liteSniperRestrictedMaterials = config.getLitesniperRestrictedMaterials();
 		if (arguments.length == 0) {
 			BlockTracer blockTracer = toolkitProperties.createBlockTracer(player);
 			Block targetBlock = blockTracer.getTargetBlock();
 			if (targetBlock != null) {
-				Material targetBlockType = targetBlock.getType();
+				Identifier targetBlockType = targetBlock.getState().getType();
 				if (!sender.hasPermission("voxelsniper.ignorelimitations") && liteSniperRestrictedMaterials.contains(targetBlockType)) {
-					sender.sendMessage("You are not allowed to use " + targetBlockType.name() + ".");
+					sender.sendMessage("You are not allowed to use " + targetBlockType.getName() + ".");
 					return;
 				}
 				toolkitProperties.setBlockType(targetBlockType);
@@ -61,10 +66,10 @@ public class VoxelExecutor implements CommandExecutor, TabCompleter {
 			}
 			return;
 		}
-		Material material = Material.matchMaterial(arguments[0]);
-		if (material != null && material.isBlock()) {
+		Identifier material = Identifier.fromString(arguments[0]);
+		if (material != null && BlockState.get(material) != null) {
 			if (!sender.hasPermission("voxelsniper.ignorelimitations") && liteSniperRestrictedMaterials.contains(material)) {
-				sender.sendMessage("You are not allowed to use " + material.name() + ".");
+				sender.sendMessage("You are not allowed to use " + material.getName() + ".");
 				return;
 			}
 			toolkitProperties.setBlockType(material);
@@ -72,21 +77,5 @@ public class VoxelExecutor implements CommandExecutor, TabCompleter {
 		} else {
 			sender.sendMessage(TextFormat.RED + "You have entered an invalid Item ID.");
 		}
-	}
-
-	@Override
-	public List<String> complete(CommandSender sender, String[] arguments) {
-		if (arguments.length == 1) {
-			String argument = arguments[0];
-			String argumentLowered = argument.toLowerCase();
-			return BLOCK_KEYS.stream()
-				.filter(namespacedKey -> {
-					String key = namespacedKey.getKey();
-					return key.startsWith(argumentLowered);
-				})
-				.map(NamespacedKey::toString)
-				.collect(Collectors.toList());
-		}
-		return Collections.emptyList();
 	}
 }

@@ -10,7 +10,6 @@ import com.thevoxelbox.voxelsniper.brush.BrushRegistry;
 import com.thevoxelbox.voxelsniper.brush.PerformerBrush;
 import com.thevoxelbox.voxelsniper.brush.property.BrushProperties;
 import com.thevoxelbox.voxelsniper.command.CommandExecutor;
-import com.thevoxelbox.voxelsniper.command.TabCompleter;
 import com.thevoxelbox.voxelsniper.config.VoxelSniperConfig;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.SniperRegistry;
@@ -19,8 +18,10 @@ import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.message.Messenger;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
+import org.cloudburstmc.server.command.CommandSender;
+import org.cloudburstmc.server.player.Player;
 import org.cloudburstmc.server.utils.TextFormat;
-public class BrushExecutor implements CommandExecutor, TabCompleter {
+public class BrushExecutor implements CommandExecutor {
 
 	private VoxelSniperPlugin plugin;
 
@@ -111,20 +112,5 @@ public class BrushExecutor implements CommandExecutor, TabCompleter {
 			returnValue[i + 1] = arg;
 		}
 		return returnValue;
-	}
-
-	@Override
-	public List<String> complete(CommandSender sender, String[] arguments) {
-		if (arguments.length == 1) {
-			String argument = arguments[0];
-			String argumentLowered = argument.toLowerCase();
-			return this.plugin.getBrushRegistry()
-				.getBrushesProperties()
-				.keySet()
-				.stream()
-				.filter(brushAlias -> brushAlias.startsWith(argumentLowered))
-				.collect(Collectors.toList());
-		}
-		return Collections.emptyList();
 	}
 }

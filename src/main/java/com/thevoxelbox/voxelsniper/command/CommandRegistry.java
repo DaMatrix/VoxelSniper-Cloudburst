@@ -1,7 +1,5 @@
 package com.thevoxelbox.voxelsniper.command;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import com.thevoxelbox.voxelsniper.command.property.CommandProperties;
 import org.cloudburstmc.server.Server;
 import org.cloudburstmc.server.plugin.Plugin;
@@ -22,16 +20,10 @@ public class CommandRegistry {
 	public void register(Command command) {
 		Server server = this.plugin.getServer();
 		org.cloudburstmc.server.registry.CommandRegistry commandMap = getCommandMap(server);
-		commandMap.register("voxel_sniper", command);
+		commandMap.register(this.plugin, command);
 	}
 
-	@SuppressWarnings("JavaReflectionMemberAccess")
 	private org.cloudburstmc.server.registry.CommandRegistry getCommandMap(Server server) {
-		try {
-			Method method = Server.class.getDeclaredMethod("getCommandMap");
-			return (org.cloudburstmc.server.registry.CommandRegistry) method.invoke(server);
-		} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException exception) {
-			throw new RuntimeException(exception);
-		}
+		return server.getCommandRegistry();
 	}
 }

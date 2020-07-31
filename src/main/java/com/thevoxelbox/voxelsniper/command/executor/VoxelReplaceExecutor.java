@@ -6,20 +6,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 import com.thevoxelbox.voxelsniper.VoxelSniperPlugin;
 import com.thevoxelbox.voxelsniper.command.CommandExecutor;
-import com.thevoxelbox.voxelsniper.command.TabCompleter;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.SniperRegistry;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.BlockTracer;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.message.Messenger;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.command.CommandSender;
+import org.cloudburstmc.server.player.Player;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
-public class VoxelReplaceExecutor implements CommandExecutor, TabCompleter {
+public class VoxelReplaceExecutor implements CommandExecutor {
 
-	private static final List<NamespacedKey> BLOCK_KEYS = Arrays.stream(Material.values())
+	/*private static final List<NamespacedKey> BLOCK_KEYS = Arrays.stream(Material.values())
 		.filter(Material::isBlock)
 		.map(Material::getKey)
-		.collect(Collectors.toList());
+		.collect(Collectors.toList());*/
 
 	private VoxelSniperPlugin plugin;
 
@@ -48,36 +52,20 @@ public class VoxelReplaceExecutor implements CommandExecutor, TabCompleter {
 			BlockTracer blockTracer = toolkitProperties.createBlockTracer(player);
 			Block targetBlock = blockTracer.getTargetBlock();
 			if (targetBlock != null) {
-				Material type = targetBlock.getType();
+				Identifier type = targetBlock.getState().getType();
 				toolkitProperties.setReplaceBlockType(type);
 				messenger.sendReplaceBlockTypeMessage(type);
 			}
 			return;
 		}
-		Material material = Material.matchMaterial(arguments[0]);
+		Identifier material = Identifier.fromString(arguments[0]);
 		if (material != null) {
-			if (material.isBlock()) {
+			if (BlockState.get(material) != null) {
 				toolkitProperties.setReplaceBlockType(material);
 				messenger.sendReplaceBlockTypeMessage(material);
 			} else {
 				sender.sendMessage(TextFormat.RED + "You have entered an invalid Item ID.");
 			}
 		}
-	}
-
-	@Override
-	public List<String> complete(CommandSender sender, String[] arguments) {
-		if (arguments.length == 1) {
-			String argument = arguments[0];
-			String argumentLowered = argument.toLowerCase();
-			return BLOCK_KEYS.stream()
-				.filter(namespacedKey -> {
-					String key = namespacedKey.getKey();
-					return key.startsWith(argumentLowered);
-				})
-				.map(NamespacedKey::toString)
-				.collect(Collectors.toList());
-		}
-		return Collections.emptyList();
 	}
 }

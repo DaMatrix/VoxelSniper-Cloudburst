@@ -7,6 +7,11 @@ import com.thevoxelbox.voxelsniper.sniper.SniperRegistry;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolAction;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
+import org.cloudburstmc.server.command.CommandSender;
+import org.cloudburstmc.server.inventory.PlayerInventory;
+import org.cloudburstmc.server.item.Item;
+import org.cloudburstmc.server.player.Player;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class BrushToolkitExecutor implements CommandExecutor {
 
@@ -34,8 +39,8 @@ public class BrushToolkitExecutor implements CommandExecutor {
 				return;
 			}
 			PlayerInventory inventory = player.getInventory();
-			ItemStack itemInHand = inventory.getItemInMainHand();
-			Material itemType = itemInHand.getType();
+			Item itemInHand = inventory.getItemInHand();
+			Identifier itemType = itemInHand.getId();
 			if (Materials.isEmpty(itemType)) {
 				sender.sendMessage("/btool assign <arrow|gunpowder> <toolkit name>");
 				return;
@@ -47,7 +52,7 @@ public class BrushToolkitExecutor implements CommandExecutor {
 			}
 			toolkit.addToolAction(itemType, action);
 			sniper.addToolkit(toolkit);
-			sender.sendMessage(itemType.name() + " has been assigned to '" + toolkitName + "' as action " + action.name() + ".");
+			sender.sendMessage(itemType.getName() + " has been assigned to '" + toolkitName + "' as action " + action.name() + ".");
 			return;
 		}
 		if (length == 2 && firstArgument.equalsIgnoreCase("remove")) {
@@ -61,8 +66,8 @@ public class BrushToolkitExecutor implements CommandExecutor {
 		}
 		if (length == 1 && firstArgument.equalsIgnoreCase("remove")) {
 			PlayerInventory inventory = player.getInventory();
-			ItemStack itemInHand = inventory.getItemInMainHand();
-			Material material = itemInHand.getType();
+			Item itemInHand = inventory.getItemInHand();
+			Identifier material = itemInHand.getId();
 			if (Materials.isEmpty(material)) {
 				sender.sendMessage("Can't unassign empty hands.");
 				return;

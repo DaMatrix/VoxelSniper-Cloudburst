@@ -8,6 +8,11 @@ import com.thevoxelbox.voxelsniper.sniper.toolkit.BlockTracer;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.message.Messenger;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.command.CommandSender;
+import org.cloudburstmc.server.player.Player;
+
 public class VoxelInkExecutor implements CommandExecutor {
 
 	private VoxelSniperPlugin plugin;
@@ -32,14 +37,16 @@ public class VoxelInkExecutor implements CommandExecutor {
 		if (toolkitProperties == null) {
 			return;
 		}
-		BlockData blockData;
+		BlockState blockData;
 		if (arguments.length == 0) {
 			BlockTracer blockTracer = toolkitProperties.createBlockTracer(player);
 			Block targetBlock = blockTracer.getTargetBlock();
-			blockData = targetBlock.getBlockData();
+			blockData = targetBlock.getState();
 		} else {
 			try {
-				blockData = Bukkit.createBlockData(arguments[0]);
+				//TODO: parse block state
+				// blockData = Bukkit.createBlockData(arguments[0]);
+				throw new IllegalArgumentException();
 			} catch (IllegalArgumentException exception) {
 				sender.sendMessage("Couldn't parse input.");
 				return;

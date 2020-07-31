@@ -4,6 +4,8 @@ import com.thevoxelbox.voxelsniper.VoxelSniperPlugin;
 import com.thevoxelbox.voxelsniper.command.CommandExecutor;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.SniperRegistry;
+import org.cloudburstmc.server.command.CommandSender;
+import org.cloudburstmc.server.player.Player;
 import org.cloudburstmc.server.utils.TextFormat;
 public class UndoUserExecutor implements CommandExecutor {
 
@@ -16,7 +18,7 @@ public class UndoUserExecutor implements CommandExecutor {
 	@Override
 	public void executeCommand(CommandSender sender, String[] arguments) {
 		SniperRegistry sniperRegistry = this.plugin.getSniperRegistry();
-		Player player = Bukkit.getPlayer(arguments[0]);
+		Player player = sender.getServer().getPlayer(arguments[0]);
 		if (player == null) {
 			sender.sendMessage(TextFormat.GREEN + "Player not found.");
 			return;
