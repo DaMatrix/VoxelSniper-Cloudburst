@@ -5,6 +5,10 @@ import com.thevoxelbox.voxelsniper.VoxelSniperPlugin;
 import com.thevoxelbox.voxelsniper.config.VoxelSniperConfig;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.SniperRegistry;
+import org.cloudburstmc.server.event.EventHandler;
+import org.cloudburstmc.server.event.player.PlayerJoinEvent;
+import org.cloudburstmc.server.player.Player;
+
 public class PlayerJoinListener implements Listener<PlayerJoinEvent> {
 
 	private VoxelSniperPlugin plugin;
@@ -18,7 +22,7 @@ public class PlayerJoinListener implements Listener<PlayerJoinEvent> {
 	public void listen(PlayerJoinEvent event) {
 		VoxelSniperConfig config = this.plugin.getVoxelSniperConfig();
 		Player player = event.getPlayer();
-		UUID uuid = player.getUniqueId();
+		UUID uuid = player.getServerId();
 		Sniper sniper = getSniperFromRegistry(uuid);
 		if (config.isMessageOnLoginEnabled() && player.hasPermission("voxelsniper.sniper")) {
 			sniper.sendInfo(player);

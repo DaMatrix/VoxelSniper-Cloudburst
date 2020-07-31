@@ -1,5 +1,7 @@
 package com.thevoxelbox.voxelsniper.config;
 
+import org.cloudburstmc.server.utils.Config;
+
 import java.util.List;
 /**
  * Configuration storage defining global configurations for VoxelSniper.
@@ -19,7 +21,7 @@ public class VoxelSniperConfigLoader {
 	/**
 	 * @param config Configuration that is going to be used.
 	 */
-	public VoxelSniperConfigLoader(FileConfiguration config) {
+	public VoxelSniperConfigLoader(Config config) {
 		this.config = config;
 	}
 

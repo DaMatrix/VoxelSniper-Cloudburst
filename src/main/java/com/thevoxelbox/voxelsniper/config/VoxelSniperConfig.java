@@ -1,14 +1,16 @@
 package com.thevoxelbox.voxelsniper.config;
 
+import org.cloudburstmc.server.utils.Identifier;
+
 import java.util.List;
 public class VoxelSniperConfig {
 
 	private int undoCacheSize;
 	private boolean messageOnLoginEnabled;
 	private int litesniperMaxBrushSize;
-	private List<Material> litesniperRestrictedMaterials;
+	private List<Identifier> litesniperRestrictedMaterials;
 
-	public VoxelSniperConfig(int undoCacheSize, boolean messageOnLoginEnabled, int litesniperMaxBrushSize, List<Material> litesniperRestrictedMaterials) {
+	public VoxelSniperConfig(int undoCacheSize, boolean messageOnLoginEnabled, int litesniperMaxBrushSize, List<Identifier> litesniperRestrictedMaterials) {
 		this.undoCacheSize = undoCacheSize;
 		this.messageOnLoginEnabled = messageOnLoginEnabled;
 		this.litesniperMaxBrushSize = litesniperMaxBrushSize;
@@ -27,7 +29,7 @@ public class VoxelSniperConfig {
 		return this.litesniperMaxBrushSize;
 	}
 
-	public List<Material> getLitesniperRestrictedMaterials() {
+	public List<Identifier> getLitesniperRestrictedMaterials() {
 		return this.litesniperRestrictedMaterials;
 	}
 }
