@@ -10,6 +10,8 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.performer.message.PerformerSnipe
 import com.thevoxelbox.voxelsniper.sniper.snipe.performer.message.PerformerSnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import org.cloudburstmc.server.player.Player;
+
 public class PerformerSnipe extends Snipe {
 
 	private PerformerProperties performerProperties;

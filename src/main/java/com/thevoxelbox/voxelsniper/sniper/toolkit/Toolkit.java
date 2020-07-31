@@ -8,6 +8,7 @@ import com.thevoxelbox.voxelsniper.BrushRegistrar;
 import com.thevoxelbox.voxelsniper.brush.Brush;
 import com.thevoxelbox.voxelsniper.brush.property.BrushCreator;
 import com.thevoxelbox.voxelsniper.brush.property.BrushProperties;
+import org.cloudburstmc.server.utils.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class Toolkit {
@@ -17,7 +18,7 @@ public class Toolkit {
 	private String toolkitName;
 	private BrushProperties currentBrushProperties;
 	private BrushProperties previousBrushProperties;
-	private Map<Material, ToolAction> toolActions = new EnumMap<>(Material.class);
+	private Map<Identifier, ToolAction> toolActions = new HashMap<>();
 	private Map<BrushProperties, Brush> brushes = new HashMap<>();
 	private ToolkitProperties properties = new ToolkitProperties();
 
@@ -36,20 +37,20 @@ public class Toolkit {
 		createBrush(DEFAULT_BRUSH_PROPERTIES);
 	}
 
-	public void addToolAction(Material toolMaterial, ToolAction action) {
+	public void addToolAction(Identifier toolMaterial, ToolAction action) {
 		this.toolActions.put(toolMaterial, action);
 	}
 
-	public boolean hasToolAction(Material toolMaterial) {
+	public boolean hasToolAction(Identifier toolMaterial) {
 		return this.toolActions.containsKey(toolMaterial);
 	}
 
 	@Nullable
-	public ToolAction getToolAction(Material toolMaterial) {
+	public ToolAction getToolAction(Identifier toolMaterial) {
 		return this.toolActions.get(toolMaterial);
 	}
 
-	public void removeToolAction(Material toolMaterial) {
+	public void removeToolAction(Identifier toolMaterial) {
 		this.toolActions.remove(toolMaterial);
 	}
 
@@ -92,7 +93,7 @@ public class Toolkit {
 		return this.previousBrushProperties;
 	}
 
-	public Map<Material, ToolAction> getToolActions() {
+	public Map<Identifier, ToolAction> getToolActions() {
 		return Collections.unmodifiableMap(this.toolActions);
 	}
 

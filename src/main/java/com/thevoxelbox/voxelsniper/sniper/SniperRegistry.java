@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import org.cloudburstmc.server.player.Player;
 import org.jetbrains.annotations.Nullable;
 
 public class SniperRegistry {
@@ -17,7 +19,7 @@ public class SniperRegistry {
 
 	@Nullable
 	public Sniper getSniper(Player player) {
-		UUID uuid = player.getUniqueId();
+		UUID uuid = player.getServerId();
 		return getSniper(uuid);
 	}
 

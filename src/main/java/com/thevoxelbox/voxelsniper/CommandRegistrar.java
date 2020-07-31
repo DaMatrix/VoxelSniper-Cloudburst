@@ -1,6 +1,6 @@
 package com.thevoxelbox.voxelsniper;
 
-/*import com.thevoxelbox.voxelsniper.command.CommandRegistry;
+import com.thevoxelbox.voxelsniper.command.CommandRegistry;
 import com.thevoxelbox.voxelsniper.command.executor.BrushExecutor;
 import com.thevoxelbox.voxelsniper.command.executor.BrushToolkitExecutor;
 import com.thevoxelbox.voxelsniper.command.executor.DefaultExecutor;
@@ -19,6 +19,8 @@ import com.thevoxelbox.voxelsniper.command.executor.VoxelListExecutor;
 import com.thevoxelbox.voxelsniper.command.executor.VoxelReplaceExecutor;
 import com.thevoxelbox.voxelsniper.command.executor.VoxelSniperExecutor;
 import com.thevoxelbox.voxelsniper.command.property.CommandProperties;
+import org.cloudburstmc.server.player.Player;
+
 public class CommandRegistrar {
 
 	private VoxelSniperPlugin plugin;
@@ -287,4 +289,4 @@ public class CommandRegistrar {
 		VoxelChunkExecutor executor = new VoxelChunkExecutor();
 		this.registry.register(properties, executor);
 	}
-}*/
+}

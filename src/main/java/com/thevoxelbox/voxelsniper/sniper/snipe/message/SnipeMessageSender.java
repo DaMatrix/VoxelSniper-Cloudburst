@@ -5,6 +5,7 @@ import com.thevoxelbox.voxelsniper.brush.property.BrushProperties;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.message.MessageSender;
 import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.player.Player;
 import org.cloudburstmc.server.utils.Identifier;
 
 public class SnipeMessageSender {

@@ -1,5 +1,7 @@
 package com.thevoxelbox.voxelsniper.command.property;
 
+import org.cloudburstmc.server.command.CommandSender;
+
 import java.util.ArrayList;
 import java.util.List;
 public class CommandPropertiesBuilder {

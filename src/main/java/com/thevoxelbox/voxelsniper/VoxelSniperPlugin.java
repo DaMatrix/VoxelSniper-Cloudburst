@@ -1,7 +1,5 @@
 package com.thevoxelbox.voxelsniper;
 
-import cn.nukkit.plugin.PluginBase;
-
 /*import java.io.File;
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +12,8 @@ import com.thevoxelbox.voxelsniper.listener.PlayerInteractListener;
 import com.thevoxelbox.voxelsniper.listener.PlayerJoinListener;
 import com.thevoxelbox.voxelsniper.performer.PerformerRegistry;
 import com.thevoxelbox.voxelsniper.sniper.SniperRegistry;*/
+
+import org.cloudburstmc.server.plugin.PluginBase;
 
 public class VoxelSniperPlugin extends PluginBase {
 

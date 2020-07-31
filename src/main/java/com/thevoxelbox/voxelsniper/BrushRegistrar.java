@@ -1,6 +1,6 @@
 package com.thevoxelbox.voxelsniper;
 
-/*import java.io.File;
+import java.io.File;
 import com.thevoxelbox.voxelsniper.brush.BrushRegistry;
 import com.thevoxelbox.voxelsniper.brush.property.BrushProperties;
 import com.thevoxelbox.voxelsniper.brush.type.BiomeBrush;
@@ -1056,4 +1056,4 @@ public class BrushRegistrar {
 			.build();
 		this.registry.register(properties);
 	}
-}*/
+}

@@ -15,6 +15,18 @@ import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolAction;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.Toolkit;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
+import org.cloudburstmc.server.Server;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockTypes;
+import org.cloudburstmc.server.command.CommandSender;
+import org.cloudburstmc.server.event.player.PlayerInteractEvent;
+import org.cloudburstmc.server.inventory.PlayerInventory;
+import org.cloudburstmc.server.item.Item;
+import org.cloudburstmc.server.item.ItemIds;
+import org.cloudburstmc.server.math.Direction;
+import org.cloudburstmc.server.player.Player;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,25 +49,21 @@ public class Sniper {
 
 	private Toolkit createDefaultToolkit() {
 		Toolkit toolkit = new Toolkit("default");
-		toolkit.addToolAction(Material.ARROW, ToolAction.ARROW);
-		toolkit.addToolAction(Material.GUNPOWDER, ToolAction.GUNPOWDER);
+		toolkit.addToolAction(ItemIds.ARROW, ToolAction.ARROW);
+		toolkit.addToolAction(ItemIds.GUNPOWDER, ToolAction.GUNPOWDER);
 		return toolkit;
 	}
 
 	public Player getPlayer() {
-		Player player = Bukkit.getPlayer(this.uuid);
-		if (player == null) {
-			throw new UnknownSniperPlayerException();
-		}
-		return player;
+		return Server.getInstance().getPlayer(this.uuid).orElseThrow(UnknownSniperPlayerException::new);
 	}
 
 	@Nullable
 	public Toolkit getCurrentToolkit() {
 		Player player = getPlayer();
 		PlayerInventory inventory = player.getInventory();
-		ItemStack itemInHand = inventory.getItemInMainHand();
-		Material itemType = itemInHand.getType();
+		Item itemInHand = inventory.getItemInHand();
+		Identifier itemType = itemInHand.getId();
 		if (Materials.isEmpty(itemType)) {
 			return getToolkit(DEFAULT_TOOLKIT_NAME);
 		}
@@ -67,7 +75,7 @@ public class Sniper {
 	}
 
 	@Nullable
-	public Toolkit getToolkit(Material itemType) {
+	public Toolkit getToolkit(Identifier itemType) {
 		return this.toolkits.stream()
 			.filter(toolkit -> toolkit.hasToolAction(itemType))
 			.findFirst()
@@ -95,7 +103,7 @@ public class Sniper {
 	 * @param clickedBlockFace Face of that targeted Block
 	 * @return true if command visibly processed, false otherwise.
 	 */
-	public boolean snipe(Player player, Action action, Material usedItem, @Nullable Block clickedBlock, BlockFace clickedBlockFace) {
+	public boolean snipe(Player player, PlayerInteractEvent.Action action, Identifier usedItem, @Nullable Block clickedBlock, Direction clickedBlockFace) {
 		Toolkit toolkit = getToolkit(usedItem);
 		if (toolkit == null) {
 			return false;
@@ -115,33 +123,33 @@ public class Sniper {
 		Block targetBlock = clickedBlock == null ? blockTracer.getTargetBlock() : clickedBlock;
 		if (player.isSneaking()) {
 			SnipeMessenger messenger = new SnipeMessenger(toolkitProperties, currentBrushProperties, player);
-			if (action == Action.LEFT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR) {
+			if (action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK || action == PlayerInteractEvent.Action.LEFT_CLICK_AIR) {
 				if (toolAction == ToolAction.ARROW) {
-					if (Materials.isEmpty(targetBlock.getType())) {
+					if (Materials.isEmpty(targetBlock.getState().getType())) {
 						toolkitProperties.resetBlockData();
 					} else {
-						Material type = targetBlock.getType();
+						Identifier type = targetBlock.getState().getType();
 						toolkitProperties.setBlockType(type);
 					}
 					messenger.sendBlockTypeMessage();
 					return true;
 				} else if (toolAction == ToolAction.GUNPOWDER) {
-					if (Materials.isEmpty(targetBlock.getType())) {
+					if (Materials.isEmpty(targetBlock.getState().getType())) {
 						toolkitProperties.resetBlockData();
 					} else {
-						BlockData blockData = targetBlock.getBlockData();
+						BlockState blockData = targetBlock.getState();
 						toolkitProperties.setBlockData(blockData);
 					}
 					messenger.sendBlockDataMessage();
 					return true;
 				}
 				return false;
-			} else if (action == Action.RIGHT_CLICK_BLOCK || action == Action.RIGHT_CLICK_AIR) {
+			} else if (action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK || action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR) {
 				if (toolAction == ToolAction.ARROW) {
 					if (targetBlock == null) {
 						toolkitProperties.resetReplaceBlockData();
 					} else {
-						Material type = targetBlock.getType();
+						Identifier type = targetBlock.getState().getType();
 						toolkitProperties.setReplaceBlockType(type);
 					}
 					messenger.sendReplaceBlockTypeMessage();
@@ -150,7 +158,7 @@ public class Sniper {
 					if (targetBlock == null) {
 						toolkitProperties.resetReplaceBlockData();
 					} else {
-						BlockData blockData = targetBlock.getBlockData();
+						BlockState blockData = targetBlock.getState();
 						toolkitProperties.setReplaceBlockData(blockData);
 					}
 					messenger.sendReplaceBlockDataMessage();
@@ -160,8 +168,8 @@ public class Sniper {
 			}
 			return false;
 		} else {
-			if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
-				if (Materials.isEmpty(targetBlock.getType())) {
+			if (action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
+				if (Materials.isEmpty(targetBlock.getState().getType())) {
 					player.sendMessage(TextFormat.RED + "Snipe target block must be visible.");
 					return true;
 				}
@@ -174,7 +182,7 @@ public class Sniper {
 					PerformerBrush performerBrush = (PerformerBrush) currentBrush;
 					performerBrush.initialize(snipe);
 				}
-				Block lastBlock = clickedBlock == null ? blockTracer.getLastBlock() : clickedBlock.getRelative(clickedBlockFace);
+				Block lastBlock = clickedBlock == null ? blockTracer.getLastBlock() : clickedBlock.getSide(clickedBlockFace);
 				currentBrush.perform(snipe, toolAction, targetBlock, lastBlock);
 				return true;
 			}

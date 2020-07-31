@@ -3,29 +3,35 @@ package com.thevoxelbox.voxelsniper.sniper.toolkit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.cloudburstmc.server.Server;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockTypes;
+import org.cloudburstmc.server.player.Player;
+import org.cloudburstmc.server.utils.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class ToolkitProperties {
 
-	private static final Material DEFAULT_BLOCK_MATERIAL = Material.AIR;
-	private static final Material DEFAULT_REPLACE_BLOCK_MATERIAL = Material.AIR;
+	private static final Identifier DEFAULT_BLOCK_MATERIAL = BlockTypes.AIR;
+	private static final Identifier DEFAULT_REPLACE_BLOCK_MATERIAL = BlockTypes.AIR;
 	private static final int DEFAULT_BRUSH_SIZE = 3;
 	private static final int DEFAULT_VOXEL_HEIGHT = 1;
 	private static final int DEFAULT_CYLINDER_CENTER = 0;
 
-	private BlockData blockData;
-	private BlockData replaceBlockData;
+	private BlockState blockData;
+	private BlockState replaceBlockData;
 	private int brushSize;
 	private int voxelHeight;
 	private int cylinderCenter;
 	@Nullable
 	private Integer blockTracerRange;
 	private boolean lightningEnabled;
-	private List<BlockData> voxelList = new ArrayList<>();
+	private List<BlockState> voxelList = new ArrayList<>();
 
 	public ToolkitProperties() {
-		this.blockData = DEFAULT_BLOCK_MATERIAL.createBlockData();
-		this.replaceBlockData = DEFAULT_REPLACE_BLOCK_MATERIAL.createBlockData();
+		this.blockData = BlockState.get(DEFAULT_BLOCK_MATERIAL);
+		this.replaceBlockData = BlockState.get(DEFAULT_REPLACE_BLOCK_MATERIAL);
 		this.brushSize = DEFAULT_BRUSH_SIZE;
 		this.voxelHeight = DEFAULT_VOXEL_HEIGHT;
 	}
@@ -42,39 +48,39 @@ public class ToolkitProperties {
 	}
 
 	public void resetBlockData() {
-		this.blockData = DEFAULT_BLOCK_MATERIAL.createBlockData();
+		this.blockData = BlockState.get(DEFAULT_BLOCK_MATERIAL);
 	}
 
 	public void resetReplaceBlockData() {
-		this.replaceBlockData = DEFAULT_REPLACE_BLOCK_MATERIAL.createBlockData();
+		this.replaceBlockData = BlockState.get(DEFAULT_REPLACE_BLOCK_MATERIAL);
 	}
 
-	public Material getBlockType() {
-		return this.blockData.getMaterial();
+	public Identifier getBlockType() {
+		return this.blockData.getType();
 	}
 
-	public void setBlockType(Material type) {
-		this.blockData = type.createBlockData();
+	public void setBlockType(Identifier type) {
+		this.blockData = BlockState.get(type);
 	}
 
-	public Material getReplaceBlockType() {
-		return this.replaceBlockData.getMaterial();
+	public Identifier getReplaceBlockType() {
+		return this.replaceBlockData.getType();
 	}
 
-	public void setReplaceBlockType(Material type) {
-		this.replaceBlockData = type.createBlockData();
+	public void setReplaceBlockType(Identifier type) {
+		this.replaceBlockData = BlockState.get(type);
 	}
 
 	public BlockTracer createBlockTracer(Player player) {
-		int distance = this.blockTracerRange == null ? Math.max(Bukkit.getViewDistance(), 3) * 16 - this.brushSize : this.blockTracerRange;
+		int distance = this.blockTracerRange == null ? Math.max(Server.getInstance().getViewDistance(), 3) * 16 - this.brushSize : this.blockTracerRange;
 		return new BlockTracer(player, distance);
 	}
 
-	public void addToVoxelList(BlockData blockData) {
+	public void addToVoxelList(BlockState blockData) {
 		this.voxelList.add(blockData);
 	}
 
-	public void removeFromVoxelList(BlockData blockData) {
+	public void removeFromVoxelList(BlockState blockData) {
 		this.voxelList.remove(blockData);
 	}
 
@@ -82,23 +88,23 @@ public class ToolkitProperties {
 		this.voxelList.clear();
 	}
 
-	public boolean isVoxelListContains(BlockData blockData) {
+	public boolean isVoxelListContains(BlockState blockData) {
 		return this.voxelList.contains(blockData);
 	}
 
-	public BlockData getBlockData() {
+	public BlockState getBlockData() {
 		return this.blockData;
 	}
 
-	public void setBlockData(BlockData blockData) {
+	public void setBlockData(BlockState blockData) {
 		this.blockData = blockData;
 	}
 
-	public BlockData getReplaceBlockData() {
+	public BlockState getReplaceBlockData() {
 		return this.replaceBlockData;
 	}
 
-	public void setReplaceBlockData(BlockData replaceBlockData) {
+	public void setReplaceBlockData(BlockState replaceBlockData) {
 		this.replaceBlockData = replaceBlockData;
 	}
 
@@ -143,7 +149,7 @@ public class ToolkitProperties {
 		this.lightningEnabled = lightningEnabled;
 	}
 
-	public List<BlockData> getVoxelList() {
+	public List<BlockState> getVoxelList() {
 		return Collections.unmodifiableList(this.voxelList);
 	}
 }
