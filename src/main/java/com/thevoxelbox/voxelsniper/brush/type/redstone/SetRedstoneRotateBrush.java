@@ -5,6 +5,11 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockTraits;
+import org.cloudburstmc.server.block.BlockTypes;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,14 +74,13 @@ public class SetRedstoneRotateBrush extends AbstractBrush {
 	}
 
 	private void perform(Block block) {
-		Material type = block.getType();
-		if (type == Material.REPEATER) {
+		Identifier type = block.getState().getType();
+		if (type == BlockTypes.POWERED_REPEATER || type == BlockTypes.UNPOWERED_REPEATER) {
 			this.undo.put(block);
-			BlockData blockData = block.getBlockData();
-			Repeater repeater = (Repeater) blockData;
-			int delay = repeater.getDelay();
-			repeater.setDelay(delay % 4 + 1 < 5 ? (byte) (delay + 1) : (byte) (delay - 4));
-			block.setBlockData(blockData);
+			BlockState blockData = block.getState();
+			int delay = blockData.getTrait(BlockTraits.REPEATER_DELAY);
+			blockData = blockData.withTrait(BlockTraits.REPEATER_DELAY, delay % 4 + 1 < 5 ? (byte) (delay + 1) : (byte) (delay - 4));
+			block.set(blockData);
 		}
 	}
 

@@ -8,6 +8,10 @@ import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
@@ -72,19 +76,19 @@ public class ShellSetBrush extends AbstractBrush {
 					for (int x = lowX; x <= highX; x++) {
 						for (int z = lowZ; z <= highZ; z++) {
 							Level world = getLevel();
-							Material replaceBlockDataType = toolkitProperties.getReplaceBlockType();
+							Identifier replaceBlockDataType = toolkitProperties.getReplaceBlockType();
 							if (isBlockTypeNotEqual(world, y, x, z, replaceBlockDataType) && isBlockTypeNotEqual(world, y, x + 1, z, replaceBlockDataType) && isBlockTypeNotEqual(world, y, x - 1, z, replaceBlockDataType) && isBlockTypeNotEqual(world, y, x, z + 1, replaceBlockDataType) && isBlockTypeNotEqual(world, y, x, z - 1, replaceBlockDataType) && isBlockTypeNotEqual(world, y + 1, x, z, replaceBlockDataType) && isBlockTypeNotEqual(world, y - 1, x, z, replaceBlockDataType)) {
-								blocks.add(world.getBlockAt(x, y, z));
+								blocks.add(world.getBlock(x, y, z));
 							}
 						}
 					}
 				}
 				Undo undo = new Undo();
 				for (Block currentBlock : blocks) {
-					Material blockType = toolkitProperties.getBlockType();
-					if (currentBlock.getType() != blockType) {
+					Identifier blockType = toolkitProperties.getBlockType();
+					if (currentBlock.getState().getType() != blockType) {
 						undo.put(currentBlock);
-						currentBlock.setType(blockType);
+						currentBlock.set(BlockState.get(blockType));
 					}
 				}
 				Sniper sniper = snipe.getSniper();
@@ -96,9 +100,9 @@ public class ShellSetBrush extends AbstractBrush {
 		}
 	}
 
-	private boolean isBlockTypeNotEqual(Level world, int y, int x, int z, Material replaceBlockDataType) {
-		Block block = world.getBlockAt(x, y, z);
-		return block.getType() != replaceBlockDataType;
+	private boolean isBlockTypeNotEqual(Level world, int y, int x, int z, Identifier replaceBlockDataType) {
+		Block block = world.getBlock(x, y, z);
+		return block.getState().getType() != replaceBlockDataType;
 	}
 
 	@Override

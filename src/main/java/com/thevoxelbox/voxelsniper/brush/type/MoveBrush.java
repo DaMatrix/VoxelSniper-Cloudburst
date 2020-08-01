@@ -9,8 +9,13 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
+import com.thevoxelbox.voxelsniper.util.BukkitBlockState;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSet;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.level.Location;
 import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,30 +23,6 @@ import org.jetbrains.annotations.Nullable;
  * Moves a selection blockPositionY a certain amount.
  */
 public class MoveBrush extends AbstractBrush {
-
-	/**
-	 * Breakable Blocks to determine if no-physics should be used.
-	 */
-	private static final MaterialSet BREAKABLE_MATERIALS = MaterialSet.builder()
-		.with(Tag.SAPLINGS)
-		.with(Tag.RAILS)
-		.with(Tag.TRAPDOORS)
-		.with(Tag.DOORS)
-		.with(Tag.BUTTONS)
-		.with(MaterialSets.PISTONS)
-		.with(MaterialSets.PRESSURE_PLATES)
-		.with(MaterialSets.SIGNS)
-		.with(MaterialSets.BEDS)
-		.with(MaterialSets.REDSTONE_TORCHES)
-		.with(MaterialSets.TORCHES)
-		.with(MaterialSets.FLORA)
-		.add(Material.FIRE)
-		.add(Material.REPEATER)
-		.add(Material.SNOW)
-		.add(Material.CAKE)
-		.add(Material.LADDER)
-		.add(Material.LEVER)
-		.build();
 
 	/**
 	 * Saved direction.
@@ -94,8 +75,7 @@ public class MoveBrush extends AbstractBrush {
 		if (this.selection == null) {
 			this.selection = new Selection();
 		}
-		this.selection.setLocation1(this.getTargetBlock()
-			.getLocation());
+		this.selection.setLocation2(Location.from(this.getTargetBlock().getPosition(), this.getTargetBlock().getLevel()));
 		messenger.sendMessage(TextFormat.LIGHT_PURPLE + "Point 1 set.");
 		try {
 			if (this.selection.calculateRegion()) {
@@ -113,8 +93,7 @@ public class MoveBrush extends AbstractBrush {
 		if (this.selection == null) {
 			this.selection = new Selection();
 		}
-		this.selection.setLocation2(this.getTargetBlock()
-			.getLocation());
+		this.selection.setLocation2(Location.from(this.getTargetBlock().getPosition(), this.getTargetBlock().getLevel()));
 		messenger.sendMessage(TextFormat.LIGHT_PURPLE + "Point 2 set.");
 		try {
 			if (this.selection.calculateRegion()) {
@@ -132,10 +111,10 @@ public class MoveBrush extends AbstractBrush {
 	private void moveSelection(Snipe snipe, Selection selection, int[] direction) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		Sniper sniper = snipe.getSniper();
-		List<BlockState> blockStates = selection.getBlockStates();
+		List<BukkitBlockState> blockStates = selection.getBlockStates();
 		if (!blockStates.isEmpty()) {
-			BlockState firstState = blockStates.get(0);
-			Level world = firstState.getLevel();
+			BukkitBlockState firstState = blockStates.get(0);
+			Level world = firstState.level;
 			Undo undo = new Undo();
 			Selection newSelection = new Selection();
 			Location movedLocation1 = selection.getLocation1();
@@ -150,20 +129,20 @@ public class MoveBrush extends AbstractBrush {
 				messenger.sendMessage(TextFormat.LIGHT_PURPLE + "The new Selection has more blocks than the original selection. This should never happen!");
 			}
 			Set<Block> undoSet = blockStates.stream()
-				.map(BlockState::getBlock)
+				.map(BukkitBlockState::getBlock)
 				.collect(Collectors.toSet());
 			newSelection.getBlockStates()
 				.stream()
-				.map(BlockState::getBlock)
+				.map(BukkitBlockState::getBlock)
 				.forEach(undoSet::add);
 			undoSet.forEach(undo::put);
 			sniper.storeUndo(undo);
 			blockStates.stream()
-				.map(BlockState::getBlock)
-				.forEach(block -> block.setType(Material.AIR));
-			for (BlockState blockState : blockStates) {
-				Block affectedBlock = world.getBlockAt(blockState.getX() + direction[0], blockState.getY() + direction[1], blockState.getZ() + direction[2]);
-				affectedBlock.setBlockData(blockState.getBlockData(), !BREAKABLE_MATERIALS.contains(blockState.getType()));
+				.map(BukkitBlockState::getBlock)
+				.forEach(block -> block.set(BlockState.AIR));
+			for (BukkitBlockState blockState : blockStates) {
+				Block affectedBlock = world.getBlock(blockState.position.getX() + direction[0], blockState.position.getY() + direction[1], blockState.position.getZ() + direction[2]);
+				affectedBlock.set(blockState.state, true, !blockState.state.getBehavior().canBeReplaced());
 			}
 		}
 	}
@@ -184,7 +163,7 @@ public class MoveBrush extends AbstractBrush {
 		/**
 		 * Calculated BlockStates of the selection.
 		 */
-		private List<BlockState> blockStates = new ArrayList<>();
+		private List<BukkitBlockState> blockStates = new ArrayList<>();
 		private Location location1;
 		private Location location2;
 
@@ -199,12 +178,12 @@ public class MoveBrush extends AbstractBrush {
 				Level world1 = this.location1.getLevel();
 				Level world2 = this.location2.getLevel();
 				if (world1.equals(world2)) {
-					int x1 = this.location1.getBlockX();
-					int x2 = this.location2.getBlockX();
-					int y1 = this.location1.getBlockY();
-					int y2 = this.location2.getBlockY();
-					int z1 = this.location1.getBlockZ();
-					int z2 = this.location2.getBlockZ();
+					int x1 = this.location1.getFloorX();
+					int x2 = this.location2.getFloorX();
+					int y1 = this.location1.getFloorY();
+					int y2 = this.location2.getFloorY();
+					int z1 = this.location1.getFloorZ();
+					int z2 = this.location2.getFloorZ();
 					int lowX = Math.min(x1, x2);
 					int lowY = Math.min(y1, y2);
 					int lowZ = Math.min(z1, z2);
@@ -217,8 +196,8 @@ public class MoveBrush extends AbstractBrush {
 					for (int y = lowY; y <= highY; y++) {
 						for (int x = lowX; x <= highX; x++) {
 							for (int z = lowZ; z <= highZ; z++) {
-								Block block = world1.getBlockAt(x, y, z);
-								this.blockStates.add(block.getState());
+								Block block = world1.getBlock(x, y, z);
+								this.blockStates.add(new BukkitBlockState(block));
 							}
 						}
 					}
@@ -231,7 +210,7 @@ public class MoveBrush extends AbstractBrush {
 		/**
 		 * @return calculated BlockStates of defined region.
 		 */
-		public List<BlockState> getBlockStates() {
+		public List<BukkitBlockState> getBlockStates() {
 			return this.blockStates;
 		}
 

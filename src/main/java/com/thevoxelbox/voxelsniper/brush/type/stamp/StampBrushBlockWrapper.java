@@ -1,20 +1,23 @@
 package com.thevoxelbox.voxelsniper.brush.type.stamp;
 
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+
 public class StampBrushBlockWrapper {
 
-	private BlockData blockData;
+	private BlockState blockData;
 	private int x;
 	private int y;
 	private int z;
 
 	public StampBrushBlockWrapper(Block block, int x, int y, int z) {
-		this.blockData = block.getBlockData();
+		this.blockData = block.getState();
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
 
-	public BlockData getBlockData() {
+	public BlockState getBlockData() {
 		return this.blockData;
 	}
 

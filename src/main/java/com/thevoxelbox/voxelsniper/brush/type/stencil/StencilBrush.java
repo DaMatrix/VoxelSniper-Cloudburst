@@ -14,6 +14,10 @@ import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 /**
  * This is paste only currently. Assumes files exist, and thus has no usefulness until I add in saving stencils later. Uses sniper-exclusive stencil format: 3
@@ -134,7 +138,7 @@ public class StencilBrush extends AbstractBrush {
 				// corner, for example.
 				int currZ = -this.zRef;
 				int currY = -this.yRef;
-				BlockData blockData;
+				BlockState blockData;
 				Block targetBlock = getTargetBlock();
 				int blockPositionX = targetBlock.getX();
 				int blockPositionY = targetBlock.getY();
@@ -146,7 +150,7 @@ public class StencilBrush extends AbstractBrush {
 							blockData = readBlockData(in);
 							for (int j = 0; j < numLoops; j++) {
 								undo.put(this.clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ));
-								clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ).setBlockData(blockData, false);
+								clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ).set(blockData, true, false);
 								currX++;
 								if (currX == this.x - this.xRef) {
 									currX = -this.xRef;
@@ -159,7 +163,7 @@ public class StencilBrush extends AbstractBrush {
 							}
 						} else {
 							undo.put(this.clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ));
-							clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ).setBlockData(readBlockData(in), false);
+							clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ).set(readBlockData(in), true, false);
 							currX++;
 							if (currX == this.x - this.xRef) {
 								currX = -this.xRef;
@@ -177,10 +181,10 @@ public class StencilBrush extends AbstractBrush {
 							int numLoops = in.readByte() + 128;
 							blockData = readBlockData(in);
 							for (int j = 0; j < numLoops; j++) {
-								Material material = blockData.getMaterial();
-								if (!Materials.isEmpty(material) && Materials.isEmpty(clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ).getType())) {
+								Identifier material = blockData.getType();
+								if (!Materials.isEmpty(material) && Materials.isEmpty(clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ).getState().getType())) {
 									undo.put(this.clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ));
-									clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ).setBlockData(blockData, false);
+									clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ).set(blockData, true, false);
 								}
 								currX++;
 								if (currX == this.x - this.xRef) {
@@ -194,11 +198,11 @@ public class StencilBrush extends AbstractBrush {
 							}
 						} else {
 							blockData = readBlockData(in);
-							Material material = blockData.getMaterial();
-							if (!Materials.isEmpty(material) && Materials.isEmpty(clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ).getType())) {
+							Identifier material = blockData.getType();
+							if (!Materials.isEmpty(material) && Materials.isEmpty(clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ).getState().getType())) {
 								undo.put(clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ));
 								// v.sendMessage("currX:" + currX + " currZ:"+currZ + " currY:" + currY + " id:" + id + " data:" + (byte)data);
-								clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ).setBlockData(blockData, false);
+								clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ).set(blockData, true, false);
 							}
 							currX++;
 							if (currX == this.x - this.xRef) {
@@ -217,10 +221,10 @@ public class StencilBrush extends AbstractBrush {
 							int numLoops = in.readByte() + 128;
 							blockData = readBlockData(in);
 							for (int j = 0; j < (numLoops); j++) {
-								Material material = blockData.getMaterial();
+								Identifier material = blockData.getType();
 								if (!Materials.isEmpty(material)) {
 									undo.put(this.clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ));
-									clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ).setBlockData(blockData, false);
+									clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ).set(blockData, true, false);
 								}
 								currX++;
 								if (currX == this.x - this.xRef) {
@@ -234,10 +238,10 @@ public class StencilBrush extends AbstractBrush {
 							}
 						} else {
 							blockData = readBlockData(in);
-							Material material = blockData.getMaterial();
+							Identifier material = blockData.getType();
 							if (!Materials.isEmpty(material)) {
 								undo.put(this.clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ));
-								clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ).setBlockData(blockData, false);
+								clampY(blockPositionX + currX, blockPositionY + currY, blockPositionZ + currZ).set(blockData, true, false);
 							}
 							currX++;
 							if (currX == this.x) {
@@ -263,9 +267,11 @@ public class StencilBrush extends AbstractBrush {
 		}
 	}
 
-	private BlockData readBlockData(DataInputStream in) throws IOException {
+	private BlockState readBlockData(DataInputStream in) throws IOException {
 		String blockDataString = in.readUTF();
-		return Bukkit.createBlockData(blockDataString);
+		//TODO: block state serialization
+		// return Bukkit.createBlockData(blockDataString);
+		return BlockState.get(Identifier.fromString(blockDataString));
 	}
 
 	private void stencilSave(Snipe snipe) {
@@ -295,18 +301,18 @@ public class StencilBrush extends AbstractBrush {
 			out.writeShort(this.zRef);
 			out.writeShort(this.yRef);
 			messenger.sendMessage(TextFormat.AQUA + "Volume: " + this.x * this.z * this.y + " blockPositionX:" + blockPositionX + " blockPositionZ:" + blockPositionZ + " blockPositionY:" + blockPositionY);
-			BlockData[] blockDataArray = new BlockData[this.x * this.z * this.y];
+			BlockState[] blockDataArray = new BlockState[this.x * this.z * this.y];
 			byte[] runSizeArray = new byte[this.x * this.z * this.y];
 			Level world = getLevel();
-			BlockData lastBlockData = world.getBlockAt(blockPositionX, blockPositionY, blockPositionZ)
-				.getBlockData();
+			BlockState lastBlockData = world.getBlock(blockPositionX, blockPositionY, blockPositionZ)
+				.getState();
 			int counter = 0;
 			int arrayIndex = 0;
 			for (int y = 0; y < this.y; y++) {
 				for (int z = 0; z < this.z; z++) {
 					for (int x = 0; x < this.x; x++) {
-						Block currentBlock = world.getBlockAt(blockPositionX + x, blockPositionY + y, blockPositionZ + z);
-						BlockData thisBlockData = currentBlock.getBlockData();
+						Block currentBlock = world.getBlock(blockPositionX + x, blockPositionY + y, blockPositionZ + z);
+						BlockState thisBlockData = currentBlock.getState();
 						if (!thisBlockData.equals(lastBlockData) || counter == 255) {
 							blockDataArray[arrayIndex] = lastBlockData;
 							runSizeArray[arrayIndex] = (byte) (counter - 128);
@@ -330,7 +336,9 @@ public class StencilBrush extends AbstractBrush {
 				} else {
 					out.writeBoolean(false);
 				}
-				out.writeUTF(blockDataArray[i].getAsString());
+				//TODO: block state serialization
+				// out.writeUTF(blockDataArray[i].getAsString());
+				out.writeUTF(blockDataArray[i].toString());
 			}
 			messenger.sendMessage(TextFormat.BLUE + "Saved as '" + this.filename + "'.");
 			out.close();

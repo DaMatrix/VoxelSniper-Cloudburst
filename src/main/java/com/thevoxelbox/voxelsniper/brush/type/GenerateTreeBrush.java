@@ -10,6 +10,11 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSet;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockTypes;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 // Proposal: Use /v and /vr for leave and wood material // or two more parameters -- Monofraps
 public class GenerateTreeBrush extends AbstractBrush {
@@ -19,8 +24,8 @@ public class GenerateTreeBrush extends AbstractBrush {
 	private List<Block> branchBlocks = new ArrayList<>();
 	private Undo undo;
 	// If these default values are edited. Remember to change default values in the default preset.
-	private Material leafType = Material.OAK_LEAVES;
-	private Material woodType = Material.OAK_LOG;
+	private Identifier leafType = BlockTypes.LEAVES;
+	private Identifier woodType = BlockTypes.LOG;
 	private boolean rootFloat;
 	private int startHeight;
 	private int rootLength = 9;
@@ -71,16 +76,16 @@ public class GenerateTreeBrush extends AbstractBrush {
 					return;
 				}
 				if (parameter.startsWith("lt")) { // Leaf Type
-					Material leafType = Material.matchMaterial(parameter.replace("lt", "") + "_leaves");
-					if (leafType == null) {
+					Identifier leafType = Identifier.fromString(parameter.replace("lt", "") + "_leaves");
+					if (leafType == null || BlockState.get(leafType) == null) {
 						messenger.sendMessage(TextFormat.RED + "Invalid leaf type");
 						return;
 					}
 					this.leafType = leafType;
 					messenger.sendMessage(TextFormat.BLUE + "Leaf Type set to " + this.leafType);
 				} else if (parameter.startsWith("wt")) { // Wood Type
-					Material woodType = Material.matchMaterial(parameter.replace("wt", "") + "_log");
-					if (woodType == null) {
+					Identifier woodType = Identifier.fromString(parameter.replace("wt", "") + "_log");
+					if (woodType == null || BlockState.get(leafType) == null) {
 						messenger.sendMessage(TextFormat.RED + "Invalid wood type");
 						return;
 					}
@@ -146,8 +151,8 @@ public class GenerateTreeBrush extends AbstractBrush {
 					// Presets
 					// -------
 				} else if (parameter.startsWith("default")) { // Default settings.
-					this.leafType = Material.OAK_LEAVES;
-					this.woodType = Material.OAK_LOG;
+					this.leafType = BlockTypes.LEAVES;
+					this.woodType = BlockTypes.LOG;
 					this.rootFloat = false;
 					this.startHeight = 0;
 					this.rootLength = 9;
@@ -225,11 +230,12 @@ public class GenerateTreeBrush extends AbstractBrush {
 				this.blockPositionY += this.randGenerator.nextInt(2);
 			}
 			// Add block to undo function.
-			if (!Tag.LOGS.isTagged(getBlockType(this.blockPositionX, this.blockPositionY, this.blockPositionZ))) {
+			if (getBlockType(this.blockPositionX, this.blockPositionY, this.blockPositionZ) != BlockTypes.LOG
+				&& getBlockType(this.blockPositionX, this.blockPositionY, this.blockPositionZ) != BlockTypes.LOG2) {
 				this.undo.put(clampY(this.blockPositionX, this.blockPositionY, this.blockPositionZ));
 			}
 			// Creates a branch block.
-			clampY(this.blockPositionX, this.blockPositionY, this.blockPositionZ).setType(this.woodType, false);
+			clampY(this.blockPositionX, this.blockPositionY, this.blockPositionZ).set(BlockState.get(this.woodType), false);
 			this.branchBlocks.add(clampY(this.blockPositionX, this.blockPositionY, this.blockPositionZ));
 		}
 		// Resets the origin
@@ -269,14 +275,14 @@ public class GenerateTreeBrush extends AbstractBrush {
 		Level world = getLevel();
 		if (this.randGenerator.nextInt(100) >= 30) {
 			// If block is Air, create a leaf block.
-			Block block = world.getBlockAt(x, y, z);
-			if (Materials.isEmpty(block.getType())) {
+			Block block = world.getBlock(x, y, z);
+			if (Materials.isEmpty(block.getState().getType())) {
 				// Adds block to undo function.
-				if (!Tag.LEAVES.isTagged(getBlockType(x, y, z))) {
+				if (getBlockType(x, y, z) != BlockTypes.LEAVES && getBlockType(x, y, z) != BlockTypes.LEAVES2) {
 					this.undo.put(clampY(x, y, z));
 				}
 				// Creates block.
-				clampY(x, y, z).setType(this.leafType, false);
+				clampY(x, y, z).set(BlockState.get(this.leafType), true, false);
 			}
 		}
 	}
@@ -307,23 +313,25 @@ public class GenerateTreeBrush extends AbstractBrush {
 				// For the purposes of this algorithm, logs aren't considered solid.
 				// If not solid then...
 				// Save for undo function
-				if (Tag.LOGS.isTagged(getBlockType(this.blockPositionX, this.blockPositionY, this.blockPositionZ))) {
+				if (getBlockType(this.blockPositionX, this.blockPositionY, this.blockPositionZ) == BlockTypes.LOG
+					|| getBlockType(this.blockPositionX, this.blockPositionY, this.blockPositionZ) == BlockTypes.LOG2) {
 					// If solid then...
 					// End loop
 					break;
 				} else {
 					this.undo.put(clampY(this.blockPositionX, this.blockPositionY, this.blockPositionZ));
 					// Place log block.
-					clampY(this.blockPositionX, this.blockPositionY, this.blockPositionZ).setType(this.woodType, false);
+					clampY(this.blockPositionX, this.blockPositionY, this.blockPositionZ).set(BlockState.get(this.woodType), true, false);
 				}
 				MaterialSet solids = MaterialSet.builder()
-					.with(Tag.LOGS)
+					.add(BlockTypes.LOG)
+					.add(BlockTypes.LOG2)
 					.with(MaterialSets.AIRS)
-					.add(Material.WATER)
-					.add(Material.SNOW)
+					.add(BlockTypes.WATER)
+					.add(BlockTypes.SNOW)
 					.build();
 				// Checks is block below is solid
-				if (solids.contains(clampY(this.blockPositionX, this.blockPositionY - 1, this.blockPositionZ))) {
+				if (solids.contains(clampY(this.blockPositionX, this.blockPositionY - 1, this.blockPositionZ).getState())) {
 					// Mos down if solid.
 					this.blockPositionY -= 1;
 					if (this.rootFloat) {
@@ -343,7 +351,7 @@ public class GenerateTreeBrush extends AbstractBrush {
 						this.blockPositionZ += zDirection;
 					}
 					// Checks if new location is solid, if not then move down.
-					if (solids.contains(clampY(this.blockPositionX, this.blockPositionY - 1, this.blockPositionZ))) {
+					if (solids.contains(clampY(this.blockPositionX, this.blockPositionY - 1, this.blockPositionZ).getState())) {
 						this.blockPositionY -= 1;
 					}
 				}
@@ -385,14 +393,15 @@ public class GenerateTreeBrush extends AbstractBrush {
 	}
 
 	private void generateTrunkBlock(Level world, int x, int y) {
-		Block block = world.getBlockAt(x, this.blockPositionY, y);
-		if (Materials.isEmpty(block.getType())) {
+		Block block = world.getBlock(x, this.blockPositionY, y);
+		if (Materials.isEmpty(block.getState().getType())) {
 			// Adds block to undo function.
-			if (!Tag.LOGS.isTagged(getBlockType(x, this.blockPositionY, y))) {
+			if (getBlockType(x, this.blockPositionY, y) != BlockTypes.LOG
+				&& getBlockType(x, this.blockPositionY, y) != BlockTypes.LOG2) {
 				this.undo.put(this.clampY(x, this.blockPositionY, y));
 			}
 			// Creates block.
-			clampY(x, this.blockPositionY, y).setType(this.woodType, false);
+			clampY(x, this.blockPositionY, y).set(BlockState.get(this.woodType), true, false);
 		}
 	}
 

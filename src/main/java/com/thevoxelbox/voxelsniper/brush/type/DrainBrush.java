@@ -8,6 +8,9 @@ import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.Vectors;
 import com.thevoxelbox.voxelsniper.util.math.MathHelper;
 import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockTypes;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class DrainBrush extends AbstractBrush {
 
@@ -69,25 +72,25 @@ public class DrainBrush extends AbstractBrush {
 				for (int y = brushSize; y >= 0; y--) {
 					double ySquared = MathHelper.square(y);
 					if (xSquared + ySquared <= brushSizeSquared) {
-						Material typePlusPlus = getBlockType(position.plus(x, 0, y));
-						if (typePlusPlus == Material.WATER || typePlusPlus == Material.LAVA) {
+						Identifier typePlusPlus = getBlockType(position.plus(x, 0, y));
+						if (typePlusPlus == BlockTypes.WATER || typePlusPlus == BlockTypes.LAVA) {
 							undo.put(clampY(position.plus(x, 0, y)));
-							setBlockType(position.plus(x, 0, y), Material.AIR);
+							setBlockType(position.plus(x, 0, y), BlockTypes.AIR);
 						}
-						Material typePlusMinus = getBlockType(targetBlockX + x, targetBlockY, targetBlockZ - y);
-						if (typePlusMinus == Material.WATER || typePlusMinus == Material.LAVA) {
+						Identifier typePlusMinus = getBlockType(targetBlockX + x, targetBlockY, targetBlockZ - y);
+						if (typePlusMinus == BlockTypes.WATER || typePlusMinus == BlockTypes.LAVA) {
 							undo.put(clampY(targetBlockX + x, targetBlockY, targetBlockZ - y));
-							setBlockType(targetBlockX + x, targetBlockY, targetBlockZ - y, Material.AIR);
+							setBlockType(targetBlockX + x, targetBlockY, targetBlockZ - y, BlockTypes.AIR);
 						}
-						Material typeMinusPlus = getBlockType(targetBlockX - x, targetBlockY, targetBlockZ + y);
-						if (typeMinusPlus == Material.WATER || typeMinusPlus == Material.LAVA) {
+						Identifier typeMinusPlus = getBlockType(targetBlockX - x, targetBlockY, targetBlockZ + y);
+						if (typeMinusPlus == BlockTypes.WATER || typeMinusPlus == BlockTypes.LAVA) {
 							undo.put(clampY(targetBlockX - x, targetBlockY, targetBlockZ + y));
-							setBlockType(targetBlockX - x, targetBlockY, targetBlockZ + y, Material.AIR);
+							setBlockType(targetBlockX - x, targetBlockY, targetBlockZ + y, BlockTypes.AIR);
 						}
-						Material typeMinusMinus = getBlockType(targetBlockX - x, targetBlockY, targetBlockZ - y);
-						if (typeMinusMinus == Material.WATER || typeMinusMinus == Material.LAVA) {
+						Identifier typeMinusMinus = getBlockType(targetBlockX - x, targetBlockY, targetBlockZ - y);
+						if (typeMinusMinus == BlockTypes.WATER || typeMinusMinus == BlockTypes.LAVA) {
 							undo.put(clampY(targetBlockX - x, targetBlockY, targetBlockZ - y));
-							setBlockType(targetBlockX - x, targetBlockY, targetBlockZ - y, Material.AIR);
+							setBlockType(targetBlockX - x, targetBlockY, targetBlockZ - y, BlockTypes.AIR);
 						}
 					}
 				}
@@ -99,10 +102,10 @@ public class DrainBrush extends AbstractBrush {
 					double xSquared = MathHelper.square(x - brushSize);
 					for (int z = (brushSize + 1) * 2; z >= 0; z--) {
 						if ((xSquared + MathHelper.square(z - brushSize) + ySquared) <= brushSizeSquared) {
-							Material type = getBlockType(targetBlockX + x - brushSize, targetBlockY + z - brushSize, targetBlockZ + y - brushSize);
-							if (type == Material.WATER || type == Material.LAVA) {
+							Identifier type = getBlockType(targetBlockX + x - brushSize, targetBlockY + z - brushSize, targetBlockZ + y - brushSize);
+							if (type == BlockTypes.WATER || type == BlockTypes.LAVA) {
 								undo.put(clampY(targetBlockX + x, targetBlockY + z, targetBlockZ + y));
-								setBlockType(targetBlockX + x - brushSize, targetBlockY + z - brushSize, targetBlockZ + y - brushSize, Material.AIR);
+								setBlockType(targetBlockX + x - brushSize, targetBlockY + z - brushSize, targetBlockZ + y - brushSize, BlockTypes.AIR);
 							}
 						}
 					}

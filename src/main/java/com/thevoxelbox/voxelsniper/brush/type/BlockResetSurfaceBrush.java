@@ -6,6 +6,12 @@ import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSet;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockTypes;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.utils.Identifier;
+
 /**
  * This brush only looks for solid blocks, and then changes those plus any air blocks touching them. If it works, this brush should be faster than the original
  * blockPositionY an amount proportional to the volume of a snipe selection area / the number of blocks touching air in the selection. This is because every solid block
@@ -22,18 +28,32 @@ import com.thevoxelbox.voxelsniper.util.material.Materials;
 public class BlockResetSurfaceBrush extends AbstractBrush {
 
 	private static final MaterialSet DENIED_UPDATES = MaterialSet.builder()
-		.with(Tag.DOORS)
-		.with(Tag.TRAPDOORS)
+		.add(BlockTypes.WOODEN_DOOR)
+		.add(BlockTypes.IRON_DOOR)
+		.add(BlockTypes.SPRUCE_DOOR)
+		.add(BlockTypes.BIRCH_DOOR)
+		.add(BlockTypes.JUNGLE_DOOR)
+		.add(BlockTypes.ACACIA_DOOR)
+		.add(BlockTypes.DARK_OAK_DOOR)
+		.add(BlockTypes.TRAPDOOR)
+		.add(BlockTypes.IRON_TRAPDOOR)
+		.add(BlockTypes.SPRUCE_TRAPDOOR)
+		.add(BlockTypes.BIRCH_TRAPDOOR)
+		.add(BlockTypes.JUNGLE_TRAPDOOR)
+		.add(BlockTypes.ACACIA_TRAPDOOR)
+		.add(BlockTypes.DARK_OAK_TRAPDOOR)
 		.with(MaterialSets.SIGNS)
 		.with(MaterialSets.CHESTS)
 		.with(MaterialSets.FENCE_GATES)
 		.with(MaterialSets.AIRS)
-		.add(Material.FURNACE)
-		.add(Material.REDSTONE_TORCH)
-		.add(Material.REDSTONE_WALL_TORCH)
-		.add(Material.REDSTONE_WIRE)
-		.add(Material.REPEATER)
-		.add(Material.COMPARATOR)
+		.add(BlockTypes.FURNACE)
+		.add(BlockTypes.REDSTONE_TORCH)
+		.add(BlockTypes.UNLIT_REDSTONE_TORCH)
+		.add(BlockTypes.REDSTONE_WIRE)
+		.add(BlockTypes.UNPOWERED_REPEATER)
+		.add(BlockTypes.POWERED_REPEATER)
+		.add(BlockTypes.UNPOWERED_COMPARATOR)
+		.add(BlockTypes.POWERED_COMPARATOR)
 		.build();
 
 	@Override
@@ -53,7 +73,7 @@ public class BlockResetSurfaceBrush extends AbstractBrush {
 			for (int y = -size; y <= size; y++) {
 				for (int z = -size; z <= size; z++) {
 					Block block = getBlockAtRelativeToTarget(x, y, z);
-					Material type = block.getType();
+					Identifier type = block.getState().getType();
 					if (!DENIED_UPDATES.contains(type) && isAirAround(x, y, z)) {
 						resetBlock(block);
 					}
@@ -68,7 +88,7 @@ public class BlockResetSurfaceBrush extends AbstractBrush {
 
 	private boolean findAir(int x, int y, int z) {
 		Block block = getBlockAtRelativeToTarget(x, y, z);
-		if (!Materials.isEmpty(block.getType())) {
+		if (!Materials.isEmpty(block.getState().getType())) {
 			return false;
 		}
 		resetBlock(block);
@@ -81,15 +101,15 @@ public class BlockResetSurfaceBrush extends AbstractBrush {
 		int targetBlockX = targetBlock.getX();
 		int targetBlockY = targetBlock.getY();
 		int targetBlockZ = targetBlock.getZ();
-		return world.getBlockAt(targetBlockX + x, targetBlockY + y, targetBlockZ + z);
+		return world.getBlock(targetBlockX + x, targetBlockY + y, targetBlockZ + z);
 	}
 
 	private void resetBlock(Block block) {
-		BlockData oldData = block.getBlockData();
-		Material type = block.getType();
-		BlockData defaultData = type.createBlockData();
-		block.setBlockData(defaultData);
-		block.setBlockData(oldData);
+		BlockState oldData = block.getState();
+		Identifier type = block.getState().getType();
+		BlockState defaultData = BlockState.get(type);
+		block.set(defaultData);
+		block.set(oldData);
 	}
 
 	@Override

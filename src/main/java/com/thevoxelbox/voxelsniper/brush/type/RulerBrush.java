@@ -1,15 +1,18 @@
 package com.thevoxelbox.voxelsniper.brush.type;
 
+import com.nukkitx.math.vector.Vector3f;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class RulerBrush extends AbstractBrush {
 
 	private boolean first = true;
-	private Vector coordinates = new Vector(0, 0, 0);
+	private Vector3f coordinates = Vector3f.ZERO;
 	private int offsetX;
 	private int offsetY;
 	private int offsetZ;
@@ -46,10 +49,9 @@ public class RulerBrush extends AbstractBrush {
 	@Override
 	public void handleArrowAction(Snipe snipe) {
 		ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
-		Material blockDataType = toolkitProperties.getBlockType();
+		Identifier blockDataType = toolkitProperties.getBlockType();
 		Block targetBlock = getTargetBlock();
-		Location location = targetBlock.getLocation();
-		this.coordinates = location.toVector();
+		this.coordinates = targetBlock.getPosition().toFloat();
 		if (this.offsetX == 0 && this.offsetY == 0 && this.offsetZ == 0) {
 			SnipeMessenger messenger = snipe.createMessenger();
 			messenger.sendMessage(TextFormat.DARK_PURPLE + "First point selected.");
@@ -78,9 +80,8 @@ public class RulerBrush extends AbstractBrush {
 		messenger.sendMessage(TextFormat.AQUA + "X change: " + (targetBlock.getX() - this.coordinates.getX()));
 		messenger.sendMessage(TextFormat.AQUA + "Y change: " + (targetBlock.getY() - this.coordinates.getY()));
 		messenger.sendMessage(TextFormat.AQUA + "Z change: " + (targetBlock.getZ() - this.coordinates.getZ()));
-		Location location = targetBlock.getLocation();
-		double distance = Math.round(location.toVector()
-			.subtract(this.coordinates)
+		double distance = Math.round(targetBlock.getPosition().toFloat()
+			.sub(this.coordinates)
 			.length() * 100) / 100.0;
 		double blockDistance = Math.round((Math.abs(Math.max(Math.max(Math.abs(targetBlock.getX() - this.coordinates.getX()), Math.abs(targetBlock.getY() - this.coordinates.getY())), Math.abs(targetBlock.getZ() - this.coordinates.getZ()))) + 1) * 100) / 100.0;
 		messenger.sendMessage(TextFormat.AQUA + "Euclidean distance = " + distance);

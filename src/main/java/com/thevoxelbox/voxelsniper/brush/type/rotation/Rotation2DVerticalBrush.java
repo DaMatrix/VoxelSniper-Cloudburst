@@ -6,6 +6,9 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 // The X Y and Z variable names in this file do NOT MAKE ANY SENSE. Do not attempt to actually figure out what on earth is going on here. Just go to the
 // original 2d horizontal brush if you wish to make anything similar to this, and start there. I didn't bother renaming everything.
@@ -13,7 +16,7 @@ public class Rotation2DVerticalBrush extends AbstractBrush {
 
 	private int mode;
 	private int brushSize;
-	private BlockData[][][] snap;
+	private BlockState[][][] snap;
 	private double angle;
 
 	@Override
@@ -56,7 +59,7 @@ public class Rotation2DVerticalBrush extends AbstractBrush {
 
 	private void getMatrix() {
 		int brushSize = (this.brushSize * 2) + 1;
-		this.snap = new BlockData[brushSize][brushSize][brushSize];
+		this.snap = new BlockState[brushSize][brushSize][brushSize];
 		Block targetBlock = this.getTargetBlock();
 		int sx = targetBlock.getX() - this.brushSize;
 		for (int x = 0; x < this.snap.length; x++) {
@@ -65,8 +68,8 @@ public class Rotation2DVerticalBrush extends AbstractBrush {
 				int sy = targetBlock.getY() - this.brushSize;
 				for (int y = 0; y < this.snap.length; y++) {
 					Block block = clampY(sx, sy, sz); // why is this not sx + x, sy + y sz + z?
-					this.snap[x][y][z] = block.getBlockData();
-					block.setType(Material.AIR);
+					this.snap[x][y][z] = block.getState();
+					block.set(BlockState.AIR);
 					sy++;
 				}
 				sz++;
@@ -95,8 +98,8 @@ public class Rotation2DVerticalBrush extends AbstractBrush {
 					doNotFill[(int) newX + this.brushSize][(int) newZ + this.brushSize] = true;
 					for (int y = 0; y < this.snap.length; y++) {
 						int yy = y - this.brushSize;
-						BlockData blockData = this.snap[y][x][z];
-						Material type = blockData.getMaterial();
+						BlockState blockData = this.snap[y][x][z];
+						Identifier type = blockData.getType();
 						if (Materials.isEmpty(type)) {
 							continue;
 						}
@@ -115,14 +118,14 @@ public class Rotation2DVerticalBrush extends AbstractBrush {
 						// smart fill stuff
 						for (int y = 0; y < this.snap.length; y++) {
 							int fy = y + targetBlock.getY() - this.brushSize;
-							Material a = getBlockType(fy, fx + 1, fz);
-							Material b = getBlockType(fy, fx, fz - 1);
-							Material c = getBlockType(fy, fx, fz + 1);
-							Material d = getBlockType(fy, fx - 1, fz);
-							BlockData aData = getBlockData(fy, fx + 1, fz);
-							BlockData bData = getBlockData(fy, fx, fz - 1);
-							BlockData dData = getBlockData(fy, fx - 1, fz);
-							BlockData winner;
+							Identifier a = getBlockType(fy, fx + 1, fz);
+							Identifier b = getBlockType(fy, fx, fz - 1);
+							Identifier c = getBlockType(fy, fx, fz + 1);
+							Identifier d = getBlockType(fy, fx - 1, fz);
+							BlockState aData = getBlockData(fy, fx + 1, fz);
+							BlockState bData = getBlockData(fy, fx, fz - 1);
+							BlockState dData = getBlockData(fy, fx - 1, fz);
+							BlockState winner;
 							if (a == b || a == c || a == d) { // I figure that since we are already narrowing it down to ONLY the holes left behind, it
 								// should
 								// be fine to do all 5 checks needed to be legit about it.

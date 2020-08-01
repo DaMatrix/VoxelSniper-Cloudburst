@@ -8,29 +8,17 @@ import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSet;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockTypes;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class OceanBrush extends AbstractBrush {
 
 	private static final int WATER_LEVEL_DEFAULT = 62; // y=63 -- we are using array indices here
 	private static final int WATER_LEVEL_MIN = 12;
 	private static final int LOW_CUT_LEVEL = 12;
-	private static final MaterialSet EXCLUDED_MATERIALS = MaterialSet.builder()
-		.with(Tag.SAPLINGS)
-		.with(Tag.LOGS)
-		.with(Tag.LEAVES)
-		.with(Tag.ICE)
-		.with(MaterialSets.AIRS)
-		.with(MaterialSets.LIQUIDS)
-		.with(MaterialSets.SNOWS)
-		.with(MaterialSets.STEMS)
-		.with(MaterialSets.MUSHROOMS)
-		.with(MaterialSets.FLOWERS)
-		.add(Material.MELON)
-		.add(Material.PUMPKIN)
-		.add(Material.COCOA)
-		.add(Material.SUGAR_CANE)
-		.add(Material.TALL_GRASS)
-		.build();
 
 	private int waterLevel = WATER_LEVEL_DEFAULT;
 	private boolean coverFloor;
@@ -100,32 +88,32 @@ public class OceanBrush extends AbstractBrush {
 				int currentHeight = getHeight(x, z);
 				int wLevelDiff = currentHeight - (this.waterLevel - 1);
 				int newSeaFloorLevel = Math.max((this.waterLevel - wLevelDiff), LOW_CUT_LEVEL);
-				int highestY = world.getHighestBlockYAt(x, z);
+				int highestY = world.getHighestBlock(x, z);
 				// go down from highest Y block down to new sea floor
 				for (int y = highestY; y > newSeaFloorLevel; y--) {
-					Block block = world.getBlockAt(x, y, z);
-					if (block.getType() != Material.AIR) {
+					Block block = world.getBlock(x, y, z);
+					if (block.getState().getType() != BlockTypes.AIR) {
 						undo.put(block);
-						block.setType(Material.AIR);
+						block.set(BlockState.AIR);
 					}
 				}
 				// go down from water level to new sea level
 				for (int y = this.waterLevel; y > newSeaFloorLevel; y--) {
-					Block block = world.getBlockAt(x, y, z);
-					if (block.getType() != Material.WATER) {
+					Block block = world.getBlock(x, y, z);
+					if (block.getState().getType() != BlockTypes.WATER) {
 						// do not put blocks into the undo we already put into
-						if (block.getType() != Material.AIR) {
+						if (block.getState().getType() != BlockTypes.AIR) {
 							undo.put(block);
 						}
-						block.setType(Material.WATER);
+						block.set(BlockState.get(BlockTypes.WATER));
 					}
 				}
 				// cover the sea floor of required
 				if (this.coverFloor && (newSeaFloorLevel < this.waterLevel)) {
-					Block block = world.getBlockAt(x, newSeaFloorLevel, z);
-					if (block.getType() != toolkitProperties.getBlockType()) {
+					Block block = world.getBlock(x, newSeaFloorLevel, z);
+					if (block.getState().getType() != toolkitProperties.getBlockType()) {
 						undo.put(block);
-						block.setType(toolkitProperties.getBlockType());
+						block.set(BlockState.get(toolkitProperties.getBlockType()));
 					}
 				}
 			}
@@ -134,10 +122,10 @@ public class OceanBrush extends AbstractBrush {
 
 	private int getHeight(int bx, int bz) {
 		Level world = getLevel();
-		for (int y = world.getHighestBlockYAt(bx, bz); y > 0; y--) {
+		for (int y = world.getHighestBlock(bx, bz); y > 0; y--) {
 			Block clamp = this.clampY(bx, y, bz);
-			Material material = clamp.getType();
-			if (!EXCLUDED_MATERIALS.contains(material)) {
+			Identifier material = clamp.getState().getType();
+			if (clamp.getState().getBehavior().isSolid()) {
 				return y;
 			}
 		}

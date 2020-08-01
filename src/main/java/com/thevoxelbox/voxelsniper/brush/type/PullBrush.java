@@ -7,6 +7,11 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockTypes;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class PullBrush extends AbstractBrush {
 
@@ -75,8 +80,7 @@ public class PullBrush extends AbstractBrush {
 							int lastStr = (int) (this.voxelHeight * str);
 							lastY = actualY + lastStr;
 							Block clamp = clampY(actualX, lastY, actualZ);
-							clamp.setType(world.getBlockAt(actualX, actualY, actualZ)
-								.getType());
+							clamp.set(world.getBlockAt(actualX, actualY, actualZ));
 							if (Double.compare(str, 1.0) == 0) {
 								str = 0.8;
 							}
@@ -86,10 +90,10 @@ public class PullBrush extends AbstractBrush {
 								}
 								lastStr = (int) (this.voxelHeight * str);
 								int newY = actualY + lastStr;
-								Block block = world.getBlockAt(actualX, actualY, actualZ);
+								Block block = world.getBlock(actualX, actualY, actualZ);
 								for (int i = newY; i < lastY; i++) {
 									Block clamp2 = clampY(actualX, i, actualZ);
-									clamp2.setType(block.getType());
+									clamp2.set(BlockState.get(block.getState().getType()));
 								}
 								lastY = newY;
 								actualY--;
@@ -112,16 +116,16 @@ public class PullBrush extends AbstractBrush {
 							int actualY = targetBlock.getY() + y;
 							lastY = actualY + (int) (this.voxelHeight * this.getStr(volume / brushSizeSquared));
 							Block clamp = clampY(actualX, lastY, actualZ);
-							Block block = world.getBlockAt(actualX, actualY, actualZ);
-							clamp.setType(block.getType());
+							Block block = world.getBlock(actualX, actualY, actualZ);
+							clamp.set(BlockState.get(block.getState().getType()));
 							y++;
 							double volume2 = (xSquared + Math.pow(y, 2) + zSquared);
 							while (volume2 <= brushSizeSquared) {
 								int blockY = targetBlock.getY() + y + (int) (this.voxelHeight * this.getStr(volume2 / brushSizeSquared));
-								Block block2 = world.getBlockAt(actualX, targetBlock.getY() + y, actualZ);
+								Block block2 = world.getBlock(actualX, targetBlock.getY() + y, actualZ);
 								for (int i = blockY; i < lastY; i++) {
 									Block clamp2 = clampY(actualX, i, actualZ);
-									clamp2.setType(block2.getType());
+									clamp2.set(BlockState.get(block2.getState().getType()));
 								}
 								lastY = blockY;
 								y++;
@@ -168,31 +172,31 @@ public class PullBrush extends AbstractBrush {
 	}
 
 	private boolean isEmpty(int x, int y, int i) {
-		Material type = getBlockType(x, y, i);
+		Identifier type = getBlockType(x, y, i);
 		return Materials.isEmpty(type);
 	}
 
 	private void setBlock(PullBrushBlockWrapper block) {
 		Block currentBlock = this.clampY(block.getX(), block.getY() + (int) (this.voxelHeight * block.getStr()), block.getZ());
 		if (Materials.isEmpty(getBlockType(block.getX(), block.getY() - 1, block.getZ()))) {
-			currentBlock.setBlockData(block.getBlockData());
+			currentBlock.set(block.getBlockData());
 			for (int y = block.getY(); y < currentBlock.getY(); y++) {
-				setBlockType(block.getX(), y, block.getZ(), Material.AIR);
+				setBlockType(block.getX(), y, block.getZ(), BlockTypes.AIR);
 			}
 		} else {
-			currentBlock.setBlockData(block.getBlockData());
+			currentBlock.set(block.getBlockData());
 			for (int y = block.getY() - 1; y < currentBlock.getY(); y++) {
 				Block current = this.clampY(block.getX(), y, block.getZ());
-				current.setBlockData(block.getBlockData());
+				current.set(block.getBlockData());
 			}
 		}
 	}
 
 	private void setBlockDown(PullBrushBlockWrapper block) {
 		Block currentBlock = this.clampY(block.getX(), block.getY() + (int) (this.voxelHeight * block.getStr()), block.getZ());
-		currentBlock.setBlockData(block.getBlockData());
+		currentBlock.set(block.getBlockData());
 		for (int y = block.getY(); y > currentBlock.getY(); y--) {
-			this.setBlockType(block.getX(), y, block.getZ(), Material.AIR);
+			this.setBlockType(block.getX(), y, block.getZ(), BlockTypes.AIR);
 		}
 	}
 
@@ -208,21 +212,21 @@ public class PullBrush extends AbstractBrush {
 
 	private static final class PullBrushBlockWrapper {
 
-		private BlockData blockData;
+		private BlockState blockData;
 		private final double str;
 		private final int x;
 		private final int y;
 		private final int z;
 
 		private PullBrushBlockWrapper(Block block, double str) {
-			this.blockData = block.getBlockData();
+			this.blockData = block.getState();
 			this.x = block.getX();
 			this.y = block.getY();
 			this.z = block.getZ();
 			this.str = str;
 		}
 
-		public BlockData getBlockData() {
+		public BlockState getBlockData() {
 			return this.blockData;
 		}
 

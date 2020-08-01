@@ -8,6 +8,11 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
 import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.behavior.BlockBehaviorSlab;
+import org.cloudburstmc.server.math.Direction;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class SpiralStaircaseBrush extends AbstractBrush {
 
@@ -56,6 +61,8 @@ public class SpiralStaircaseBrush extends AbstractBrush {
 	}
 
 	private void buildStairWell(Snipe snipe, Block targetBlock) {
+		//TODO: handle slabs correctly...
+		/*
 		ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
 		SnipeMessenger messenger = snipe.createMessenger();
 		int voxelHeight = toolkitProperties.getVoxelHeight();
@@ -232,7 +239,7 @@ public class SpiralStaircaseBrush extends AbstractBrush {
 					int blockPositionY = targetBlock.getY();
 					int blockPositionZ = targetBlock.getZ();
 					VectorVS position = new VectorVS(blockPositionX - brushSize + x, blockPositionY + i, blockPositionZ - brushSize + z);
-					Material blockType = getBlockType(position);
+					Identifier blockType = getBlockType(position);
 					if (spiral[x][i][z] == 0) {
 						if (i == voxelHeight - 1) {
 							if (!Materials.isEmpty(blockType)) {
@@ -254,7 +261,7 @@ public class SpiralStaircaseBrush extends AbstractBrush {
 							}
 							setBlockType(position, toolkitProperties.getBlockType());
 						} else if (this.stairType.equalsIgnoreCase("step")) {
-							if (!Tag.SLABS.isTagged(blockType)) {
+							if (!(BlockState.get(blockType).getBehavior() instanceof BlockBehaviorSlab)) {
 								undo.put(clampY(position));
 							}
 							setBlockType(position, Material.OAK_SLAB);
@@ -267,7 +274,7 @@ public class SpiralStaircaseBrush extends AbstractBrush {
 						}
 					} else if (spiral[x][i][z] == 2) {
 						if (this.stairType.equalsIgnoreCase("step")) {
-							BlockData blockData = getBlockData(position);
+							BlockState blockData = getBlockData(position);
 							if (!Tag.SLABS.isTagged(blockType) && blockData instanceof Slab && ((Slab) blockData).getType() == Type.DOUBLE) {
 								undo.put(clampY(position));
 							}
@@ -305,11 +312,11 @@ public class SpiralStaircaseBrush extends AbstractBrush {
 			}
 		}
 		Sniper sniper = snipe.getSniper();
-		sniper.storeUndo(undo);
+		sniper.storeUndo(undo);*/
 	}
 
 	private void digStairWell(Snipe snipe, Block targetBlock) {
-		ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
+		/*ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
 		SnipeMessenger messenger = snipe.createMessenger();
 		int voxelHeight = toolkitProperties.getVoxelHeight();
 		if (voxelHeight < 1) {
@@ -512,7 +519,7 @@ public class SpiralStaircaseBrush extends AbstractBrush {
 						}
 					} else if (spiral[x][i][z] == 2) {
 						if (this.stairType.equalsIgnoreCase("step")) {
-							BlockData blockData = getBlockData(position);
+							BlockState blockData = getBlockData(position);
 							if (!Tag.SLABS.isTagged(blockType) && blockData instanceof Slab && ((Slab) blockData).getType() == Type.DOUBLE) {
 								undo.put(clampY(position));
 							}
@@ -550,19 +557,19 @@ public class SpiralStaircaseBrush extends AbstractBrush {
 			}
 		}
 		Sniper sniper = snipe.getSniper();
-		sniper.storeUndo(undo);
+		sniper.storeUndo(undo);*/
 	}
 
 	private void setStairsDirection(VectorVS position, int data) {
-		Block block = clampY(position);
-		BlockData blockData = block.getBlockData();
+		/*Block block = clampY(position);
+		BlockState blockData = block.getBlockData();
 		if (!(blockData instanceof Directional)) {
 			return;
 		}
 		Directional directional = (Directional) blockData;
 		Direction direction = dataToDirection(data);
 		directional.setFacing(direction);
-		block.setBlockData(blockData);
+		block.setBlockData(blockData);*/
 	}
 
 	private Direction dataToDirection(int data) {

@@ -6,6 +6,10 @@ import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class CopyPastaBrush extends AbstractBrush {
 
@@ -19,8 +23,8 @@ public class CopyPastaBrush extends AbstractBrush {
 	private int[] pastePoint = new int[3];
 	private int[] minPoint = new int[3];
 	private int[] offsetPoint = new int[3];
-	private Material[] blockArray;
-	private BlockData[] dataArray;
+	private Identifier[] blockArray;
+	private BlockState[] dataArray;
 	private int[] arraySize = new int[3];
 	private int pivot; // ccw degrees
 
@@ -68,8 +72,8 @@ public class CopyPastaBrush extends AbstractBrush {
 			this.firstPoint = new int[3];
 			this.secondPoint = new int[3];
 			this.numBlocks = 0;
-			this.blockArray = new Material[1];
-			this.dataArray = new BlockData[1];
+			this.blockArray = new Identifier[1];
+			this.dataArray = new BlockState[1];
 			this.points = 0;
 			messenger.sendMessage(TextFormat.GRAY + "Points cleared.");
 		}
@@ -104,17 +108,17 @@ public class CopyPastaBrush extends AbstractBrush {
 		this.numBlocks = (this.arraySize[0]) * (this.arraySize[1]) * (this.arraySize[2]);
 		SnipeMessenger messenger = snipe.createMessenger();
 		if (this.numBlocks > 0 && this.numBlocks < BLOCK_LIMIT) {
-			this.blockArray = new Material[this.numBlocks];
-			this.dataArray = new BlockData[this.numBlocks];
+			this.blockArray = new Identifier[this.numBlocks];
+			this.dataArray = new BlockState[this.numBlocks];
 			for (int i = 0; i < this.arraySize[0]; i++) {
 				for (int j = 0; j < this.arraySize[1]; j++) {
 					for (int k = 0; k < this.arraySize[2]; k++) {
 						int currentPosition = i + this.arraySize[0] * j + this.arraySize[0] * this.arraySize[1] * k;
 						Level world = getLevel();
-						Block block = world.getBlockAt(this.minPoint[0] + i, this.minPoint[1] + j, this.minPoint[2] + k);
-						this.blockArray[currentPosition] = block.getType();
+						Block block = world.getBlock(this.minPoint[0] + i, this.minPoint[1] + j, this.minPoint[2] + k);
+						this.blockArray[currentPosition] = block.getState().getType();
 						Block clamp = this.clampY(this.minPoint[0] + i, this.minPoint[1] + j, this.minPoint[2] + k);
-						this.dataArray[currentPosition] = clamp.getBlockData();
+						this.dataArray[currentPosition] = clamp.getState();
 					}
 				}
 			}
@@ -146,11 +150,11 @@ public class CopyPastaBrush extends AbstractBrush {
 							break;
 					}
 					if (!(Materials.isEmpty(this.blockArray[currentPosition]) && !this.pasteAir)) {
-						BlockData blockData = block.getBlockData();
-						if (block.getType() != this.blockArray[currentPosition] || !blockData.equals(this.dataArray[currentPosition])) {
+						BlockState blockData = block.getState();
+						if (block.getState().getType() != this.blockArray[currentPosition] || !blockData.equals(this.dataArray[currentPosition])) {
 							undo.put(block);
 						}
-						block.setBlockData(this.dataArray[currentPosition]);
+						block.set(this.dataArray[currentPosition]);
 					}
 				}
 			}

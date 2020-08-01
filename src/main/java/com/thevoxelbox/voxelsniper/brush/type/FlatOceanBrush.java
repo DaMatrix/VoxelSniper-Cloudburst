@@ -2,6 +2,11 @@ package com.thevoxelbox.voxelsniper.brush.type;
 
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockTypes;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.level.chunk.Chunk;
 import org.cloudburstmc.server.utils.TextFormat;
 public class FlatOceanBrush extends AbstractBrush {
 
@@ -65,29 +70,31 @@ public class FlatOceanBrush extends AbstractBrush {
 		int blockX = targetBlock.getX();
 		int blockZ = targetBlock.getZ();
 		Block block = clampY(blockX + additionalX, 1, blockZ + additionalZ);
-		Chunk chunk = world.getChunkAt(block);
+		Chunk chunk = world.getChunk(block.getPosition());
 		flatOcean(chunk);
 	}
 
 	private void flatOceanAtTarget() {
 		Level world = getLevel();
 		Block targetBlock = getTargetBlock();
-		Chunk chunk = world.getChunkAt(targetBlock);
+		Chunk chunk = world.getChunk(targetBlock.getPosition());
 		flatOcean(chunk);
 	}
 
 	private void flatOcean(Chunk chunk) {
+		int baseX = chunk.getX() << 4;
+		int baseZ = chunk.getZ() << 4;
 		for (int x = 0; x < CHUNK_SIZE; x++) {
 			for (int z = 0; z < CHUNK_SIZE; z++) {
 				Level world = chunk.getLevel();
 				for (int y = 0; y < 256; y++) {
-					Block block = chunk.getBlock(x, y, z);
+					Block block = world.getBlock(baseX + x, y, baseZ + z);
 					if (y <= this.floorLevel) {
-						block.setType(Material.DIRT);
+						block.set(BlockState.get(BlockTypes.DIRT));
 					} else if (y <= this.waterLevel) {
-						block.setType(Material.WATER, false);
+						block.set(BlockState.get(BlockTypes.WATER), true, false);
 					} else {
-						block.setType(Material.AIR, false);
+						block.set(BlockState.AIR, true, false);
 					}
 				}
 			}

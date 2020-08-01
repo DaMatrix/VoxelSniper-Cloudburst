@@ -6,6 +6,10 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockTraits;
+import org.cloudburstmc.server.block.BlockTypes;
 import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
@@ -94,28 +98,27 @@ public class SetRedstoneFlipBrush extends AbstractBrush {
 	}
 
 	private void perform(Block block) {
-		if (block.getType() == Material.REPEATER) {
-			BlockData blockData = block.getBlockData();
-			Repeater repeater = (Repeater) blockData;
-			int delay = repeater.getDelay();
+		if (block.getState().getType() == BlockTypes.POWERED_REPEATER || block.getState().getType() == BlockTypes.UNPOWERED_REPEATER) {
+			BlockState blockData = block.getState();
+			int delay = blockData.getTrait(BlockTraits.REPEATER_DELAY);
 			if (this.northSouth) {
 				if ((delay % 4) == 1) {
 					this.undo.put(block);
-					repeater.setDelay(delay + 2);
+					blockData = blockData.withTrait(BlockTraits.REPEATER_DELAY, delay + 2);
 				} else if ((delay % 4) == 3) {
 					this.undo.put(block);
-					repeater.setDelay(delay - 2);
+					blockData = blockData.withTrait(BlockTraits.REPEATER_DELAY, delay - 2);
 				}
 			} else {
 				if ((delay % 4) == 2) {
 					this.undo.put(block);
-					repeater.setDelay(delay - 2);
+					blockData = blockData.withTrait(BlockTraits.REPEATER_DELAY, delay - 2);
 				} else if ((delay % 4) == 0) {
 					this.undo.put(block);
-					repeater.setDelay(delay + 2);
+					blockData = blockData.withTrait(BlockTraits.REPEATER_DELAY, delay + 2);
 				}
 			}
-			block.setBlockData(repeater);
+			block.set(blockData);
 		}
 	}
 

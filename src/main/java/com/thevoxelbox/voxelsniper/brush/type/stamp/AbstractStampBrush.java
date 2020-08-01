@@ -10,6 +10,10 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSet;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockTypes;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public abstract class AbstractStampBrush extends AbstractBrush {
 
@@ -44,31 +48,49 @@ public abstract class AbstractStampBrush extends AbstractBrush {
 		this.sorted = false;
 	}
 
-	protected boolean falling(Material material) {
+	protected boolean falling(Identifier material) {
 		return MaterialSets.FALLING.contains(material);
 	}
 
-	protected boolean fallsOff(Material material) {
+	protected boolean fallsOff(Identifier material) {
 		MaterialSet fallsOff = MaterialSet.builder()
-			.with(Tag.SAPLINGS)
-			.with(Tag.DOORS)
-			.with(Tag.RAILS)
-			.with(Tag.BUTTONS)
+			.add(BlockTypes.SAPLING)
+			.add(BlockTypes.BAMBOO_SAPLING)
+			.add(BlockTypes.WOODEN_DOOR)
+			.add(BlockTypes.IRON_DOOR)
+			.add(BlockTypes.SPRUCE_DOOR)
+			.add(BlockTypes.BIRCH_DOOR)
+			.add(BlockTypes.JUNGLE_DOOR)
+			.add(BlockTypes.ACACIA_DOOR)
+			.add(BlockTypes.DARK_OAK_DOOR)
+			.add(BlockTypes.RAIL)
+			.add(BlockTypes.ACTIVATOR_RAIL)
+			.add(BlockTypes.DETECTOR_RAIL)
+			.add(BlockTypes.GOLDEN_RAIL)
+			.add(BlockTypes.ACACIA_BUTTON)
+			.add(BlockTypes.BIRCH_BUTTON)
+			.add(BlockTypes.DARK_OAK_BUTTON)
+			.add(BlockTypes.JUNGLE_BUTTON)
+			.add(BlockTypes.SPRUCE_BUTTON)
+			.add(BlockTypes.STONE_BUTTON)
+			.add(BlockTypes.WOODEN_BUTTON)
 			.with(MaterialSets.SIGNS)
 			.with(MaterialSets.PRESSURE_PLATES)
 			.with(MaterialSets.FLOWERS)
 			.with(MaterialSets.MUSHROOMS)
 			.with(MaterialSets.TORCHES)
 			.with(MaterialSets.REDSTONE_TORCHES)
-			.add(Material.FIRE)
-			.add(Material.REDSTONE_WIRE)
-			.add(Material.WHEAT)
-			.add(Material.LADDER)
-			.add(Material.LEVER)
-			.add(Material.SNOW)
-			.add(Material.SUGAR_CANE)
-			.add(Material.REPEATER)
-			.add(Material.COMPARATOR)
+			.add(BlockTypes.FIRE)
+			.add(BlockTypes.REDSTONE_WIRE)
+			.add(BlockTypes.WHEAT)
+			.add(BlockTypes.LADDER)
+			.add(BlockTypes.LEVER)
+			.add(BlockTypes.SNOW)
+			.add(BlockTypes.REEDS)
+			.add(BlockTypes.POWERED_REPEATER)
+			.add(BlockTypes.UNPOWERED_REPEATER)
+			.add(BlockTypes.POWERED_COMPARATOR)
+			.add(BlockTypes.UNPOWERED_COMPARATOR)
 			.build();
 		return fallsOff.contains(material);
 	}
@@ -77,15 +99,15 @@ public abstract class AbstractStampBrush extends AbstractBrush {
 		Block targetBlock = getTargetBlock();
 		Block block = clampY(targetBlock.getX() + blockWrapper.getX(), targetBlock.getY() + blockWrapper.getY(), targetBlock.getZ() + blockWrapper.getZ());
 		this.undo.put(block);
-		block.setBlockData(blockWrapper.getBlockData());
+		block.set(blockWrapper.getBlockData());
 	}
 
 	protected void setBlockFill(StampBrushBlockWrapper blockWrapper) {
 		Block targetBlock = getTargetBlock();
 		Block block = clampY(targetBlock.getX() + blockWrapper.getX(), targetBlock.getY() + blockWrapper.getY(), targetBlock.getZ() + blockWrapper.getZ());
-		if (Materials.isEmpty(block.getType())) {
+		if (Materials.isEmpty(block.getState().getType())) {
 			this.undo.put(block);
-			block.setBlockData(blockWrapper.getBlockData());
+			block.set(blockWrapper.getBlockData());
 		}
 	}
 
@@ -106,8 +128,8 @@ public abstract class AbstractStampBrush extends AbstractBrush {
 			this.drop.clear();
 			this.solid.clear();
 			for (StampBrushBlockWrapper block : this.clone) {
-				BlockData blockData = block.getBlockData();
-				Material material = blockData.getMaterial();
+				BlockState blockData = block.getBlockData();
+				Identifier material = blockData.getType();
 				if (this.fallsOff(material)) {
 					this.fall.add(block);
 				} else if (this.falling(material)) {
@@ -146,8 +168,8 @@ public abstract class AbstractStampBrush extends AbstractBrush {
 			this.drop.clear();
 			this.solid.clear();
 			for (StampBrushBlockWrapper block : this.clone) {
-				BlockData blockData = block.getBlockData();
-				Material material = blockData.getMaterial();
+				BlockState blockData = block.getBlockData();
+				Identifier material = blockData.getType();
 				if (fallsOff(material)) {
 					this.fall.add(block);
 				} else if (falling(material)) {
@@ -186,8 +208,8 @@ public abstract class AbstractStampBrush extends AbstractBrush {
 			this.drop.clear();
 			this.solid.clear();
 			for (StampBrushBlockWrapper block : this.clone) {
-				BlockData blockData = block.getBlockData();
-				Material material = blockData.getMaterial();
+				BlockState blockData = block.getBlockData();
+				Identifier material = blockData.getType();
 				if (this.fallsOff(material)) {
 					this.fall.add(block);
 				} else if (this.falling(material)) {

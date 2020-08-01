@@ -6,6 +6,8 @@ import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class ShellBallBrush extends AbstractBrush {
 
@@ -25,7 +27,7 @@ public class ShellBallBrush extends AbstractBrush {
 	private void bShell(Snipe snipe, Block targetBlock) {
 		ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
 		int brushSize = toolkitProperties.getBrushSize();
-		Material[][][] oldMaterials = new Material[2 * (brushSize + 1) + 1][2 * (brushSize + 1) + 1][2 * (brushSize + 1) + 1]; // Array that holds the original materials plus a buffer
+		Identifier[][][] oldMaterials = new Identifier[2 * (brushSize + 1) + 1][2 * (brushSize + 1) + 1][2 * (brushSize + 1) + 1]; // Array that holds the original materials plus a buffer
 		int blockPositionX = targetBlock.getX();
 		int blockPositionY = targetBlock.getY();
 		int blockPositionZ = targetBlock.getZ();
@@ -40,7 +42,7 @@ public class ShellBallBrush extends AbstractBrush {
 		// Log current materials into newmats
 		// Array that holds the hollowed materials
 		int brushSizeDoubled = 2 * brushSize;
-		Material[][][] newMaterials = new Material[brushSizeDoubled + 1][brushSizeDoubled + 1][brushSizeDoubled + 1];
+		Identifier[][][] newMaterials = new Identifier[brushSizeDoubled + 1][brushSizeDoubled + 1][brushSizeDoubled + 1];
 		for (int x = 0; x <= brushSizeDoubled; x++) {
 			for (int y = 0; y <= brushSizeDoubled; y++) {
 				System.arraycopy(oldMaterials[x + 1][y + 1], 1, newMaterials[x][y], 0, brushSizeDoubled + 1);

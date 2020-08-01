@@ -5,6 +5,7 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import org.cloudburstmc.server.entity.Entity;
 import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,16 +46,17 @@ public class JockeyBrush extends AbstractBrush {
 
 	@Override
 	public void handleArrowAction(Snipe snipe) {
-		if (this.jockeyType == JockeyType.STACK_ALL_ENTITIES || this.jockeyType == JockeyType.STACK_PLAYER_ONLY) {
+		//TODO: implement this
+		/*if (this.jockeyType == JockeyType.STACK_ALL_ENTITIES || this.jockeyType == JockeyType.STACK_PLAYER_ONLY) {
 			stack(snipe);
 		} else {
 			sitOn(snipe);
-		}
+		}*/
 	}
 
 	@Override
 	public void handleGunpowderAction(Snipe snipe) {
-		Sniper sniper = snipe.getSniper();
+		/*Sniper sniper = snipe.getSniper();
 		Player player = sniper.getPlayer();
 		if (this.jockeyType == JockeyType.INVERSE_PLAYER_ONLY || this.jockeyType == JockeyType.INVERSE_ALL_ENTITIES) {
 			player.eject();
@@ -65,10 +67,10 @@ public class JockeyBrush extends AbstractBrush {
 				this.jockeyedEntity = null;
 				player.sendMessage(TextFormat.GOLD + "You have been ejected!");
 			}
-		}
+		}*/
 	}
 
-	private void sitOn(Snipe snipe) {
+	/*private void sitOn(Snipe snipe) {
 		Sniper sniper = snipe.getSniper();
 		Player player = sniper.getPlayer();
 		Block targetBlock = getTargetBlock();
@@ -143,7 +145,7 @@ public class JockeyBrush extends AbstractBrush {
 				player.sendMessage("You broke stack! :O");
 			}
 		}
-	}
+	}*/
 
 	@Override
 	public void sendInfo(Snipe snipe) {

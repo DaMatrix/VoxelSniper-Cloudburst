@@ -8,12 +8,19 @@ import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
+import net.daporkchop.lib.random.impl.FastPRandom;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockTypes;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.level.feature.tree.TreeSpecies;
+import org.cloudburstmc.server.math.Direction;
 import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.NotNull;
 
 public class TreeSnipeBrush extends AbstractBrush {
 
-	private TreeType treeType = TreeType.TREE;
+	private TreeSpecies treeType = TreeSpecies.OAK;
 
 	@Override
 	public void handleCommand(String[] parameters, Snipe snipe) {
@@ -26,7 +33,7 @@ public class TreeSnipeBrush extends AbstractBrush {
 				return;
 			}
 			try {
-				this.treeType = TreeType.valueOf(parameter.toUpperCase());
+				this.treeType = TreeSpecies.valueOf(parameter.toUpperCase());
 				printTreeType(messenger);
 			} catch (IllegalArgumentException exception) {
 				messenger.sendMessage(TextFormat.LIGHT_PURPLE + "No such tree type.");
@@ -46,25 +53,27 @@ public class TreeSnipeBrush extends AbstractBrush {
 	}
 
 	private void single(Snipe snipe, Block targetBlock) {
-		UndoDelegate undoDelegate = new UndoDelegate(targetBlock.getLevel());
-		Block blockBelow = targetBlock.getRelative(Direction.DOWN);
+		//UndoDelegate undoDelegate = new UndoDelegate(targetBlock.getLevel());
+		Block blockBelow = targetBlock.down();
 		BlockState currentState = blockBelow.getState();
-		undoDelegate.setBlock(blockBelow);
-		blockBelow.setType(Material.GRASS_BLOCK);
+		//undoDelegate.setBlock(blockBelow);
+		blockBelow.set(BlockState.get(BlockTypes.GRASS));
 		Level world = getLevel();
-		world.generateTree(targetBlock.getLocation(), this.treeType, undoDelegate);
-		Undo undo = undoDelegate.getUndo();
-		blockBelow.setBlockData(currentState.getBlockData());
-		undo.put(blockBelow);
+		//TODO: undo delegate
+		this.treeType.getDefaultGenerator().place(world, new FastPRandom(), targetBlock.getX(), targetBlock.getY(), targetBlock.getZ());
+		//world.generateTree(targetBlock.getLocation(), this.treeType, undoDelegate);
+		//Undo undo = undoDelegate.getUndo();
+		blockBelow.set(currentState);
+		//undo.put(blockBelow);
 		Sniper sniper = snipe.getSniper();
-		sniper.storeUndo(undo);
+		//sniper.storeUndo(undo);
 	}
 
 	private int getYOffset() {
 		Block targetBlock = getTargetBlock();
 		Level world = targetBlock.getLevel();
 		return IntStream.range(1, (256 - 1 - targetBlock.getY()))
-			.filter(i -> Materials.isEmpty(targetBlock.getRelative(0, i + 1, 0).getType()))
+			.filter(i -> Materials.isEmpty(targetBlock.getRelative(0, i + 1, 0).getState().getType()))
 			.findFirst()
 			.orElse(0);
 	}
@@ -77,7 +86,7 @@ public class TreeSnipeBrush extends AbstractBrush {
 	}
 
 	private void printTreeType(SnipeMessenger messenger) {
-		String printout = Arrays.stream(TreeType.values())
+		String printout = Arrays.stream(TreeSpecies.values())
 			.map(treeType -> ((treeType == this.treeType) ? TextFormat.GRAY + treeType.name()
 				.toLowerCase() : TextFormat.DARK_GRAY + treeType.name()
 				.toLowerCase()) + TextFormat.WHITE)
@@ -85,7 +94,7 @@ public class TreeSnipeBrush extends AbstractBrush {
 		messenger.sendMessage(printout);
 	}
 
-	private static final class UndoDelegate implements BlockChangeDelegate {
+	/*private static final class UndoDelegate implements BlockChangeDelegate {
 
 		private Level targetLevel;
 		private Undo currentUndo;
@@ -105,12 +114,12 @@ public class TreeSnipeBrush extends AbstractBrush {
 			Location location = block.getLocation();
 			Block blockAtLocation = this.targetLevel.getBlockAt(location);
 			this.currentUndo.put(blockAtLocation);
-			BlockData blockData = block.getBlockData();
+			BlockState blockData = block.getBlockData();
 			blockAtLocation.setBlockData(blockData);
 		}
 
 		@Override
-		public boolean setBlockData(int x, int y, int z, @NotNull BlockData blockData) {
+		public boolean setBlockData(int x, int y, int z, @NotNull BlockState blockData) {
 			Block block = this.targetLevel.getBlockAt(x, y, z);
 			this.currentUndo.put(block);
 			block.setBlockData(blockData);
@@ -119,7 +128,7 @@ public class TreeSnipeBrush extends AbstractBrush {
 
 		@NotNull
 		@Override
-		public BlockData getBlockData(int x, int y, int z) {
+		public BlockState getBlockData(int x, int y, int z) {
 			Block block = this.targetLevel.getBlockAt(x, y, z);
 			return block.getBlockData();
 		}
@@ -134,5 +143,5 @@ public class TreeSnipeBrush extends AbstractBrush {
 			Block block = this.targetLevel.getBlockAt(x, y, z);
 			return Materials.isEmpty(block.getType());
 		}
-	}
+	}*/
 }

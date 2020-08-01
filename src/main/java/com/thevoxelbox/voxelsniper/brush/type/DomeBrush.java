@@ -2,11 +2,18 @@ package com.thevoxelbox.voxelsniper.brush.type;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.nukkitx.math.vector.Vector3f;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import net.daporkchop.lib.math.primitive.PMath;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.level.Level;
+
 public class DomeBrush extends AbstractBrush {
 
 	@Override
@@ -31,7 +38,7 @@ public class DomeBrush extends AbstractBrush {
 		}
 		int absoluteHeight = Math.abs(voxelHeight);
 		boolean negative = voxelHeight < 0;
-		List<Vector> changeablePositions = new ArrayList<>();
+		List<Vector3f> changeablePositions = new ArrayList<>();
 		Undo undo = new Undo();
 		int brushSize = toolkitProperties.getBrushSize();
 		int brushSizeTimesVoxelHeight = brushSize * absoluteHeight;
@@ -44,26 +51,25 @@ public class DomeBrush extends AbstractBrush {
 				double z = brushSize * Math.cos(u) * Math.sin(stepV);
 				double targetBlockX = block.getX() + 0.5;
 				double targetBlockZ = block.getZ() + 0.5;
-				int targetY = NumberConversions.floor(block.getY() + (negative ? -y : y));
-				int currentBlockXAdd = NumberConversions.floor(targetBlockX + x);
-				int currentBlockZAdd = NumberConversions.floor(targetBlockZ + z);
-				int currentBlockXSubtract = NumberConversions.floor(targetBlockX - x);
-				int currentBlockZSubtract = NumberConversions.floor(targetBlockZ - z);
-				changeablePositions.add(new Vector(currentBlockXAdd, targetY, currentBlockZAdd));
-				changeablePositions.add(new Vector(currentBlockXSubtract, targetY, currentBlockZAdd));
-				changeablePositions.add(new Vector(currentBlockXAdd, targetY, currentBlockZSubtract));
-				changeablePositions.add(new Vector(currentBlockXSubtract, targetY, currentBlockZSubtract));
+				int targetY = PMath.floorI(block.getY() + (negative ? -y : y));
+				int currentBlockXAdd = PMath.floorI(targetBlockX + x);
+				int currentBlockZAdd = PMath.floorI(targetBlockZ + z);
+				int currentBlockXSubtract = PMath.floorI(targetBlockX - x);
+				int currentBlockZSubtract = PMath.floorI(targetBlockZ - z);
+				changeablePositions.add(Vector3f.from(currentBlockXAdd, targetY, currentBlockZAdd));
+				changeablePositions.add(Vector3f.from(currentBlockXSubtract, targetY, currentBlockZAdd));
+				changeablePositions.add(Vector3f.from(currentBlockXAdd, targetY, currentBlockZSubtract));
+				changeablePositions.add(Vector3f.from(currentBlockXSubtract, targetY, currentBlockZSubtract));
 			}
 		}
 		Level world = getLevel();
-		for (Vector vector : changeablePositions) {
-			Location location = vector.toLocation(world);
-			Block currentTargetBlock = location.getBlock();
-			BlockData currentTargetBlockBlockData = currentTargetBlock.getBlockData();
-			BlockData snipeBlockData = toolkitProperties.getBlockData();
+		for (Vector3f vector : changeablePositions) {
+			Block currentTargetBlock = world.getBlock(vector);
+			BlockState currentTargetBlockBlockData = currentTargetBlock.getState();
+			BlockState snipeBlockData = toolkitProperties.getBlockData();
 			if (!currentTargetBlockBlockData.equals(snipeBlockData)) {
 				undo.put(currentTargetBlock);
-				currentTargetBlock.setBlockData(snipeBlockData);
+				currentTargetBlock.set(snipeBlockData);
 			}
 		}
 		Sniper sniper = snipe.getSniper();

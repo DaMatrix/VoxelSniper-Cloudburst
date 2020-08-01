@@ -3,6 +3,10 @@ package com.thevoxelbox.voxelsniper.brush.type;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.level.Location;
+import org.cloudburstmc.server.player.Player;
+
 public class WarpBrush extends AbstractBrush {
 
 	@Override
@@ -13,10 +17,8 @@ public class WarpBrush extends AbstractBrush {
 		if (lastBlock == null) {
 			return;
 		}
-		Location location = lastBlock.getLocation();
 		Location playerLocation = player.getLocation();
-		location.setPitch(playerLocation.getPitch());
-		location.setYaw(playerLocation.getYaw());
+		Location location = Location.from(lastBlock.getPosition().toFloat(), playerLocation.getYaw(), playerLocation.getPitch(), playerLocation.getLevel());
 		player.teleport(location);
 	}
 
@@ -28,13 +30,12 @@ public class WarpBrush extends AbstractBrush {
 		if (lastBlock == null) {
 			return;
 		}
-		Location location = lastBlock.getLocation();
 		Location playerLocation = player.getLocation();
-		location.setPitch(playerLocation.getPitch());
-		location.setYaw(playerLocation.getYaw());
-		getLevel().strikeLightning(location);
+		Location location = Location.from(lastBlock.getPosition().toFloat(), playerLocation.getYaw(), playerLocation.getPitch(), playerLocation.getLevel());
+		//TODO: lightning
+		// getLevel().strikeLightning(location);
 		player.teleport(location);
-		getLevel().strikeLightning(location);
+		//getLevel().strikeLightning(location);
 	}
 
 	@Override

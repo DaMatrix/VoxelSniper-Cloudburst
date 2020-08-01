@@ -5,6 +5,9 @@ import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import com.thevoxelbox.voxelsniper.util.BlockHelper;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.math.Direction;
 import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
@@ -110,7 +113,7 @@ public class ExtrudeBrush extends AbstractBrush {
 		if (toolkitProperties.isVoxelListContains(getBlockData(block1.getX(), block1.getY(), block1.getZ()))) {
 			undo.put(block2);
 			setBlockType(block2.getX(), block2.getY(), block2.getZ(), getBlockType(block1.getX(), block1.getY(), block1.getZ()));
-			clampY(block2.getX(), block2.getY(), block2.getZ()).setBlockData(clampY(block1.getX(), block1.getY(), block1.getZ()).getBlockData());
+			clampY(block2.getX(), block2.getY(), block2.getZ()).set(clampY(block1.getX(), block1.getY(), block1.getZ()).getState());
 		}
 	}
 
@@ -138,14 +141,14 @@ public class ExtrudeBrush extends AbstractBrush {
 	public void handleArrowAction(Snipe snipe) {
 		Block targetBlock = getTargetBlock();
 		Block lastBlock = getLastBlock();
-		selectExtrudeMethod(snipe, targetBlock.getSide(lastBlock), false);
+		selectExtrudeMethod(snipe, BlockHelper.getSide(targetBlock, lastBlock), false);
 	}
 
 	@Override
 	public void handleGunpowderAction(Snipe snipe) {
 		Block targetBlock = getTargetBlock();
 		Block lastBlock = getLastBlock();
-		selectExtrudeMethod(snipe, targetBlock.getSide(lastBlock), true);
+		selectExtrudeMethod(snipe, BlockHelper.getSide(targetBlock, lastBlock), true);
 	}
 
 	@Override

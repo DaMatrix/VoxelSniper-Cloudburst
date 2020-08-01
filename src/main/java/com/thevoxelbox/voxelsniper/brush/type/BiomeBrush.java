@@ -7,14 +7,22 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.level.biome.Biome;
+import org.cloudburstmc.server.level.chunk.Chunk;
+import org.cloudburstmc.server.player.Player;
+import org.cloudburstmc.server.registry.BiomeRegistry;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class BiomeBrush extends AbstractBrush {
 
-	private Biome selectedBiome = Biome.PLAINS;
+	private Biome selectedBiome = BiomeRegistry.get().getBiome(Identifier.fromString("plains"));
 
 	@Override
 	public void handleCommand(String[] parameters, Snipe snipe) {
-		Sniper sniper = snipe.getSniper();
+		//TODO: implement this
+		/*Sniper sniper = snipe.getSniper();
 		Player player = sniper.getPlayer();
 		String firstParameter = parameters[0];
 		if (firstParameter.equalsIgnoreCase("info")) {
@@ -39,7 +47,7 @@ public class BiomeBrush extends AbstractBrush {
 				.findFirst()
 				.orElse(this.selectedBiome);
 			player.sendMessage(TextFormat.GOLD + "Currently selected biome type: " + TextFormat.DARK_GREEN + this.selectedBiome.name());
-		}
+		}*/
 	}
 
 	@Override
@@ -64,12 +72,12 @@ public class BiomeBrush extends AbstractBrush {
 			double xSquared = Math.pow(x, 2);
 			for (int z = -brushSize; z <= brushSize; z++) {
 				if (xSquared + Math.pow(z, 2) <= brushSizeSquared) {
-					world.setBiome(targetBlockX + x, targetBlockZ + z, this.selectedBiome);
+					world.setBiomeId(targetBlockX + x, targetBlockZ + z, (byte) BiomeRegistry.get().getRuntimeId(this.selectedBiome));
 				}
 			}
 		}
-		Block block1 = world.getBlockAt(targetBlockX - brushSize, 0, targetBlockZ - brushSize);
-		Block block2 = world.getBlockAt(targetBlockX + brushSize, 0, targetBlockZ + brushSize);
+		Block block1 = world.getBlock(targetBlockX - brushSize, 0, targetBlockZ - brushSize);
+		Block block2 = world.getBlock(targetBlockX + brushSize, 0, targetBlockZ + brushSize);
 		Chunk chunk1 = block1.getChunk();
 		Chunk chunk2 = block2.getChunk();
 		int block1X = block1.getX();
@@ -93,13 +101,14 @@ public class BiomeBrush extends AbstractBrush {
 
 	@SuppressWarnings("deprecation")
 	private void refreshChunk(Level world, int x, int z) {
-		world.refreshChunk(x, z);
+		//TODO: what is this?
+		// world.refreshChunk(x, z);
 	}
 
 	@Override
 	public void sendInfo(Snipe snipe) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		messenger.sendBrushNameMessage();
-		messenger.sendMessage(TextFormat.GOLD + "Currently selected biome type: " + TextFormat.DARK_GREEN + this.selectedBiome.name());
+		messenger.sendMessage(TextFormat.GOLD + "Currently selected biome type: " + TextFormat.DARK_GREEN + this.selectedBiome.getId().getName());
 	}
 }

@@ -7,11 +7,14 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class Rotation3DBrush extends AbstractBrush {
 
 	private int brushSize;
-	private BlockData[][][] snap;
+	private BlockState[][][] snap;
 	private double seYaw;
 	private double sePitch;
 	private double seRoll;
@@ -71,7 +74,7 @@ public class Rotation3DBrush extends AbstractBrush {
 	private void getMatrix() { // only need to do once. But y needs to change + sphere
 		double brushSizeSquared = Math.pow(this.brushSize + 0.5, 2);
 		int brushSize = (this.brushSize * 2) + 1;
-		this.snap = new BlockData[brushSize][brushSize][brushSize];
+		this.snap = new BlockState[brushSize][brushSize][brushSize];
 		Block targetBlock = this.getTargetBlock();
 		int sx = targetBlock.getX() - this.brushSize;
 		//int sy = this.getTargetBlock().getY() - this.brushSize; Not used
@@ -83,8 +86,8 @@ public class Rotation3DBrush extends AbstractBrush {
 				for (int y = 0; y < this.snap.length; y++) {
 					if (xSquared + zSquared + Math.pow(y - this.brushSize, 2) <= brushSizeSquared) {
 						Block block = clampY(sx, sz, sz);
-						this.snap[x][y][z] = block.getBlockData();
-						block.setType(Material.AIR);
+						this.snap[x][y][z] = block.getState();
+						block.set(BlockState.AIR);
 						sz++;
 					}
 				}
@@ -132,8 +135,8 @@ public class Rotation3DBrush extends AbstractBrush {
 						doNotFill[(int) newxyX + this.brushSize][(int) newyzY + this.brushSize][(int) newyzZ + this.brushSize] = true; // only rounds off to nearest
 						// block
 						// after all three, though.
-						BlockData blockData = this.snap[x][y][z];
-						Material type = blockData.getMaterial();
+						BlockState blockData = this.snap[x][y][z];
+						Identifier type = blockData.getType();
 						if (Materials.isEmpty(type)) {
 							continue;
 						}
@@ -153,14 +156,14 @@ public class Rotation3DBrush extends AbstractBrush {
 						if (!doNotFill[x][y][z]) {
 							// smart fill stuff
 							int fy = y + targetBlock.getY() - this.brushSize;
-							Material a = getBlockType(fx + 1, fy, fz);
-							Material b = getBlockType(fx, fy, fz - 1);
-							Material c = getBlockType(fx, fy, fz + 1);
-							Material d = getBlockType(fx - 1, fy, fz);
-							BlockData aData = getBlockData(fx + 1, fy, fz);
-							BlockData dData = getBlockData(fx - 1, fy, fz);
-							BlockData bData = getBlockData(fx, fy, fz - 1);
-							BlockData winner;
+							Identifier a = getBlockType(fx + 1, fy, fz);
+							Identifier b = getBlockType(fx, fy, fz - 1);
+							Identifier c = getBlockType(fx, fy, fz + 1);
+							Identifier d = getBlockType(fx - 1, fy, fz);
+							BlockState aData = getBlockData(fx + 1, fy, fz);
+							BlockState dData = getBlockData(fx - 1, fy, fz);
+							BlockState bData = getBlockData(fx, fy, fz - 1);
+							BlockState winner;
 							if (a == b || a == c || a == d) { // I figure that since we are already narrowing it down to ONLY the holes left behind, it
 								// should
 								// be fine to do all 5 checks needed to be legit about it.

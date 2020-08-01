@@ -4,7 +4,14 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import com.thevoxelbox.voxelsniper.util.BlockHelper;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockTypes;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.math.Direction;
+import org.cloudburstmc.server.player.Player;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class ScannerBrush extends AbstractBrush {
 
@@ -13,7 +20,7 @@ public class ScannerBrush extends AbstractBrush {
 	private static final int DEPTH_MAX = 64;
 
 	private int depth = DEPTH_DEFAULT;
-	private Material checkFor = Material.AIR;
+	private Identifier checkFor = BlockTypes.AIR;
 
 	@Override
 	public void handleCommand(String[] parameters, Snipe snipe) {
@@ -44,7 +51,7 @@ public class ScannerBrush extends AbstractBrush {
 		this.checkFor = toolkitProperties.getBlockType();
 		Block targetBlock = getTargetBlock();
 		Block lastBlock = getLastBlock();
-		Direction face = targetBlock.getSide(lastBlock);
+		Direction face = BlockHelper.getSide(targetBlock, lastBlock);
 		if (face == null) {
 			return;
 		}
@@ -57,7 +64,7 @@ public class ScannerBrush extends AbstractBrush {
 		this.checkFor = toolkitProperties.getBlockType();
 		Block targetBlock = getTargetBlock();
 		Block lastBlock = getLastBlock();
-		Direction face = targetBlock.getSide(lastBlock);
+		Direction face = BlockHelper.getSide(targetBlock, lastBlock);
 		if (face == null) {
 			return;
 		}
@@ -70,7 +77,7 @@ public class ScannerBrush extends AbstractBrush {
 		if (blockFace == Direction.NORTH) {// Scan south
 			for (int i = 1; i < this.depth + 1; i++) {
 				if (this.clampY(targetBlock.getX() + i, targetBlock.getY(), targetBlock.getZ())
-					.getType() == this.checkFor) {
+					.getState().getType() == this.checkFor) {
 					messenger.sendMessage(TextFormat.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
 					return;
 				}
@@ -79,7 +86,7 @@ public class ScannerBrush extends AbstractBrush {
 		} else if (blockFace == Direction.SOUTH) {// Scan north
 			for (int i = 1; i < this.depth + 1; i++) {
 				if (this.clampY(targetBlock.getX() - i, targetBlock.getY(), targetBlock.getZ())
-					.getType() == this.checkFor) {
+						.getState().getType() == this.checkFor) {
 					messenger.sendMessage(TextFormat.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
 					return;
 				}
@@ -88,7 +95,7 @@ public class ScannerBrush extends AbstractBrush {
 		} else if (blockFace == Direction.EAST) {// Scan west
 			for (int i = 1; i < this.depth + 1; i++) {
 				if (this.clampY(targetBlock.getX(), targetBlock.getY(), targetBlock.getZ() + i)
-					.getType() == this.checkFor) {
+						.getState().getType() == this.checkFor) {
 					messenger.sendMessage(TextFormat.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
 					return;
 				}
@@ -97,7 +104,7 @@ public class ScannerBrush extends AbstractBrush {
 		} else if (blockFace == Direction.WEST) {// Scan east
 			for (int i = 1; i < this.depth + 1; i++) {
 				if (this.clampY(targetBlock.getX(), targetBlock.getY(), targetBlock.getZ() - i)
-					.getType() == this.checkFor) {
+						.getState().getType() == this.checkFor) {
 					messenger.sendMessage(TextFormat.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
 					return;
 				}
@@ -109,7 +116,7 @@ public class ScannerBrush extends AbstractBrush {
 					break;
 				}
 				if (this.clampY(targetBlock.getX(), targetBlock.getY() - i, targetBlock.getZ())
-					.getType() == this.checkFor) {
+						.getState().getType() == this.checkFor) {
 					messenger.sendMessage(TextFormat.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
 					return;
 				}
@@ -124,7 +131,7 @@ public class ScannerBrush extends AbstractBrush {
 					break;
 				}
 				if (this.clampY(targetBlock.getX(), targetBlock.getY() + i, targetBlock.getZ())
-					.getType() == this.checkFor) {
+						.getState().getType() == this.checkFor) {
 					messenger.sendMessage(TextFormat.GREEN + String.valueOf(this.checkFor) + " found after " + i + " blocks.");
 					return;
 				}

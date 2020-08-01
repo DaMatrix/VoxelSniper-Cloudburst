@@ -4,6 +4,9 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.level.chunk.Chunk;
 import org.cloudburstmc.server.utils.TextFormat;
 /**
  * Regenerates the target chunk.
@@ -22,7 +25,7 @@ public class RegenerateChunkBrush extends AbstractBrush {
 
 	@SuppressWarnings("deprecation")
 	private void generateChunk(Snipe snipe) {
-		Block targetBlock = getTargetBlock();
+		/*Block targetBlock = getTargetBlock();
 		Chunk chunk = targetBlock.getChunk();
 		Undo undo = new Undo();
 		Level world = getLevel();
@@ -36,9 +39,10 @@ public class RegenerateChunkBrush extends AbstractBrush {
 		Sniper sniper = snipe.getSniper();
 		sniper.storeUndo(undo);
 		SnipeMessenger messenger = snipe.createMessenger();
-		messenger.sendMessage("Generate that chunk! " + chunk.getX() + " " + chunk.getZ());
-		world.regenerateChunk(chunk.getX(), chunk.getZ());
-		world.refreshChunk(chunk.getX(), chunk.getZ());
+		messenger.sendMessage("Generate that chunk! " + chunk.getX() + " " + chunk.getZ());*/
+		//TODO: regenerate chunk
+		// world.regenerateChunk(chunk.getX(), chunk.getZ());
+		// world.refreshChunk(chunk.getX(), chunk.getZ());
 	}
 
 	@Override

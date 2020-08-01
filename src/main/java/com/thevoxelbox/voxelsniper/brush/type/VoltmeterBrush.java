@@ -2,6 +2,8 @@ package com.thevoxelbox.voxelsniper.brush.type;
 
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
 import org.cloudburstmc.server.utils.TextFormat;
 public class VoltmeterBrush extends AbstractBrush {
 
@@ -19,17 +21,18 @@ public class VoltmeterBrush extends AbstractBrush {
 		SnipeMessenger messenger = snipe.createMessenger();
 		Block targetBlock = getTargetBlock();
 		Block block = clampY(targetBlock.getX(), targetBlock.getY(), targetBlock.getZ());
-		BlockData blockData = block.getBlockData();
-		if (!(blockData instanceof AnaloguePowerable)) {
+		BlockState blockData = block.getState();
+		//TODO: get redstone power
+		/*if (!(blockData instanceof AnaloguePowerable)) {
 			return;
 		}
 		AnaloguePowerable analoguePowerable = (AnaloguePowerable) blockData;
 		int power = analoguePowerable.getPower();
-		messenger.sendMessage(TextFormat.AQUA + "Blocks until repeater needed: " + power);
+		messenger.sendMessage(TextFormat.AQUA + "Blocks until repeater needed: " + power);*/
 	}
 
 	private void volt(Snipe snipe) {
-		SnipeMessenger messenger = snipe.createMessenger();
+		/*SnipeMessenger messenger = snipe.createMessenger();
 		Block targetBlock = getTargetBlock();
 		Block block = clampY(targetBlock.getX(), targetBlock.getY(), targetBlock.getZ());
 		boolean indirect = block.isBlockIndirectlyPowered();
@@ -40,7 +43,7 @@ public class VoltmeterBrush extends AbstractBrush {
 		messenger.sendMessage(TextFormat.BLUE + "East Direct? " + block.isDirectionPowered(Direction.EAST) + " East Indirect? " + block.isDirectionIndirectlyPowered(Direction.EAST));
 		messenger.sendMessage(TextFormat.BLUE + "West Direct? " + block.isDirectionPowered(Direction.WEST) + " West Indirect? " + block.isDirectionIndirectlyPowered(Direction.WEST));
 		messenger.sendMessage(TextFormat.BLUE + "North Direct? " + block.isDirectionPowered(Direction.NORTH) + " North Indirect? " + block.isDirectionIndirectlyPowered(Direction.NORTH));
-		messenger.sendMessage(TextFormat.BLUE + "South Direct? " + block.isDirectionPowered(Direction.SOUTH) + " South Indirect? " + block.isDirectionIndirectlyPowered(Direction.SOUTH));
+		messenger.sendMessage(TextFormat.BLUE + "South Direct? " + block.isDirectionPowered(Direction.SOUTH) + " South Indirect? " + block.isDirectionIndirectlyPowered(Direction.SOUTH));*/
 	}
 
 	@Override

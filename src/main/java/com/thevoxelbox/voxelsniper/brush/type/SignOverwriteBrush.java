@@ -34,7 +34,7 @@ public class SignOverwriteBrush extends AbstractBrush {
 
 	@Override
 	public void handleCommand(String[] parameters, Snipe snipe) {
-		SnipeMessenger messenger = snipe.createMessenger();
+		/*SnipeMessenger messenger = snipe.createMessenger();
 		ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
 		boolean textChanged = false;
 		for (int index = 0; index < parameters.length; index++) {
@@ -109,21 +109,22 @@ public class SignOverwriteBrush extends AbstractBrush {
 		}
 		if (textChanged) {
 			displayBuffer(snipe);
-		}
+		}*/
 	}
 
 	@Override
 	public void handleArrowAction(Snipe snipe) {
-		if (this.rangedMode) {
+		/*if (this.rangedMode) {
 			setRanged(snipe);
 		} else {
 			setSingle(snipe);
-		}
+		}*/
 	}
 
 	@Override
 	public void handleGunpowderAction(Snipe snipe) {
-		Block targetBlock = getTargetBlock();
+		//TODO: sign handling
+		/*Block targetBlock = getTargetBlock();
 		if (targetBlock.getState() instanceof Sign) {
 			Sign sign = (Sign) targetBlock.getState();
 			for (int i = 0; i < this.signTextLines.length; i++) {
@@ -135,25 +136,25 @@ public class SignOverwriteBrush extends AbstractBrush {
 		} else {
 			SnipeMessenger messenger = snipe.createMessenger();
 			messenger.sendMessage(TextFormat.RED + "Target block is not a sign.");
-		}
+		}*/
 	}
 
 	/**
 	 * Sets the text of a given sign.
 	 */
-	private void setSignText(Sign sign) {
+	/*private void setSignText(Sign sign) {
 		for (int i = 0; i < this.signTextLines.length; i++) {
 			if (this.signLinesEnabled[i]) {
 				sign.setLine(i, this.signTextLines[i]);
 			}
 		}
 		sign.update();
-	}
+	}*/
 
 	/**
 	 * Sets the text of the target sign if the target block is a sign.
 	 */
-	private void setSingle(Snipe snipe) {
+	/*private void setSingle(Snipe snipe) {
 		Block targetBlock = getTargetBlock();
 		if (targetBlock.getState() instanceof Sign) {
 			setSignText((Sign) targetBlock.getState());
@@ -161,12 +162,12 @@ public class SignOverwriteBrush extends AbstractBrush {
 			SnipeMessenger messenger = snipe.createMessenger();
 			messenger.sendMessage(TextFormat.RED + "Target block is not a sign.");
 		}
-	}
+	}*/
 
 	/**
 	 * Sets all signs in a range of box{x=z=brushSize*2+1 ; z=voxelHeight*2+1}.
 	 */
-	private void setRanged(Snipe snipe) {
+	/*private void setRanged(Snipe snipe) {
 		ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
 		Block targetBlock = getTargetBlock();
 		int brushSize = toolkitProperties.getBrushSize();
@@ -195,14 +196,14 @@ public class SignOverwriteBrush extends AbstractBrush {
 			SnipeMessenger messenger = snipe.createMessenger();
 			messenger.sendMessage(TextFormat.RED + "Did not found any sign in selection box.");
 		}
-	}
+	}*/
 
 	/**
 	 * Parses parameter input text of line [param:lineNumber].
 	 * Iterates though the given array until the next top level param (a parameter which starts
 	 * with a dash -) is found.
 	 */
-	private int parseSignLineFromParam(String[] params, int lineNumber, Snipe snipe, int i) {
+	/*private int parseSignLineFromParam(String[] params, int lineNumber, Snipe snipe, int i) {
 		int index = i;
 		SnipeMessenger messenger = snipe.createMessenger();
 		int lineIndex = lineNumber - 1;
@@ -261,12 +262,12 @@ public class SignOverwriteBrush extends AbstractBrush {
 		for (int index = 0; index < this.signTextLines.length; index++) {
 			messenger.sendMessage((this.signLinesEnabled[index] ? TextFormat.GREEN + "(E): " : TextFormat.RED + "(D): ") + TextFormat.BLACK + this.signTextLines[index]);
 		}
-	}
+	}*/
 
 	/**
 	 * Saves the buffer to file.
 	 */
-	private void saveBufferToFile(Snipe snipe, String fileName) {
+	/*private void saveBufferToFile(Snipe snipe, String fileName) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		File store = new File(this.pluginDataFolder, fileName + ".vsign");
 		if (store.exists()) {
@@ -288,12 +289,12 @@ public class SignOverwriteBrush extends AbstractBrush {
 			messenger.sendMessage(TextFormat.RED + "Failed to save file. " + exception.getMessage());
 			exception.printStackTrace();
 		}
-	}
+	}*/
 
 	/**
 	 * Loads a buffer from a file.
 	 */
-	private void loadBufferFromFile(Snipe snipe, String fileName) {
+	/*private void loadBufferFromFile(Snipe snipe, String fileName) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		File store = new File(this.pluginDataFolder, fileName + ".vsign");
 		if (!store.exists()) {
@@ -314,7 +315,7 @@ public class SignOverwriteBrush extends AbstractBrush {
 			messenger.sendMessage(TextFormat.RED + "Failed to load file. " + exception.getMessage());
 			exception.printStackTrace();
 		}
-	}
+	}*/
 
 	/**
 	 * Clears the internal text buffer. (Sets it to empty strings)

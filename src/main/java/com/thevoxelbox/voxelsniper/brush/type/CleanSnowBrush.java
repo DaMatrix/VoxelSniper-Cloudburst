@@ -6,6 +6,9 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.math.MathHelper;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockTypes;
 import org.cloudburstmc.server.utils.TextFormat;
 public class CleanSnowBrush extends AbstractBrush {
 
@@ -56,9 +59,9 @@ public class CleanSnowBrush extends AbstractBrush {
 						int targetBlockX = targetBlock.getX();
 						int targetBlockY = targetBlock.getY();
 						int targetBlockZ = targetBlock.getZ();
-						if (clampY(targetBlockX + x - brushSize, targetBlockY + z - brushSize, targetBlockZ + y - brushSize).getType() == Material.SNOW && (clampY(targetBlockX + x - brushSize, targetBlockY + z - brushSize - 1, targetBlockZ + y - brushSize).getType() == Material.SNOW || clampY(targetBlockX + x - brushSize, targetBlockY + z - brushSize - 1, targetBlockZ + y - brushSize).getType() == Material.AIR)) {
+						if (clampY(targetBlockX + x - brushSize, targetBlockY + z - brushSize, targetBlockZ + y - brushSize).getState().getType() == BlockTypes.SNOW && (clampY(targetBlockX + x - brushSize, targetBlockY + z - brushSize - 1, targetBlockZ + y - brushSize).getState().getType() == BlockTypes.SNOW || clampY(targetBlockX + x - brushSize, targetBlockY + z - brushSize - 1, targetBlockZ + y - brushSize).getState().getType() == BlockTypes.AIR)) {
 							undo.put(clampY(targetBlockX + x, targetBlockY + z, targetBlockZ + y));
-							setBlockData(targetBlockZ + y - brushSize, targetBlockX + x - brushSize, targetBlockY + z - brushSize, Material.AIR.createBlockData());
+							setBlockData(targetBlockZ + y - brushSize, targetBlockX + x - brushSize, targetBlockY + z - brushSize, BlockState.AIR);
 						}
 					}
 				}
