@@ -55,7 +55,7 @@ public class DomeBrush extends AbstractBrush {
 				changeablePositions.add(new Vector(currentBlockXSubtract, targetY, currentBlockZSubtract));
 			}
 		}
-		World world = getWorld();
+		Level world = getLevel();
 		for (Vector vector : changeablePositions) {
 			Location location = vector.toLocation(world);
 			Block currentTargetBlock = location.getBlock();

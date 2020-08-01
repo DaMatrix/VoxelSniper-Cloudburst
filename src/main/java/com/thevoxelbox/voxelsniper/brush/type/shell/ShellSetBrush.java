@@ -43,9 +43,9 @@ public class ShellSetBrush extends AbstractBrush {
 			this.block = block;
 			return true;
 		} else {
-			if (!this.block.getWorld()
+			if (!this.block.getLevel()
 				.getName()
-				.equals(block.getWorld()
+				.equals(block.getLevel()
 					.getName())) {
 				messenger.sendMessage(TextFormat.RED + "You selected points in different worlds!");
 				this.block = null;
@@ -71,7 +71,7 @@ public class ShellSetBrush extends AbstractBrush {
 				for (int y = lowY; y <= highY; y++) {
 					for (int x = lowX; x <= highX; x++) {
 						for (int z = lowZ; z <= highZ; z++) {
-							World world = getWorld();
+							Level world = getLevel();
 							Material replaceBlockDataType = toolkitProperties.getReplaceBlockType();
 							if (isBlockTypeNotEqual(world, y, x, z, replaceBlockDataType) && isBlockTypeNotEqual(world, y, x + 1, z, replaceBlockDataType) && isBlockTypeNotEqual(world, y, x - 1, z, replaceBlockDataType) && isBlockTypeNotEqual(world, y, x, z + 1, replaceBlockDataType) && isBlockTypeNotEqual(world, y, x, z - 1, replaceBlockDataType) && isBlockTypeNotEqual(world, y + 1, x, z, replaceBlockDataType) && isBlockTypeNotEqual(world, y - 1, x, z, replaceBlockDataType)) {
 								blocks.add(world.getBlockAt(x, y, z));
@@ -96,7 +96,7 @@ public class ShellSetBrush extends AbstractBrush {
 		}
 	}
 
-	private boolean isBlockTypeNotEqual(World world, int y, int x, int z, Material replaceBlockDataType) {
+	private boolean isBlockTypeNotEqual(Level world, int y, int x, int z, Material replaceBlockDataType) {
 		Block block = world.getBlockAt(x, y, z);
 		return block.getType() != replaceBlockDataType;
 	}

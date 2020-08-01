@@ -266,7 +266,7 @@ public class GenerateTreeBrush extends AbstractBrush {
 	}
 
 	private void generateLeafNodeBlock(int x, int y, int z) {
-		World world = getWorld();
+		Level world = getLevel();
 		if (this.randGenerator.nextInt(100) >= 30) {
 			// If block is Air, create a leaf block.
 			Block block = world.getBlockAt(x, y, z);
@@ -374,7 +374,7 @@ public class GenerateTreeBrush extends AbstractBrush {
 			for (int z = this.thickness; z >= 0; z--) {
 				if ((xSquared + Math.pow(z, 2)) <= bSquared) {
 					// If block is air, then create a block.
-					World world = this.getWorld();
+					Level world = this.getLevel();
 					generateTrunkBlock(world, this.blockPositionX + x, this.blockPositionZ + z);
 					generateTrunkBlock(world, this.blockPositionX + x, this.blockPositionZ - z);
 					generateTrunkBlock(world, this.blockPositionX - x, this.blockPositionZ + z);
@@ -384,7 +384,7 @@ public class GenerateTreeBrush extends AbstractBrush {
 		}
 	}
 
-	private void generateTrunkBlock(World world, int x, int y) {
+	private void generateTrunkBlock(Level world, int x, int y) {
 		Block block = world.getBlockAt(x, this.blockPositionY, y);
 		if (Materials.isEmpty(block.getType())) {
 			// Adds block to undo function.

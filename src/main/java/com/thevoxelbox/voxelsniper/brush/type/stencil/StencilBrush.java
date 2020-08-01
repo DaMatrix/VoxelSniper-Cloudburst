@@ -297,7 +297,7 @@ public class StencilBrush extends AbstractBrush {
 			messenger.sendMessage(TextFormat.AQUA + "Volume: " + this.x * this.z * this.y + " blockPositionX:" + blockPositionX + " blockPositionZ:" + blockPositionZ + " blockPositionY:" + blockPositionY);
 			BlockData[] blockDataArray = new BlockData[this.x * this.z * this.y];
 			byte[] runSizeArray = new byte[this.x * this.z * this.y];
-			World world = getWorld();
+			Level world = getLevel();
 			BlockData lastBlockData = world.getBlockAt(blockPositionX, blockPositionY, blockPositionZ)
 				.getBlockData();
 			int counter = 0;

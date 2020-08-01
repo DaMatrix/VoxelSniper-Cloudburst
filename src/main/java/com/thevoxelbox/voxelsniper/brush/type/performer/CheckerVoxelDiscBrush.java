@@ -5,10 +5,11 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.utils.TextFormat;
 public class CheckerVoxelDiscBrush extends AbstractPerformerBrush {
 
-	private boolean useWorldCoordinates = true;
+	private boolean useLevelCoordinates = true;
 
 	@Override
 	public void handleCommand(String[] parameters, Snipe snipe) {
@@ -18,16 +19,16 @@ public class CheckerVoxelDiscBrush extends AbstractPerformerBrush {
 			if (parameter.equals("info")) {
 				BrushProperties brushProperties = snipe.getBrushProperties();
 				messenger.sendMessage(TextFormat.GOLD + brushProperties.getName() + " Parameters:");
-				messenger.sendMessage(TextFormat.AQUA + "true  -- Enables using World Coordinates.");
-				messenger.sendMessage(TextFormat.AQUA + "false -- Disables using World Coordinates.");
+				messenger.sendMessage(TextFormat.AQUA + "true  -- Enables using Level Coordinates.");
+				messenger.sendMessage(TextFormat.AQUA + "false -- Disables using Level Coordinates.");
 				return;
 			}
 			if (parameter.startsWith("true")) {
-				this.useWorldCoordinates = true;
-				messenger.sendMessage(TextFormat.AQUA + "Enabled using World Coordinates.");
+				this.useLevelCoordinates = true;
+				messenger.sendMessage(TextFormat.AQUA + "Enabled using Level Coordinates.");
 			} else if (parameter.startsWith("false")) {
-				this.useWorldCoordinates = false;
-				messenger.sendMessage(TextFormat.AQUA + "Disabled using World Coordinates.");
+				this.useLevelCoordinates = false;
+				messenger.sendMessage(TextFormat.AQUA + "Disabled using Level Coordinates.");
 			} else {
 				messenger.sendMessage(TextFormat.RED + "Invalid brush parameters! use the info parameter to display parameter info.");
 				break;
@@ -52,7 +53,7 @@ public class CheckerVoxelDiscBrush extends AbstractPerformerBrush {
 		int brushSize = toolkitProperties.getBrushSize();
 		for (int x = brushSize; x >= -brushSize; x--) {
 			for (int y = brushSize; y >= -brushSize; y--) {
-				int sum = this.useWorldCoordinates ? target.getX() + x + target.getZ() + y : x + y;
+				int sum = this.useLevelCoordinates ? target.getX() + x + target.getZ() + y : x + y;
 				if (sum % 2 != 0) {
 					this.performer.perform(this.clampY(target.getX() + x, target.getY(), target.getZ() + y));
 				}

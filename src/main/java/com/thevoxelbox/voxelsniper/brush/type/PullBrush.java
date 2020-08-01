@@ -54,7 +54,7 @@ public class PullBrush extends AbstractBrush {
 		double brushSizeSquared = Math.pow(brushSize + 0.5, 2);
 		// Are we pulling up ?
 		Block targetBlock = getTargetBlock();
-		World world = getWorld();
+		Level world = getLevel();
 		if (this.voxelHeight > 0) {
 			// Z - Axis
 			for (int z = -brushSize; z <= brushSize; z++) {

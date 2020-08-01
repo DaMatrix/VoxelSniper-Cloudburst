@@ -278,13 +278,13 @@ public class SpiralStaircaseBrush extends AbstractBrush {
 								undo.put(clampY(position));
 							}
 							setBlockType(position, Material.OAK_STAIRS);
-							clampY(position).setBlockData(Material.OAK_STAIRS.createBlockData(data -> ((Directional) data).setFacing(BlockFace.EAST)));
+							clampY(position).setBlockData(Material.OAK_STAIRS.createBlockData(data -> ((Directional) data).setFacing(Direction.EAST)));
 						} else if (this.stairType.equalsIgnoreCase("cobblestair")) {
 							if (blockType != Material.COBBLESTONE_STAIRS) {
 								undo.put(clampY(position));
 							}
 							setBlockType(position, Material.COBBLESTONE_STAIRS);
-							clampY(position).setBlockData(Material.COBBLESTONE_STAIRS.createBlockData(data -> ((Directional) data).setFacing(BlockFace.EAST)));
+							clampY(position).setBlockData(Material.COBBLESTONE_STAIRS.createBlockData(data -> ((Directional) data).setFacing(Direction.EAST)));
 						}
 					} else {
 						if (this.stairType.equalsIgnoreCase("woodstair")) {
@@ -523,13 +523,13 @@ public class SpiralStaircaseBrush extends AbstractBrush {
 								undo.put(clampY(blockPositionX - brushSize - x, blockPositionY + i, blockPositionZ - brushSize + z));
 							}
 							setBlockType(position, Material.OAK_STAIRS);
-							clampY(position).setBlockData(Material.OAK_STAIRS.createBlockData(data -> ((Directional) data).setFacing(BlockFace.EAST)));
+							clampY(position).setBlockData(Material.OAK_STAIRS.createBlockData(data -> ((Directional) data).setFacing(Direction.EAST)));
 						} else if (this.stairType.equalsIgnoreCase("cobblestair")) {
 							if (blockType != Material.COBBLESTONE_STAIRS) {
 								undo.put(clampY(position));
 							}
 							setBlockType(position, Material.COBBLESTONE_STAIRS);
-							clampY(position).setBlockData(Material.COBBLESTONE_STAIRS.createBlockData(data -> ((Directional) data).setFacing(BlockFace.EAST)));
+							clampY(position).setBlockData(Material.COBBLESTONE_STAIRS.createBlockData(data -> ((Directional) data).setFacing(Direction.EAST)));
 						}
 					} else {
 						if (this.stairType.equalsIgnoreCase("woodstair")) {
@@ -560,22 +560,22 @@ public class SpiralStaircaseBrush extends AbstractBrush {
 			return;
 		}
 		Directional directional = (Directional) blockData;
-		BlockFace direction = dataToDirection(data);
+		Direction direction = dataToDirection(data);
 		directional.setFacing(direction);
 		block.setBlockData(blockData);
 	}
 
-	private BlockFace dataToDirection(int data) {
+	private Direction dataToDirection(int data) {
 		switch (data) {
 			case 3:
-				return BlockFace.NORTH;
+				return Direction.NORTH;
 			case 2:
-				return BlockFace.SOUTH;
+				return Direction.SOUTH;
 			case 1:
-				return BlockFace.WEST;
+				return Direction.WEST;
 			case 0:
 			default:
-				return BlockFace.EAST;
+				return Direction.EAST;
 		}
 	}
 

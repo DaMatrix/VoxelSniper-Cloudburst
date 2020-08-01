@@ -1,19 +1,20 @@
 package com.thevoxelbox.voxelsniper.brush.type.blend;
 
+import org.cloudburstmc.server.utils.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 class CommonMaterial {
 
 	@Nullable
-	private Material material;
+	private Identifier material;
 	private int frequency;
 
 	@Nullable
-	public Material getMaterial() {
+	public Identifier getMaterial() {
 		return this.material;
 	}
 
-	public void setMaterial(@Nullable Material material) {
+	public void setMaterial(@Nullable Identifier material) {
 		this.material = material;
 	}
 

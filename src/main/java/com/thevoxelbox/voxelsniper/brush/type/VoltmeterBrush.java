@@ -35,12 +35,12 @@ public class VoltmeterBrush extends AbstractBrush {
 		boolean indirect = block.isBlockIndirectlyPowered();
 		boolean direct = block.isBlockPowered();
 		messenger.sendMessage(TextFormat.AQUA + "Direct Power? " + direct + " Indirect Power? " + indirect);
-		messenger.sendMessage(TextFormat.BLUE + "Top Direct? " + block.isBlockFacePowered(BlockFace.UP) + " Top Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.UP));
-		messenger.sendMessage(TextFormat.BLUE + "Bottom Direct? " + block.isBlockFacePowered(BlockFace.DOWN) + " Bottom Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.DOWN));
-		messenger.sendMessage(TextFormat.BLUE + "East Direct? " + block.isBlockFacePowered(BlockFace.EAST) + " East Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.EAST));
-		messenger.sendMessage(TextFormat.BLUE + "West Direct? " + block.isBlockFacePowered(BlockFace.WEST) + " West Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.WEST));
-		messenger.sendMessage(TextFormat.BLUE + "North Direct? " + block.isBlockFacePowered(BlockFace.NORTH) + " North Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.NORTH));
-		messenger.sendMessage(TextFormat.BLUE + "South Direct? " + block.isBlockFacePowered(BlockFace.SOUTH) + " South Indirect? " + block.isBlockFaceIndirectlyPowered(BlockFace.SOUTH));
+		messenger.sendMessage(TextFormat.BLUE + "Top Direct? " + block.isDirectionPowered(Direction.UP) + " Top Indirect? " + block.isDirectionIndirectlyPowered(Direction.UP));
+		messenger.sendMessage(TextFormat.BLUE + "Bottom Direct? " + block.isDirectionPowered(Direction.DOWN) + " Bottom Indirect? " + block.isDirectionIndirectlyPowered(Direction.DOWN));
+		messenger.sendMessage(TextFormat.BLUE + "East Direct? " + block.isDirectionPowered(Direction.EAST) + " East Indirect? " + block.isDirectionIndirectlyPowered(Direction.EAST));
+		messenger.sendMessage(TextFormat.BLUE + "West Direct? " + block.isDirectionPowered(Direction.WEST) + " West Indirect? " + block.isDirectionIndirectlyPowered(Direction.WEST));
+		messenger.sendMessage(TextFormat.BLUE + "North Direct? " + block.isDirectionPowered(Direction.NORTH) + " North Indirect? " + block.isDirectionIndirectlyPowered(Direction.NORTH));
+		messenger.sendMessage(TextFormat.BLUE + "South Direct? " + block.isDirectionPowered(Direction.SOUTH) + " South Indirect? " + block.isDirectionIndirectlyPowered(Direction.SOUTH));
 	}
 
 	@Override

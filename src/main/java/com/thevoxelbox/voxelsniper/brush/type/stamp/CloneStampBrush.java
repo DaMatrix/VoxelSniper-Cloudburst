@@ -66,19 +66,19 @@ public class CloneStampBrush extends AbstractStampBrush {
 		int targetBlockY = targetBlock.getY();
 		int yStartingPoint = targetBlockY + toolkitProperties.getCylinderCenter();
 		int yEndPoint = targetBlockY + toolkitProperties.getVoxelHeight() + toolkitProperties.getCylinderCenter();
-		World world = getWorld();
+		Level world = getLevel();
 		if (yStartingPoint < 0) {
 			yStartingPoint = 0;
 			messenger.sendMessage(TextFormat.DARK_PURPLE + "Warning: off-world start position.");
-		} else if (yStartingPoint > world.getMaxHeight() - 1) {
-			yStartingPoint = world.getMaxHeight() - 1;
+		} else if (yStartingPoint > 256 - 1) {
+			yStartingPoint = 256 - 1;
 			messenger.sendMessage(TextFormat.DARK_PURPLE + "Warning: off-world start position.");
 		}
 		if (yEndPoint < 0) {
 			yEndPoint = 0;
 			messenger.sendMessage(TextFormat.DARK_PURPLE + "Warning: off-world end position.");
-		} else if (yEndPoint > world.getMaxHeight() - 1) {
-			yEndPoint = world.getMaxHeight() - 1;
+		} else if (yEndPoint > 256 - 1) {
+			yEndPoint = 256 - 1;
 			messenger.sendMessage(TextFormat.DARK_PURPLE + "Warning: off-world end position.");
 		}
 		double bSquared = Math.pow(brushSize, 2);

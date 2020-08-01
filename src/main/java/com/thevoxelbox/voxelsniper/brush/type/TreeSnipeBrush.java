@@ -46,12 +46,12 @@ public class TreeSnipeBrush extends AbstractBrush {
 	}
 
 	private void single(Snipe snipe, Block targetBlock) {
-		UndoDelegate undoDelegate = new UndoDelegate(targetBlock.getWorld());
-		Block blockBelow = targetBlock.getRelative(BlockFace.DOWN);
+		UndoDelegate undoDelegate = new UndoDelegate(targetBlock.getLevel());
+		Block blockBelow = targetBlock.getRelative(Direction.DOWN);
 		BlockState currentState = blockBelow.getState();
 		undoDelegate.setBlock(blockBelow);
 		blockBelow.setType(Material.GRASS_BLOCK);
-		World world = getWorld();
+		Level world = getLevel();
 		world.generateTree(targetBlock.getLocation(), this.treeType, undoDelegate);
 		Undo undo = undoDelegate.getUndo();
 		blockBelow.setBlockData(currentState.getBlockData());
@@ -62,8 +62,8 @@ public class TreeSnipeBrush extends AbstractBrush {
 
 	private int getYOffset() {
 		Block targetBlock = getTargetBlock();
-		World world = targetBlock.getWorld();
-		return IntStream.range(1, (world.getMaxHeight() - 1 - targetBlock.getY()))
+		Level world = targetBlock.getLevel();
+		return IntStream.range(1, (256 - 1 - targetBlock.getY()))
 			.filter(i -> Materials.isEmpty(targetBlock.getRelative(0, i + 1, 0).getType()))
 			.findFirst()
 			.orElse(0);
@@ -87,11 +87,11 @@ public class TreeSnipeBrush extends AbstractBrush {
 
 	private static final class UndoDelegate implements BlockChangeDelegate {
 
-		private World targetWorld;
+		private Level targetLevel;
 		private Undo currentUndo;
 
-		private UndoDelegate(World targetWorld) {
-			this.targetWorld = targetWorld;
+		private UndoDelegate(Level targetLevel) {
+			this.targetLevel = targetLevel;
 			this.currentUndo = new Undo();
 		}
 
@@ -103,7 +103,7 @@ public class TreeSnipeBrush extends AbstractBrush {
 
 		public void setBlock(Block block) {
 			Location location = block.getLocation();
-			Block blockAtLocation = this.targetWorld.getBlockAt(location);
+			Block blockAtLocation = this.targetLevel.getBlockAt(location);
 			this.currentUndo.put(blockAtLocation);
 			BlockData blockData = block.getBlockData();
 			blockAtLocation.setBlockData(blockData);
@@ -111,7 +111,7 @@ public class TreeSnipeBrush extends AbstractBrush {
 
 		@Override
 		public boolean setBlockData(int x, int y, int z, @NotNull BlockData blockData) {
-			Block block = this.targetWorld.getBlockAt(x, y, z);
+			Block block = this.targetLevel.getBlockAt(x, y, z);
 			this.currentUndo.put(block);
 			block.setBlockData(blockData);
 			return true;
@@ -120,18 +120,18 @@ public class TreeSnipeBrush extends AbstractBrush {
 		@NotNull
 		@Override
 		public BlockData getBlockData(int x, int y, int z) {
-			Block block = this.targetWorld.getBlockAt(x, y, z);
+			Block block = this.targetLevel.getBlockAt(x, y, z);
 			return block.getBlockData();
 		}
 
 		@Override
 		public int getHeight() {
-			return this.targetWorld.getMaxHeight();
+			return this.targetLevel.getMaxHeight();
 		}
 
 		@Override
 		public boolean isEmpty(int x, int y, int z) {
-			Block block = this.targetWorld.getBlockAt(x, y, z);
+			Block block = this.targetLevel.getBlockAt(x, y, z);
 			return Materials.isEmpty(block.getType());
 		}
 	}

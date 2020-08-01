@@ -5,6 +5,11 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockTypes;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.level.chunk.Chunk;
 import org.cloudburstmc.server.utils.TextFormat;
 public class CanyonBrush extends AbstractBrush {
 
@@ -45,7 +50,7 @@ public class CanyonBrush extends AbstractBrush {
 		Chunk targetChunk = getTargetBlock().getChunk();
 		for (int x = targetChunk.getX() - 1; x <= targetChunk.getX() + 1; x++) {
 			for (int z = targetChunk.getX() - 1; z <= targetChunk.getX() + 1; z++) {
-				canyon(getWorld().getChunkAt(x, z), undo);
+				canyon(getLevel().getChunk(x, z), undo);
 			}
 		}
 		Sniper sniper = snipe.getSniper();
@@ -53,26 +58,28 @@ public class CanyonBrush extends AbstractBrush {
 	}
 
 	protected void canyon(Chunk chunk, Undo undo) {
+		Level level = chunk.getLevel();
+		int baseX = chunk.getX() << 4;
+		int baseZ = chunk.getZ() << 4;
 		for (int x = 0; x < CHUNK_SIZE; x++) {
 			for (int z = 0; z < CHUNK_SIZE; z++) {
 				int currentYLevel = this.yLevel;
-				for (int y = 63; y < this.getWorld()
-					.getMaxHeight(); y++) {
-					Block block = chunk.getBlock(x, y, z);
-					Block currentYLevelBlock = chunk.getBlock(x, currentYLevel, z);
+				for (int y = 63; y < 256; y++) {
+					Block block = level.getBlock(baseX + x, y, baseZ + z);
+					Block currentYLevelBlock = level.getBlock(baseX + x, currentYLevel, baseZ + z);
 					undo.put(block);
 					undo.put(currentYLevelBlock);
-					currentYLevelBlock.setType(block.getType(), false);
-					block.setType(Material.AIR);
+					currentYLevelBlock.set(block.getState(), true, false);
+					block.set(BlockState.AIR);
 					currentYLevel++;
 				}
-				Block block = chunk.getBlock(x, 0, z);
+				Block block = level.getBlock(baseX + x, 0, baseZ + z);
 				undo.put(block);
-				block.setType(Material.BEDROCK);
+				block.set(BlockState.get(BlockTypes.STONE));
 				for (int y = 1; y < SHIFT_LEVEL_MIN; y++) {
-					Block currentBlock = chunk.getBlock(x, y, z);
+					Block currentBlock = level.getBlock(baseX + x, y, baseZ + z);
 					undo.put(currentBlock);
-					currentBlock.setType(Material.STONE);
+					currentBlock.set(BlockState.get(BlockTypes.STONE));
 				}
 			}
 		}

@@ -99,8 +99,8 @@ public class ErodeBrush extends AbstractBrush {
 	private void erosion(Snipe snipe, ErosionPreset erosionPreset) {
 		ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
 		Block targetBlock = getTargetBlock();
-		World targetBlockWorld = targetBlock.getWorld();
-		BlockChangeTracker blockChangeTracker = new BlockChangeTracker(targetBlockWorld);
+		Level targetBlockLevel = targetBlock.getLevel();
+		BlockChangeTracker blockChangeTracker = new BlockChangeTracker(targetBlockLevel);
 		Location targetBlockLocation = targetBlock.getLocation();
 		Vector targetBlockVector = targetBlockLocation.toVector();
 		for (int i = 0; i < erosionPreset.getErosionRecursion(); ++i) {
@@ -244,10 +244,10 @@ public class ErodeBrush extends AbstractBrush {
 
 		private Map<Integer, Map<Vector, BlockWrapper>> blockChanges;
 		private Map<Vector, BlockWrapper> flatChanges;
-		private World world;
+		private Level world;
 		private int nextIterationId;
 
-		private BlockChangeTracker(World world) {
+		private BlockChangeTracker(Level world) {
 			this.blockChanges = new HashMap<>();
 			this.flatChanges = new HashMap<>();
 			this.world = world;

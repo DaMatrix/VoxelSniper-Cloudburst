@@ -12,6 +12,8 @@ import com.thevoxelbox.voxelsniper.util.Vectors;
 import com.thevoxelbox.voxelsniper.util.math.MathHelper;
 import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
 import com.thevoxelbox.voxelsniper.util.painter.Painters;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class BlendDiscBrush extends AbstractBlendBrush {
 
@@ -43,19 +45,19 @@ public class BlendDiscBrush extends AbstractBlendBrush {
 			.paint();
 		int smallCircleArea = (int) MathHelper.circleArea(brushSize);
 		Map<VectorVS, Block> smallCircle = new HashMap<>(smallCircleArea);
-		Map<VectorVS, Material> smallCircleMaterials = new HashMap<>(smallCircleArea);
+		Map<VectorVS, Identifier> smallCircleMaterials = new HashMap<>(smallCircleArea);
 		Painters.circle()
 			.center(targetBlock)
 			.radius(brushSize)
 			.blockSetter(position -> {
 				Block block = largeCircle.get(position);
 				smallCircle.put(position, block);
-				smallCircleMaterials.put(position, block.getType());
+				smallCircleMaterials.put(position, block.getState().getType());
 			})
 			.paint();
 		for (Block smallCircleBlock : smallCircle.values()) {
 			VectorVS blockPosition = Vectors.of(smallCircleBlock);
-			Map<Material, Integer> materialsFrequencies = new EnumMap<>(Material.class);
+			Map<Identifier, Integer> materialsFrequencies = new HashMap<>();
 			Painters.square()
 				.center(smallCircleBlock)
 				.radius(1)
@@ -64,12 +66,12 @@ public class BlendDiscBrush extends AbstractBlendBrush {
 						return;
 					}
 					Block block = largeCircle.get(position);
-					Material material = block.getType();
+					Identifier material = block.getState().getType();
 					materialsFrequencies.merge(material, 1, Integer::sum);
 				})
 				.paint();
 			CommonMaterial commonMaterial = findCommonMaterial(materialsFrequencies);
-			Material material = commonMaterial.getMaterial();
+			Identifier material = commonMaterial.getMaterial();
 			if (material != null) {
 				smallCircleMaterials.put(blockPosition, material);
 			}

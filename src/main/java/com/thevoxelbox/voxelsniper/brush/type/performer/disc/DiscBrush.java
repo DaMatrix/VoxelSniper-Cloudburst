@@ -1,10 +1,12 @@
 package com.thevoxelbox.voxelsniper.brush.type.performer.disc;
 
+import com.nukkitx.math.vector.Vector3i;
 import com.thevoxelbox.voxelsniper.brush.type.performer.AbstractPerformerBrush;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.utils.TextFormat;
 public class DiscBrush extends AbstractPerformerBrush {
 
@@ -47,15 +49,12 @@ public class DiscBrush extends AbstractPerformerBrush {
 		ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
 		int brushSize = toolkitProperties.getBrushSize();
 		double radiusSquared = (brushSize + this.trueCircle) * (brushSize + this.trueCircle);
-		Vector centerPoint = targetBlock.getLocation()
-			.toVector();
-		Vector currentPoint = new Vector().copy(centerPoint);
+		Vector3i centerPoint = targetBlock.getPosition();
 		for (int x = -brushSize; x <= brushSize; x++) {
-			currentPoint.setX(centerPoint.getX() + x);
 			for (int z = -brushSize; z <= brushSize; z++) {
-				currentPoint.setZ(centerPoint.getZ() + z);
+				Vector3i currentPoint = centerPoint.add(x, 0, z);
 				if (centerPoint.distanceSquared(currentPoint) <= radiusSquared) {
-					this.performer.perform(clampY(currentPoint.getBlockX(), currentPoint.getBlockY(), currentPoint.getBlockZ()));
+					this.performer.perform(clampY(currentPoint.getX(), currentPoint.getY(), currentPoint.getZ()));
 				}
 			}
 		}

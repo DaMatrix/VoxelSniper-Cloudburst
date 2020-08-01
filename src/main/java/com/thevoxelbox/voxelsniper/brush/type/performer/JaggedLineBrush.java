@@ -1,22 +1,31 @@
 package com.thevoxelbox.voxelsniper.brush.type.performer;
 
+import java.util.Iterator;
 import java.util.Random;
+
+import com.nukkitx.math.vector.Vector3f;
+import com.nukkitx.math.vector.Vector3i;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.level.Location;
+import org.cloudburstmc.server.math.BlockRayTrace;
 import org.cloudburstmc.server.utils.TextFormat;
+
 public class JaggedLineBrush extends AbstractPerformerBrush {
 
-	private static final Vector HALF_BLOCK_OFFSET = new Vector(0.5, 0.5, 0.5);
+	private static final Vector3f HALF_BLOCK_OFFSET = Vector3f.from(0.5, 0.5, 0.5);
 	private static final int RECURSION_MIN = 1;
 	private static final int RECURSION_DEFAULT = 3;
 	private static final int RECURSION_MAX = 10;
 	private static final int SPREAD_DEFAULT = 3;
 
 	private Random random = new Random();
-	private Vector originCoordinates;
-	private Vector targetCoordinates = new Vector();
+	private Vector3f originCoordinates;
+	private Vector3f targetCoordinates = Vector3f.ZERO;
 	private int recursion = RECURSION_DEFAULT;
 	private int spread = SPREAD_DEFAULT;
 
@@ -58,11 +67,10 @@ public class JaggedLineBrush extends AbstractPerformerBrush {
 	@Override
 	public void handleArrowAction(Snipe snipe) {
 		if (this.originCoordinates == null) {
-			this.originCoordinates = new Vector();
+			this.originCoordinates = Vector3f.ZERO;
 		}
 		Block targetBlock = getTargetBlock();
-		Location targetBlockLocation = targetBlock.getLocation();
-		this.originCoordinates = targetBlockLocation.toVector();
+		this.originCoordinates = targetBlock.getPosition().toFloat();
 		SnipeMessenger messenger = snipe.createMessenger();
 		messenger.sendMessage(TextFormat.DARK_PURPLE + "First point selected.");
 	}
@@ -74,31 +82,23 @@ public class JaggedLineBrush extends AbstractPerformerBrush {
 			messenger.sendMessage(TextFormat.RED + "Warning: You did not select a first coordinate with the arrow");
 		} else {
 			Block targetBlock = getTargetBlock();
-			Location targetBlockLocation = targetBlock.getLocation();
-			this.targetCoordinates = targetBlockLocation.toVector();
+			this.targetCoordinates = targetBlock.getPosition().toFloat();
 			jaggedP(snipe);
 		}
 	}
 
 	private void jaggedP(Snipe snipe) {
-		Vector originClone = new Vector().
-			copy(this.originCoordinates)
-			.add(HALF_BLOCK_OFFSET);
-		Vector targetClone = new Vector().
-			copy(this.targetCoordinates)
-			.add(HALF_BLOCK_OFFSET);
-		Vector direction = new Vector().
-			copy(targetClone)
-			.subtract(originClone);
+		Vector3f originClone = this.originCoordinates.add(HALF_BLOCK_OFFSET);
+		Vector3f targetClone = this.targetCoordinates.add(HALF_BLOCK_OFFSET);
+		Vector3f direction = targetClone.sub(originClone);
 		double length = this.targetCoordinates.distance(this.originCoordinates);
-		World world = getWorld();
+		Level world = getLevel();
 		if (length == 0) {
-			Location location = this.targetCoordinates.toLocation(world);
-			this.performer.perform(location.getBlock());
+			this.performer.perform(world.getBlock(this.targetCoordinates));
 		} else {
-			BlockIterator iterator = new BlockIterator(world, originClone, direction, 0, NumberConversions.round(length));
+			Iterator<Vector3i> iterator = BlockRayTrace.of(originClone, direction, Math.round(length)).iterator();
 			while (iterator.hasNext()) {
-				Block block = iterator.next();
+				Block block = world.getBlock(iterator.next());
 				for (int i = 0; i < this.recursion; i++) {
 					this.performer.perform(clampY(Math.round(block.getX() + this.random.nextInt(this.spread * 2) - this.spread), Math.round(block.getY() + this.random.nextInt(this.spread * 2) - this.spread), Math.round(block.getZ() + this.random.nextInt(this.spread * 2) - this.spread)));
 				}

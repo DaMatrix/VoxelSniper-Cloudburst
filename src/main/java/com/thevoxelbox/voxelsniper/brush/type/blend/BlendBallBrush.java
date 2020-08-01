@@ -12,6 +12,8 @@ import com.thevoxelbox.voxelsniper.util.Vectors;
 import com.thevoxelbox.voxelsniper.util.math.MathHelper;
 import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
 import com.thevoxelbox.voxelsniper.util.painter.Painters;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class BlendBallBrush extends AbstractBlendBrush {
 
@@ -43,19 +45,19 @@ public class BlendBallBrush extends AbstractBlendBrush {
 			.paint();
 		int smallSphereVolume = (int) MathHelper.sphereVolume(brushSize);
 		Map<VectorVS, Block> smallSphere = new HashMap<>(smallSphereVolume);
-		Map<VectorVS, Material> smallSphereMaterials = new HashMap<>(smallSphereVolume);
+		Map<VectorVS, Identifier> smallSphereMaterials = new HashMap<>(smallSphereVolume);
 		Painters.sphere()
 			.center(targetBlock)
 			.radius(brushSize)
 			.blockSetter(position -> {
 				Block block = largeSphere.get(position);
 				smallSphere.put(position, block);
-				smallSphereMaterials.put(position, block.getType());
+				smallSphereMaterials.put(position, block.getState().getType());
 			})
 			.paint();
 		for (Block smallSphereBlock : smallSphere.values()) {
 			VectorVS blockPosition = Vectors.of(smallSphereBlock);
-			Map<Material, Integer> materialsFrequencies = new EnumMap<>(Material.class);
+			Map<Identifier, Integer> materialsFrequencies = new HashMap<>();
 			Painters.cube()
 				.center(smallSphereBlock)
 				.radius(1)
@@ -64,12 +66,12 @@ public class BlendBallBrush extends AbstractBlendBrush {
 						return;
 					}
 					Block block = largeSphere.get(position);
-					Material material = block.getType();
+					Identifier material = block.getState().getType();
 					materialsFrequencies.merge(material, 1, Integer::sum);
 				})
 				.paint();
 			CommonMaterial commonMaterial = findCommonMaterial(materialsFrequencies);
-			Material material = commonMaterial.getMaterial();
+			Identifier material = commonMaterial.getMaterial();
 			if (material != null) {
 				smallSphereMaterials.put(blockPosition, material);
 			}

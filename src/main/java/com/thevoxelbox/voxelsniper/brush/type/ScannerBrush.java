@@ -44,7 +44,7 @@ public class ScannerBrush extends AbstractBrush {
 		this.checkFor = toolkitProperties.getBlockType();
 		Block targetBlock = getTargetBlock();
 		Block lastBlock = getLastBlock();
-		BlockFace face = targetBlock.getFace(lastBlock);
+		Direction face = targetBlock.getSide(lastBlock);
 		if (face == null) {
 			return;
 		}
@@ -57,17 +57,17 @@ public class ScannerBrush extends AbstractBrush {
 		this.checkFor = toolkitProperties.getBlockType();
 		Block targetBlock = getTargetBlock();
 		Block lastBlock = getLastBlock();
-		BlockFace face = targetBlock.getFace(lastBlock);
+		Direction face = targetBlock.getSide(lastBlock);
 		if (face == null) {
 			return;
 		}
 		scan(snipe, face);
 	}
 
-	private void scan(Snipe snipe, BlockFace blockFace) {
+	private void scan(Snipe snipe, Direction blockFace) {
 		SnipeMessenger messenger = snipe.createMessenger();
 		Block targetBlock = getTargetBlock();
-		if (blockFace == BlockFace.NORTH) {// Scan south
+		if (blockFace == Direction.NORTH) {// Scan south
 			for (int i = 1; i < this.depth + 1; i++) {
 				if (this.clampY(targetBlock.getX() + i, targetBlock.getY(), targetBlock.getZ())
 					.getType() == this.checkFor) {
@@ -76,7 +76,7 @@ public class ScannerBrush extends AbstractBrush {
 				}
 			}
 			messenger.sendMessage(TextFormat.GRAY + "Nope.");
-		} else if (blockFace == BlockFace.SOUTH) {// Scan north
+		} else if (blockFace == Direction.SOUTH) {// Scan north
 			for (int i = 1; i < this.depth + 1; i++) {
 				if (this.clampY(targetBlock.getX() - i, targetBlock.getY(), targetBlock.getZ())
 					.getType() == this.checkFor) {
@@ -85,7 +85,7 @@ public class ScannerBrush extends AbstractBrush {
 				}
 			}
 			messenger.sendMessage(TextFormat.GRAY + "Nope.");
-		} else if (blockFace == BlockFace.EAST) {// Scan west
+		} else if (blockFace == Direction.EAST) {// Scan west
 			for (int i = 1; i < this.depth + 1; i++) {
 				if (this.clampY(targetBlock.getX(), targetBlock.getY(), targetBlock.getZ() + i)
 					.getType() == this.checkFor) {
@@ -94,7 +94,7 @@ public class ScannerBrush extends AbstractBrush {
 				}
 			}
 			messenger.sendMessage(TextFormat.GRAY + "Nope.");
-		} else if (blockFace == BlockFace.WEST) {// Scan east
+		} else if (blockFace == Direction.WEST) {// Scan east
 			for (int i = 1; i < this.depth + 1; i++) {
 				if (this.clampY(targetBlock.getX(), targetBlock.getY(), targetBlock.getZ() - i)
 					.getType() == this.checkFor) {
@@ -103,7 +103,7 @@ public class ScannerBrush extends AbstractBrush {
 				}
 			}
 			messenger.sendMessage(TextFormat.GRAY + "Nope.");
-		} else if (blockFace == BlockFace.UP) {// Scan down
+		} else if (blockFace == Direction.UP) {// Scan down
 			for (int i = 1; i < this.depth + 1; i++) {
 				if ((targetBlock.getY() - i) <= 0) {
 					break;
@@ -115,12 +115,12 @@ public class ScannerBrush extends AbstractBrush {
 				}
 			}
 			messenger.sendMessage(TextFormat.GRAY + "Nope.");
-		} else if (blockFace == BlockFace.DOWN) {// Scan up
+		} else if (blockFace == Direction.DOWN) {// Scan up
 			for (int i = 1; i < this.depth + 1; i++) {
 				Sniper sniper = snipe.getSniper();
 				Player player = sniper.getPlayer();
-				World world = player.getWorld();
-				if ((targetBlock.getY() + i) >= world.getMaxHeight()) {
+				Level world = player.getLevel();
+				if ((targetBlock.getY() + i) >= 256) {
 					break;
 				}
 				if (this.clampY(targetBlock.getX(), targetBlock.getY() + i, targetBlock.getZ())

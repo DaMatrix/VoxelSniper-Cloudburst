@@ -3,6 +3,8 @@ package com.thevoxelbox.voxelsniper.brush.type.performer;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.level.Level;
 import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,11 +45,11 @@ public class SetBrush extends AbstractPerformerBrush {
 			return true;
 		}
 		SnipeMessenger messenger = snipe.createMessenger();
-		World thisBlockWorld = this.block.getWorld();
-		String name = thisBlockWorld.getName();
-		World parameterBlockWorld = block.getWorld();
-		String parameterBlockWorldName = parameterBlockWorld.getName();
-		if (!name.equals(parameterBlockWorldName)) {
+		Level thisBlockLevel = this.block.getLevel();
+		String name = thisBlockLevel.getName();
+		Level parameterBlockLevel = block.getLevel();
+		String parameterBlockLevelName = parameterBlockLevel.getName();
+		if (!name.equals(parameterBlockLevelName)) {
 			messenger.sendMessage(TextFormat.RED + "You selected points in different worlds!");
 			this.block = null;
 			return true;

@@ -12,6 +12,8 @@ import com.thevoxelbox.voxelsniper.util.Vectors;
 import com.thevoxelbox.voxelsniper.util.math.MathHelper;
 import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
 import com.thevoxelbox.voxelsniper.util.painter.Painters;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class BlendVoxelDiscBrush extends AbstractBlendBrush {
 
@@ -44,19 +46,19 @@ public class BlendVoxelDiscBrush extends AbstractBlendBrush {
 			.paint();
 		int smallSquareArea = MathHelper.square(squareEdge);
 		Map<VectorVS, Block> smallSquare = new HashMap<>(smallSquareArea);
-		Map<VectorVS, Material> smallSquareMaterials = new HashMap<>(smallSquareArea);
+		Map<VectorVS, Identifier> smallSquareMaterials = new HashMap<>(smallSquareArea);
 		Painters.square()
 			.center(targetBlock)
 			.radius(brushSize)
 			.blockSetter(position -> {
 				Block block = largeSquare.get(position);
 				smallSquare.put(position, block);
-				smallSquareMaterials.put(position, block.getType());
+				smallSquareMaterials.put(position, block.getState().getType());
 			})
 			.paint();
 		for (Block smallSquareBlock : smallSquare.values()) {
 			VectorVS blockPosition = Vectors.of(smallSquareBlock);
-			Map<Material, Integer> materialsFrequencies = new EnumMap<>(Material.class);
+			Map<Identifier, Integer> materialsFrequencies = new HashMap<>();
 			Painters.square()
 				.center(smallSquareBlock)
 				.radius(1)
@@ -65,12 +67,12 @@ public class BlendVoxelDiscBrush extends AbstractBlendBrush {
 						return;
 					}
 					Block block = largeSquare.get(position);
-					Material material = block.getType();
+					Identifier material = block.getState().getType();
 					materialsFrequencies.merge(material, 1, Integer::sum);
 				})
 				.paint();
 			CommonMaterial commonMaterial = findCommonMaterial(materialsFrequencies);
-			Material material = commonMaterial.getMaterial();
+			Identifier material = commonMaterial.getMaterial();
 			if (material != null) {
 				smallSquareMaterials.put(blockPosition, material);
 			}

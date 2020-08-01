@@ -60,7 +60,7 @@ public class FlatOceanBrush extends AbstractBrush {
 	}
 
 	private void flatOceanAtTarget(int additionalX, int additionalZ) {
-		World world = getWorld();
+		Level world = getLevel();
 		Block targetBlock = getTargetBlock();
 		int blockX = targetBlock.getX();
 		int blockZ = targetBlock.getZ();
@@ -70,7 +70,7 @@ public class FlatOceanBrush extends AbstractBrush {
 	}
 
 	private void flatOceanAtTarget() {
-		World world = getWorld();
+		Level world = getLevel();
 		Block targetBlock = getTargetBlock();
 		Chunk chunk = world.getChunkAt(targetBlock);
 		flatOcean(chunk);
@@ -79,8 +79,8 @@ public class FlatOceanBrush extends AbstractBrush {
 	private void flatOcean(Chunk chunk) {
 		for (int x = 0; x < CHUNK_SIZE; x++) {
 			for (int z = 0; z < CHUNK_SIZE; z++) {
-				World world = chunk.getWorld();
-				for (int y = 0; y < world.getMaxHeight(); y++) {
+				Level world = chunk.getLevel();
+				for (int y = 0; y < 256; y++) {
 					Block block = chunk.getBlock(x, y, z);
 					if (y <= this.floorLevel) {
 						block.setType(Material.DIRT);

@@ -110,7 +110,7 @@ public class CopyPastaBrush extends AbstractBrush {
 				for (int j = 0; j < this.arraySize[1]; j++) {
 					for (int k = 0; k < this.arraySize[2]; k++) {
 						int currentPosition = i + this.arraySize[0] * j + this.arraySize[0] * this.arraySize[1] * k;
-						World world = getWorld();
+						Level world = getLevel();
 						Block block = world.getBlockAt(this.minPoint[0] + i, this.minPoint[1] + j, this.minPoint[2] + k);
 						this.blockArray[currentPosition] = block.getType();
 						Block clamp = this.clampY(this.minPoint[0] + i, this.minPoint[1] + j, this.minPoint[2] + k);

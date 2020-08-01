@@ -72,7 +72,7 @@ public class JockeyBrush extends AbstractBrush {
 		Sniper sniper = snipe.getSniper();
 		Player player = sniper.getPlayer();
 		Block targetBlock = getTargetBlock();
-		World world = getWorld();
+		Level world = getLevel();
 		Chunk targetChunk = world.getChunkAt(targetBlock.getLocation());
 		int targetChunkX = targetChunk.getX();
 		int targetChunkZ = targetChunk.getZ();

@@ -56,7 +56,7 @@ public class BiomeBrush extends AbstractBrush {
 		ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
 		int brushSize = toolkitProperties.getBrushSize();
 		double brushSizeSquared = Math.pow(brushSize, 2);
-		World world = getWorld();
+		Level world = getLevel();
 		Block targetBlock = getTargetBlock();
 		int targetBlockX = targetBlock.getX();
 		int targetBlockZ = targetBlock.getZ();
@@ -92,7 +92,7 @@ public class BiomeBrush extends AbstractBrush {
 	}
 
 	@SuppressWarnings("deprecation")
-	private void refreshChunk(World world, int x, int z) {
+	private void refreshChunk(Level world, int x, int z) {
 		world.refreshChunk(x, z);
 	}
 

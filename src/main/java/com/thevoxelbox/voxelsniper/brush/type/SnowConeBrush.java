@@ -26,7 +26,7 @@ public class SnowConeBrush extends AbstractBrush {
 		if (targetBlock.getType() == Material.SNOW) {
 			addSnow(snipe, targetBlock);
 		} else {
-			Block blockAbove = targetBlock.getRelative(BlockFace.UP);
+			Block blockAbove = targetBlock.getRelative(Direction.UP);
 			Material type = blockAbove.getType();
 			if (Materials.isEmpty(type)) {
 				addSnow(snipe, blockAbove);

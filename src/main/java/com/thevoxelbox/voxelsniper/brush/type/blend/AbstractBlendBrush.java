@@ -8,6 +8,9 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
 import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockTypes;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public abstract class AbstractBlendBrush extends AbstractBrush {
 
@@ -39,12 +42,12 @@ public abstract class AbstractBlendBrush extends AbstractBrush {
 
 	public abstract void blend(Snipe snipe);
 
-	protected void setBlocks(Map<VectorVS, Material> materials, Undo undo) {
-		for (Entry<VectorVS, Material> entry : materials.entrySet()) {
+	protected void setBlocks(Map<VectorVS, Identifier> materials, Undo undo) {
+		for (Entry<VectorVS, Identifier> entry : materials.entrySet()) {
 			VectorVS position = entry.getKey();
-			Material material = entry.getValue();
+			Identifier material = entry.getValue();
 			if (checkExclusions(material)) {
-				Material currentBlockType = getBlockType(position);
+				Identifier currentBlockType = getBlockType(position);
 				if (currentBlockType != material) {
 					Block clamped = clampY(position);
 					undo.put(clamped);
@@ -54,10 +57,10 @@ public abstract class AbstractBlendBrush extends AbstractBrush {
 		}
 	}
 
-	protected CommonMaterial findCommonMaterial(Map<Material, Integer> materialsFrequencies) {
+	protected CommonMaterial findCommonMaterial(Map<Identifier, Integer> materialsFrequencies) {
 		CommonMaterial commonMaterial = new CommonMaterial();
-		for (Entry<Material, Integer> entry : materialsFrequencies.entrySet()) {
-			Material material = entry.getKey();
+		for (Entry<Identifier, Integer> entry : materialsFrequencies.entrySet()) {
+			Identifier material = entry.getKey();
 			int frequency = entry.getValue();
 			if (frequency > commonMaterial.getFrequency() && checkExclusions(material)) {
 				commonMaterial.setMaterial(material);
@@ -67,8 +70,8 @@ public abstract class AbstractBlendBrush extends AbstractBrush {
 		return commonMaterial;
 	}
 
-	private boolean checkExclusions(Material material) {
-		return (!this.airExcluded || !Materials.isEmpty(material)) && (!this.waterExcluded || material != Material.WATER);
+	private boolean checkExclusions(Identifier material) {
+		return (!this.airExcluded || !Materials.isEmpty(material)) && (!this.waterExcluded || material != BlockTypes.WATER);
 	}
 
 	@Override

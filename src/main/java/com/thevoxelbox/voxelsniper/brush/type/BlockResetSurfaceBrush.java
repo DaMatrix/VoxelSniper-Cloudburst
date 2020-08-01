@@ -76,7 +76,7 @@ public class BlockResetSurfaceBrush extends AbstractBrush {
 	}
 
 	private Block getBlockAtRelativeToTarget(int x, int y, int z) {
-		World world = getWorld();
+		Level world = getLevel();
 		Block targetBlock = getTargetBlock();
 		int targetBlockX = targetBlock.getX();
 		int targetBlockY = targetBlock.getY();

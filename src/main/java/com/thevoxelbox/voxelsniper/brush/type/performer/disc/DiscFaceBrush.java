@@ -5,6 +5,9 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import com.thevoxelbox.voxelsniper.util.BlockHelper;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.math.Direction;
 import org.cloudburstmc.server.utils.TextFormat;
 public class DiscFaceBrush extends AbstractPerformerBrush {
 
@@ -102,7 +105,7 @@ public class DiscFaceBrush extends AbstractPerformerBrush {
 
 	private void pre(Snipe snipe, Block targetBlock) {
 		Block lastBlock = getLastBlock();
-		BlockFace blockFace = getTargetBlock().getFace(lastBlock);
+		Direction blockFace = BlockHelper.getSide(getTargetBlock(), lastBlock);
 		if (blockFace == null) {
 			return;
 		}

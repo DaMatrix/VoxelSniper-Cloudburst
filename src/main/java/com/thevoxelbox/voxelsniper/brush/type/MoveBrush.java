@@ -135,7 +135,7 @@ public class MoveBrush extends AbstractBrush {
 		List<BlockState> blockStates = selection.getBlockStates();
 		if (!blockStates.isEmpty()) {
 			BlockState firstState = blockStates.get(0);
-			World world = firstState.getWorld();
+			Level world = firstState.getLevel();
 			Undo undo = new Undo();
 			Selection newSelection = new Selection();
 			Location movedLocation1 = selection.getLocation1();
@@ -196,8 +196,8 @@ public class MoveBrush extends AbstractBrush {
 		 */
 		public boolean calculateRegion() {
 			if (this.location1 != null && this.location2 != null) {
-				World world1 = this.location1.getWorld();
-				World world2 = this.location2.getWorld();
+				Level world1 = this.location1.getLevel();
+				Level world2 = this.location2.getLevel();
 				if (world1.equals(world2)) {
 					int x1 = this.location1.getBlockX();
 					int x2 = this.location2.getBlockX();

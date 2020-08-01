@@ -4,13 +4,17 @@ import com.thevoxelbox.voxelsniper.brush.type.performer.AbstractPerformerBrush;
 import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import com.thevoxelbox.voxelsniper.util.BlockHelper;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.math.Direction;
+
 public class VoxelDiscFaceBrush extends AbstractPerformerBrush {
 
 	@Override
 	public void handleArrowAction(Snipe snipe) {
 		Block lastBlock = getLastBlock();
 		Block targetBlock = getTargetBlock();
-		BlockFace face = targetBlock.getFace(lastBlock);
+		Direction face = BlockHelper.getSide(targetBlock, lastBlock);
 		if (face == null) {
 			return;
 		}
@@ -21,14 +25,14 @@ public class VoxelDiscFaceBrush extends AbstractPerformerBrush {
 	public void handleGunpowderAction(Snipe snipe) {
 		Block lastBlock = getLastBlock();
 		Block targetBlock = getTargetBlock();
-		BlockFace face = targetBlock.getFace(lastBlock);
+		Direction face = BlockHelper.getSide(targetBlock, lastBlock);
 		if (face == null) {
 			return;
 		}
 		pre(snipe, face, lastBlock);
 	}
 
-	private void pre(Snipe snipe, BlockFace blockFace, Block targetBlock) {
+	private void pre(Snipe snipe, Direction blockFace, Block targetBlock) {
 		switch (blockFace) {
 			case NORTH:
 			case SOUTH:

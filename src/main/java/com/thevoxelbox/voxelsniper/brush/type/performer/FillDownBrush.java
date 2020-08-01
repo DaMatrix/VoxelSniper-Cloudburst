@@ -5,6 +5,8 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.behavior.BlockBehaviorLiquid;
 import org.cloudburstmc.server.utils.TextFormat;
 public class FillDownBrush extends AbstractPerformerBrush {
 
@@ -72,8 +74,8 @@ public class FillDownBrush extends AbstractPerformerBrush {
 					if (this.fromExisting) {
 						boolean found = false;
 						for (y = -toolkitProperties.getVoxelHeight(); y < toolkitProperties.getVoxelHeight(); y++) {
-							Block currentBlock = getWorld().getBlockAt(targetBlock.getX() + x, targetBlock.getY() + y, targetBlock.getZ() + z);
-							if (!Materials.isEmpty(currentBlock.getType())) {
+							Block currentBlock = getLevel().getBlock(targetBlock.getX() + x, targetBlock.getY() + y, targetBlock.getZ() + z);
+							if (!Materials.isEmpty(currentBlock.getState().getType())) {
 								found = true;
 								break;
 							}
@@ -84,8 +86,8 @@ public class FillDownBrush extends AbstractPerformerBrush {
 						y--;
 					}
 					for (; y >= -targetBlock.getY(); --y) {
-						Block currentBlock = getWorld().getBlockAt(targetBlock.getX() + x, targetBlock.getY() + y, targetBlock.getZ() + z);
-						if (Materials.isEmpty(currentBlock.getType()) || (this.fillLiquid && currentBlock.isLiquid())) {
+						Block currentBlock = getLevel().getBlock(targetBlock.getX() + x, targetBlock.getY() + y, targetBlock.getZ() + z);
+						if (Materials.isEmpty(currentBlock.getState().getType()) || (this.fillLiquid && currentBlock.getState().getBehavior() instanceof BlockBehaviorLiquid)) {
 							this.performer.perform(currentBlock);
 						} else {
 							break;

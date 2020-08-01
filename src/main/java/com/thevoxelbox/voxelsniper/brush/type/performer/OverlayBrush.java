@@ -6,6 +6,10 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockTypes;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class OverlayBrush extends AbstractPerformerBrush {
 
@@ -65,15 +69,15 @@ public class OverlayBrush extends AbstractPerformerBrush {
 				// check if column is valid
 				// column is valid if it has no solid block right above the clicked layer
 				Block targetBlock = getTargetBlock();
-				Material material = getBlockType(targetBlock.getX() + x, targetBlock.getY() + 1, targetBlock.getZ() + z);
+				Identifier material = getBlockType(targetBlock.getX() + x, targetBlock.getY() + 1, targetBlock.getZ() + z);
 				if (isIgnoredBlock(material)) {
 					if (Math.pow(x, 2) + Math.pow(z, 2) <= brushSizeSquared) {
 						for (int y = targetBlock.getY(); y > 0; y--) {
 							// check for surface
-							Material layerBlockType = getBlockType(targetBlock.getX() + x, y, targetBlock.getZ() + z);
+							Identifier layerBlockType = getBlockType(targetBlock.getX() + x, y, targetBlock.getZ() + z);
 							if (!isIgnoredBlock(layerBlockType)) {
 								for (int currentDepth = y; y - currentDepth < this.depth; currentDepth--) {
-									Material currentBlockType = getBlockType(targetBlock.getX() + x, currentDepth, targetBlock.getZ() + z);
+									Identifier currentBlockType = getBlockType(targetBlock.getX() + x, currentDepth, targetBlock.getZ() + z);
 									if (isOverrideableMaterial(currentBlockType)) {
 										this.performer.perform(clampY(targetBlock.getX() + x, currentDepth, targetBlock.getZ() + z));
 									}
@@ -90,11 +94,11 @@ public class OverlayBrush extends AbstractPerformerBrush {
 	}
 
 	@SuppressWarnings("deprecation")
-	private boolean isIgnoredBlock(Material material) {
-		return material == Material.WATER || material.isTransparent() || material == Material.CACTUS;
+	private boolean isIgnoredBlock(Identifier material) {
+		return material == BlockTypes.WATER || material == BlockTypes.CACTUS || BlockState.get(material).getBehavior().isTransparent();
 	}
 
-	private boolean isOverrideableMaterial(Material material) {
+	private boolean isOverrideableMaterial(Identifier material) {
 		if (this.allBlocks && !Materials.isEmpty(material)) {
 			return true;
 		}
@@ -126,7 +130,7 @@ public class OverlayBrush extends AbstractPerformerBrush {
 										}
 										surfaceFound = true;
 									} else { // if the override parameter has not been activated, go to the switch that filters out manmade stuff.
-										Material type = getBlockType(targetBlockX + x, y, targetBlockZ + z);
+										Identifier type = getBlockType(targetBlockX + x, y, targetBlockZ + z);
 										if (MaterialSets.OVERRIDEABLE_WITH_ORES.contains(type)) {
 											for (int index = 1; (index < this.depth + 1); index++) {
 												this.performer.perform(this.clampY(targetBlockX + x, y + index, targetBlockZ + z)); // fills down as many layers as you specify

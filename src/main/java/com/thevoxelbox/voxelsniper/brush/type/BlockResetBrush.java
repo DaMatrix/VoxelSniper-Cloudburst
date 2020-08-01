@@ -34,7 +34,7 @@ public class BlockResetBrush extends AbstractBrush {
 		for (int z = -brushSize; z <= brushSize; z++) {
 			for (int x = -brushSize; x <= brushSize; x++) {
 				for (int y = -brushSize; y <= brushSize; y++) {
-					World world = getWorld();
+					Level world = getLevel();
 					Block targetBlock = getTargetBlock();
 					Block block = world.getBlockAt(targetBlock.getX() + x, targetBlock.getY() + y, targetBlock.getZ() + z);
 					Material blockType = block.getType();

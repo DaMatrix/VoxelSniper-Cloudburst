@@ -86,7 +86,7 @@ public class OceanBrush extends AbstractBrush {
 	}
 
 	private void oceanator(ToolkitProperties toolkitProperties, Undo undo) {
-		World world = getWorld();
+		Level world = getLevel();
 		Block targetBlock = getTargetBlock();
 		int targetBlockX = targetBlock.getX();
 		int targetBlockZ = targetBlock.getZ();
@@ -133,7 +133,7 @@ public class OceanBrush extends AbstractBrush {
 	}
 
 	private int getHeight(int bx, int bz) {
-		World world = getWorld();
+		Level world = getLevel();
 		for (int y = world.getHighestBlockYAt(bx, bz); y > 0; y--) {
 			Block clamp = this.clampY(bx, y, bz);
 			Material material = clamp.getType();

@@ -7,14 +7,14 @@ public class LightningBrush extends AbstractBrush {
 
 	@Override
 	public void handleArrowAction(Snipe snipe) {
-		World world = getWorld();
+		Level world = getLevel();
 		Block targetBlock = getTargetBlock();
 		world.strikeLightning(targetBlock.getLocation());
 	}
 
 	@Override
 	public void handleGunpowderAction(Snipe snipe) {
-		World world = getWorld();
+		Level world = getLevel();
 		Block targetBlock = getTargetBlock();
 		world.strikeLightning(targetBlock.getLocation());
 	}

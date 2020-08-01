@@ -8,6 +8,9 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.block.BlockTypes;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class SplatterOverlayBrush extends AbstractPerformerBrush {
 
@@ -171,14 +174,14 @@ public class SplatterOverlayBrush extends AbstractPerformerBrush {
 						// if haven't already found the surface in this column
 						if ((Math.pow(x, 2) + Math.pow(z, 2)) <= brushSizeSquared && splat[x + brushSize][z + brushSize] == 1) {
 							// if inside of the column && if to be splattered
-							Material check = this.getBlockType(targetBlock.getX() + x, y + 1, targetBlock.getZ() + z);
-							if (Materials.isEmpty(check) || check == Material.WATER) {
+							Identifier check = this.getBlockType(targetBlock.getX() + x, y + 1, targetBlock.getZ() + z);
+							if (Materials.isEmpty(check) || check == BlockTypes.WATER) {
 								// must start at surface... this prevents it filling stuff in if you click in a wall
 								// and it starts out below surface.
 								if (this.allBlocks) {
 									int depth = this.randomizeHeight ? this.generator.nextInt(this.depth) : this.depth;
 									for (int i = this.depth - 1; ((this.depth - i) <= depth); i--) {
-										if (!Materials.isEmpty(this.clampY(targetBlock.getX() + x, y - i, targetBlock.getZ() + z).getType())) {
+										if (!Materials.isEmpty(this.clampY(targetBlock.getX() + x, y - i, targetBlock.getZ() + z).getState().getType())) {
 											// fills down as many layers as you specify in parameters
 											this.performer.perform(this.clampY(targetBlock.getX() + x, y - i + this.yOffset, targetBlock.getZ() + z));
 											// stop it from checking any other blocks in this vertical 1x1 column.
@@ -190,7 +193,7 @@ public class SplatterOverlayBrush extends AbstractPerformerBrush {
 									if (MaterialSets.OVERRIDEABLE.contains(getBlockType(targetBlock.getX() + x, y, targetBlock.getZ() + z))) {
 										int depth = this.randomizeHeight ? this.generator.nextInt(this.depth) : this.depth;
 										for (int d = this.depth - 1; ((this.depth - d) <= depth); d--) {
-											if (!Materials.isEmpty(this.clampY(targetBlock.getX() + x, y - d, targetBlock.getZ() + z).getType())) {
+											if (!Materials.isEmpty(this.clampY(targetBlock.getX() + x, y - d, targetBlock.getZ() + z).getState().getType())) {
 												// fills down as many layers as you specify in parameters
 												this.performer.perform(this.clampY(targetBlock.getX() + x, y - d + this.yOffset, targetBlock.getZ() + z));
 												// stop it from checking any other blocks in this vertical 1x1 column.

@@ -5,6 +5,8 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.level.Level;
 import org.cloudburstmc.server.utils.TextFormat;
 public class CylinderBrush extends AbstractPerformerBrush {
 
@@ -69,19 +71,19 @@ public class CylinderBrush extends AbstractPerformerBrush {
 		if (yEndPoint < yStartingPoint) {
 			yEndPoint = yStartingPoint;
 		}
-		World world = getWorld();
+		Level world = getLevel();
 		if (yStartingPoint < 0) {
 			yStartingPoint = 0;
 			messenger.sendMessage(TextFormat.DARK_PURPLE + "Warning: off-world start position.");
-		} else if (yStartingPoint > world.getMaxHeight() - 1) {
-			yStartingPoint = world.getMaxHeight() - 1;
+		} else if (yStartingPoint > 256 - 1) {
+			yStartingPoint = 256 - 1;
 			messenger.sendMessage(TextFormat.DARK_PURPLE + "Warning: off-world start position.");
 		}
 		if (yEndPoint < 0) {
 			yEndPoint = 0;
 			messenger.sendMessage(TextFormat.DARK_PURPLE + "Warning: off-world end position.");
-		} else if (yEndPoint > world.getMaxHeight() - 1) {
-			yEndPoint = world.getMaxHeight() - 1;
+		} else if (yEndPoint > 256 - 1) {
+			yEndPoint = 256 - 1;
 			messenger.sendMessage(TextFormat.DARK_PURPLE + "Warning: off-world end position.");
 		}
 		double bSquared = Math.pow(brushSize + this.trueCircle, 2);

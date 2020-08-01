@@ -12,6 +12,8 @@ import com.thevoxelbox.voxelsniper.util.Vectors;
 import com.thevoxelbox.voxelsniper.util.math.MathHelper;
 import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
 import com.thevoxelbox.voxelsniper.util.painter.Painters;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class BlendVoxelBrush extends AbstractBlendBrush {
 
@@ -44,19 +46,19 @@ public class BlendVoxelBrush extends AbstractBlendBrush {
 			.paint();
 		int smallCubeVolume = MathHelper.cube(cubeEdge);
 		Map<VectorVS, Block> smallCube = new HashMap<>(smallCubeVolume);
-		Map<VectorVS, Material> smallCubeMaterials = new HashMap<>(smallCubeVolume);
+		Map<VectorVS, Identifier> smallCubeMaterials = new HashMap<>(smallCubeVolume);
 		Painters.cube()
 			.center(targetBlock)
 			.radius(brushSize)
 			.blockSetter(position -> {
 				Block block = largeCube.get(position);
 				smallCube.put(position, block);
-				smallCubeMaterials.put(position, block.getType());
+				smallCubeMaterials.put(position, block.getState().getType());
 			})
 			.paint();
 		for (Block smallCubeBlock : smallCube.values()) {
 			VectorVS blockPosition = Vectors.of(smallCubeBlock);
-			Map<Material, Integer> materialsFrequencies = new EnumMap<>(Material.class);
+			Map<Identifier, Integer> materialsFrequencies = new HashMap<>();
 			Painters.cube()
 				.center(smallCubeBlock)
 				.radius(1)
@@ -65,12 +67,12 @@ public class BlendVoxelBrush extends AbstractBlendBrush {
 						return;
 					}
 					Block block = largeCube.get(position);
-					Material material = block.getType();
+					Identifier material = block.getState().getType();
 					materialsFrequencies.merge(material, 1, Integer::sum);
 				})
 				.paint();
 			CommonMaterial commonMaterial = findCommonMaterial(materialsFrequencies);
-			Material material = commonMaterial.getMaterial();
+			Identifier material = commonMaterial.getMaterial();
 			if (material != null) {
 				smallCubeMaterials.put(blockPosition, material);
 			}

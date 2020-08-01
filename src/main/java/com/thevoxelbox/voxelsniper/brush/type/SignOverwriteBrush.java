@@ -181,7 +181,7 @@ public class SignOverwriteBrush extends AbstractBrush {
 		for (int x = minX; x <= maxX; x++) {
 			for (int y = minY; y <= maxY; y++) {
 				for (int z = minZ; z <= maxZ; z++) {
-					BlockState blockState = this.getWorld()
+					BlockState blockState = this.getLevel()
 						.getBlockAt(x, y, z)
 						.getState();
 					if (blockState instanceof Sign) {

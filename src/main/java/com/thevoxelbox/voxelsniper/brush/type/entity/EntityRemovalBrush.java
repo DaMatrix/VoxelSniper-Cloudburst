@@ -7,6 +7,8 @@ import com.thevoxelbox.voxelsniper.brush.type.AbstractBrush;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import org.cloudburstmc.server.entity.Entity;
+import org.cloudburstmc.server.level.chunk.Chunk;
 import org.cloudburstmc.server.utils.TextFormat;
 public class EntityRemovalBrush extends AbstractBrush {
 
@@ -63,7 +65,7 @@ public class EntityRemovalBrush extends AbstractBrush {
 			int radius = Math.round(toolkitProperties.getBrushSize() / 16.0F);
 			for (int x = targetChunk.getX() - radius; x <= targetChunk.getX() + radius; x++) {
 				for (int z = targetChunk.getZ() - radius; z <= targetChunk.getZ() + radius; z++) {
-					entityCount += removeEntities(getWorld().getChunkAt(x, z));
+					entityCount += removeEntities(getLevel().getChunk(x, z));
 					chunkCount++;
 				}
 			}
@@ -79,7 +81,7 @@ public class EntityRemovalBrush extends AbstractBrush {
 		int entityCount = 0;
 		for (Entity entity : chunk.getEntities()) {
 			if (!isClassInExemptionList(entity.getClass())) {
-				entity.remove();
+				entity.close();
 				entityCount++;
 			}
 		}

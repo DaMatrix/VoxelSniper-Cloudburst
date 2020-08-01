@@ -4,6 +4,7 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.Undo;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
+import org.cloudburstmc.server.level.chunk.Chunk;
 import org.cloudburstmc.server.utils.TextFormat;
 public class CanyonSelectionBrush extends CanyonBrush {
 
@@ -39,7 +40,7 @@ public class CanyonSelectionBrush extends CanyonBrush {
 		Undo undo = new Undo();
 		for (int x = lowX; x <= highX; x++) {
 			for (int z = lowZ; z <= highZ; z++) {
-				canyon(getWorld().getChunkAt(x, z), undo);
+				canyon(getLevel().getChunk(x, z), undo);
 			}
 		}
 		Sniper sniper = snipe.getSniper();

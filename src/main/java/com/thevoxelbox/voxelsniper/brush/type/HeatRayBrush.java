@@ -86,7 +86,7 @@ public class HeatRayBrush extends AbstractBrush {
 		Block targetBlock = getTargetBlock();
 		Location targetBlockLocation = targetBlock.getLocation();
 		Vector targetBlockVector = targetBlockLocation.toVector();
-		Location currentLocation = new Location(targetBlock.getWorld(), 0, 0, 0);
+		Location currentLocation = new Location(targetBlock.getLevel(), 0, 0, 0);
 		Undo undo = new Undo();
 		int brushSize = toolkitProperties.getBrushSize();
 		for (int z = brushSize; z >= -brushSize; z--) {

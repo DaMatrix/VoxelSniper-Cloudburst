@@ -4,7 +4,10 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessageSender;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
+import com.thevoxelbox.voxelsniper.util.BlockHelper;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.math.Direction;
 import org.cloudburstmc.server.utils.TextFormat;
 public class EllipseBrush extends AbstractPerformerBrush {
 
@@ -110,7 +113,7 @@ public class EllipseBrush extends AbstractPerformerBrush {
 				int x = (int) Math.round(this.xscl * Math.cos(steps));
 				int y = (int) Math.round(this.yscl * Math.sin(steps));
 				Block lastBlock = getLastBlock();
-				BlockFace face = getTargetBlock().getFace(lastBlock);
+				Direction face = BlockHelper.getSide(getTargetBlock(), lastBlock);
 				if (face != null) {
 					switch (face) {
 						case NORTH:
@@ -152,7 +155,7 @@ public class EllipseBrush extends AbstractPerformerBrush {
 						int x = (int) Math.round(ix * Math.cos(steps));
 						int y = (int) Math.round(iy * Math.sin(steps));
 						Block lastBlock = getLastBlock();
-						BlockFace face = getTargetBlock().getFace(lastBlock);
+						Direction face = BlockHelper.getSide(getTargetBlock(), lastBlock);
 						if (face != null) {
 							switch (face) {
 								case NORTH:
@@ -183,7 +186,7 @@ public class EllipseBrush extends AbstractPerformerBrush {
 						int x = (int) Math.round(ix * Math.cos(steps));
 						int y = (int) Math.round(iy * Math.sin(steps));
 						Block lastBlock = getLastBlock();
-						BlockFace face = getTargetBlock().getFace(lastBlock);
+						Direction face = BlockHelper.getSide(getTargetBlock(), lastBlock);
 						if (face != null) {
 							switch (face) {
 								case NORTH:

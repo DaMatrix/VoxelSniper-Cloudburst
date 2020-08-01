@@ -25,10 +25,10 @@ public class RegenerateChunkBrush extends AbstractBrush {
 		Block targetBlock = getTargetBlock();
 		Chunk chunk = targetBlock.getChunk();
 		Undo undo = new Undo();
-		World world = getWorld();
+		Level world = getLevel();
 		for (int z = CHUNK_SIZE; z >= 0; z--) {
 			for (int x = CHUNK_SIZE; x >= 0; x--) {
-				for (int y = world.getMaxHeight(); y >= 0; y--) {
+				for (int y = 256; y >= 0; y--) {
 					undo.put(chunk.getBlock(x, y, z));
 				}
 			}

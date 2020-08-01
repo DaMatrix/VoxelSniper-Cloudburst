@@ -39,7 +39,7 @@ public class EraserBrush extends AbstractBrush {
 		int brushSize = toolkitProperties.getBrushSize();
 		int brushSizeDoubled = 2 * brushSize;
 		Block targetBlock = getTargetBlock();
-		World world = targetBlock.getWorld();
+		Level world = targetBlock.getLevel();
 		Undo undo = new Undo();
 		for (int x = brushSizeDoubled; x >= 0; x--) {
 			int currentX = targetBlock.getX() - brushSize + x;

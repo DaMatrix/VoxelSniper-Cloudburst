@@ -6,6 +6,10 @@ import com.thevoxelbox.voxelsniper.sniper.Sniper;
 import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
+import org.cloudburstmc.server.block.Block;
+import org.cloudburstmc.server.level.Level;
+import org.cloudburstmc.server.level.Location;
+import org.cloudburstmc.server.player.Player;
 import org.cloudburstmc.server.utils.TextFormat;
 public class PunishBrush extends AbstractPerformerBrush {
 
@@ -80,7 +84,8 @@ public class PunishBrush extends AbstractPerformerBrush {
 
 	@Override
 	public void handleArrowAction(Snipe snipe) {
-		ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
+		//TODO: this
+		/*ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
 		SnipeMessenger messenger = snipe.createMessenger();
 		Sniper sniper = snipe.getSniper();
 		Player player = sniper.getPlayer();
@@ -91,7 +96,7 @@ public class PunishBrush extends AbstractPerformerBrush {
 		this.punishDuration = toolkitProperties.getVoxelHeight();
 		this.punishLevel = toolkitProperties.getCylinderCenter();
 		if (this.specificPlayer) {
-			Player punishedPlayer = Bukkit.getPlayer(this.punishPlayerName);
+			Player punishedPlayer = player.getServer().getPlayer(this.punishPlayerName);
 			if (punishedPlayer == null) {
 				messenger.sendMessage("No player " + this.punishPlayerName + " found.");
 				return;
@@ -102,9 +107,9 @@ public class PunishBrush extends AbstractPerformerBrush {
 		int brushSize = toolkitProperties.getBrushSize();
 		int brushSizeSquare = brushSize * brushSize;
 		Block targetBlock = getTargetBlock();
-		World world = player.getWorld();
-		Location targetLocation = new Location(world, targetBlock.getX(), targetBlock.getY(), targetBlock.getZ());
-		List<LivingEntity> entities = world.getLivingEntities();
+		Level world = player.getLevel();
+		Location targetLocation = Location.from(targetBlock.getX(), targetBlock.getY(), targetBlock.getZ(), world);
+		List<LivingEntity> entities = world.getEntities();
 		int numPunishApps = 0;
 		for (LivingEntity entity : entities) {
 			if (player != entity || this.hitsSelf) {
@@ -126,12 +131,12 @@ public class PunishBrush extends AbstractPerformerBrush {
 				}
 			}
 		}
-		messenger.sendMessage(TextFormat.DARK_RED + "Punishment applied to " + numPunishApps + " living entities.");
+		messenger.sendMessage(TextFormat.DARK_RED + "Punishment applied to " + numPunishApps + " living entities.");*/
 	}
 
 	@Override
 	public void handleGunpowderAction(Snipe snipe) {
-		ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
+		/*ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
 		SnipeMessenger messenger = snipe.createMessenger();
 		Sniper sniper = snipe.getSniper();
 		Player player = sniper.getPlayer();
@@ -141,7 +146,7 @@ public class PunishBrush extends AbstractPerformerBrush {
 		}
 		int brushSize = toolkitProperties.getBrushSize();
 		int brushSizeSquare = brushSize * brushSize;
-		World world = player.getWorld();
+		Level world = player.getLevel();
 		Block targetBlock = getTargetBlock();
 		Location targetLocation = new Location(world, targetBlock.getX(), targetBlock.getY(), targetBlock.getZ());
 		List<LivingEntity> entities = world.getLivingEntities();
@@ -154,17 +159,17 @@ public class PunishBrush extends AbstractPerformerBrush {
 				entity.removePotionEffect(PotionEffectType.SLOW);
 				entity.removePotionEffect(PotionEffectType.JUMP);
 			}
-		}
+		}*/
 	}
 
-	private void applyPunishment(LivingEntity entity, Snipe snipe) {
+	/*private void applyPunishment(LivingEntity entity, Snipe snipe) {
 		ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
 		switch (this.punishment) {
 			case FIRE:
 				entity.setFireTicks(TICKS_PER_SECOND * this.punishDuration);
 				break;
 			case LIGHTNING:
-				entity.getWorld()
+				entity.getLevel()
 					.strikeLightning(entity.getLocation());
 				break;
 			case BLINDNESS:
@@ -289,7 +294,7 @@ public class PunishBrush extends AbstractPerformerBrush {
 	private void addEffect(LivingEntity entity, PotionEffectType type) {
 		PotionEffect effect = new PotionEffect(type, TICKS_PER_SECOND * this.punishDuration, this.punishLevel);
 		entity.addPotionEffect(effect, true);
-	}
+	}*/
 
 	@Override
 	public void sendInfo(Snipe snipe) {

@@ -114,7 +114,7 @@ public class ExtrudeBrush extends AbstractBrush {
 		}
 	}
 
-	private void selectExtrudeMethod(Snipe snipe, @Nullable BlockFace blockFace, boolean towardsUser) {
+	private void selectExtrudeMethod(Snipe snipe, @Nullable Direction blockFace, boolean towardsUser) {
 		ToolkitProperties toolkitProperties = snipe.getToolkitProperties();
 		if (blockFace == null || toolkitProperties.getVoxelHeight() == 0) {
 			return;
@@ -138,14 +138,14 @@ public class ExtrudeBrush extends AbstractBrush {
 	public void handleArrowAction(Snipe snipe) {
 		Block targetBlock = getTargetBlock();
 		Block lastBlock = getLastBlock();
-		selectExtrudeMethod(snipe, targetBlock.getFace(lastBlock), false);
+		selectExtrudeMethod(snipe, targetBlock.getSide(lastBlock), false);
 	}
 
 	@Override
 	public void handleGunpowderAction(Snipe snipe) {
 		Block targetBlock = getTargetBlock();
 		Block lastBlock = getLastBlock();
-		selectExtrudeMethod(snipe, targetBlock.getFace(lastBlock), true);
+		selectExtrudeMethod(snipe, targetBlock.getSide(lastBlock), true);
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.painter.Painters;
+import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.utils.TextFormat;
 /**
  * A brush that creates a solid ball.
