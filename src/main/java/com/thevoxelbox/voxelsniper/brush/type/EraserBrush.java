@@ -9,6 +9,7 @@ import com.thevoxelbox.voxelsniper.util.material.MaterialSet;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
 import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockStates;
 import org.cloudburstmc.server.block.BlockTypes;
 import org.cloudburstmc.server.level.Level;
 
@@ -55,7 +56,7 @@ public class EraserBrush extends AbstractBrush {
 					Block currentBlock = world.getBlock(currentX, currentY, currentZ);
 					if (!EXCLUSIVE_MATERIALS.contains(currentBlock.getState()) && (!keepWater || !EXCLUSIVE_LIQUIDS.contains(currentBlock.getState()))) {
 						undo.put(currentBlock);
-						currentBlock.set(BlockState.AIR);
+						currentBlock.set(BlockStates.AIR);
 					}
 				}
 			}

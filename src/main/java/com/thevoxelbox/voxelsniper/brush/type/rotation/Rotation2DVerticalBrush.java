@@ -8,6 +8,7 @@ import com.thevoxelbox.voxelsniper.util.material.Materials;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
 import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockStates;
 import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 // The X Y and Z variable names in this file do NOT MAKE ANY SENSE. Do not attempt to actually figure out what on earth is going on here. Just go to the
@@ -69,7 +70,7 @@ public class Rotation2DVerticalBrush extends AbstractBrush {
 				for (int y = 0; y < this.snap.length; y++) {
 					Block block = clampY(sx, sy, sz); // why is this not sx + x, sy + y sz + z?
 					this.snap[x][y][z] = block.getState();
-					block.set(BlockState.AIR);
+					block.set(BlockStates.AIR);
 					sy++;
 				}
 				sz++;

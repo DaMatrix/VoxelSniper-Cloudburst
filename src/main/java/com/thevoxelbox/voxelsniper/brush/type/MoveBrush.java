@@ -14,6 +14,7 @@ import com.thevoxelbox.voxelsniper.util.material.MaterialSet;
 import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
 import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockStates;
 import org.cloudburstmc.server.level.Level;
 import org.cloudburstmc.server.level.Location;
 import org.cloudburstmc.server.utils.TextFormat;
@@ -139,10 +140,10 @@ public class MoveBrush extends AbstractBrush {
 			sniper.storeUndo(undo);
 			blockStates.stream()
 				.map(BukkitBlockState::getBlock)
-				.forEach(block -> block.set(BlockState.AIR));
+				.forEach(block -> block.set(BlockStates.AIR));
 			for (BukkitBlockState blockState : blockStates) {
 				Block affectedBlock = world.getBlock(blockState.position.getX() + direction[0], blockState.position.getY() + direction[1], blockState.position.getZ() + direction[2]);
-				affectedBlock.set(blockState.state, true, !blockState.state.getBehavior().canBeReplaced());
+				affectedBlock.set(blockState.state, true, !blockState.state.getBehavior().canBeReplaced(blockState.level.getBlock(blockState.position)));
 			}
 		}
 	}

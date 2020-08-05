@@ -7,6 +7,7 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockStates;
 import org.cloudburstmc.server.block.BlockTypes;
 import org.cloudburstmc.server.level.Level;
 import org.cloudburstmc.server.level.chunk.Chunk;
@@ -70,7 +71,7 @@ public class CanyonBrush extends AbstractBrush {
 					undo.put(block);
 					undo.put(currentYLevelBlock);
 					currentYLevelBlock.set(block.getState(), true, false);
-					block.set(BlockState.AIR);
+					block.set(BlockStates.AIR);
 					currentYLevel++;
 				}
 				Block block = level.getBlock(baseX + x, 0, baseZ + z);

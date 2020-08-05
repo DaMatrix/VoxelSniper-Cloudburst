@@ -4,6 +4,7 @@ import com.thevoxelbox.voxelsniper.sniper.snipe.Snipe;
 import com.thevoxelbox.voxelsniper.sniper.snipe.message.SnipeMessenger;
 import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockStates;
 import org.cloudburstmc.server.block.BlockTypes;
 import org.cloudburstmc.server.level.Level;
 import org.cloudburstmc.server.level.chunk.Chunk;
@@ -94,7 +95,7 @@ public class FlatOceanBrush extends AbstractBrush {
 					} else if (y <= this.waterLevel) {
 						block.set(BlockState.get(BlockTypes.WATER), true, false);
 					} else {
-						block.set(BlockState.AIR, true, false);
+						block.set(BlockStates.AIR, true, false);
 					}
 				}
 			}

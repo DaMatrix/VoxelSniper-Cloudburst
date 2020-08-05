@@ -9,6 +9,7 @@ import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
 import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockStates;
 import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class Rotation3DBrush extends AbstractBrush {
@@ -87,7 +88,7 @@ public class Rotation3DBrush extends AbstractBrush {
 					if (xSquared + zSquared + Math.pow(y - this.brushSize, 2) <= brushSizeSquared) {
 						Block block = clampY(sx, sz, sz);
 						this.snap[x][y][z] = block.getState();
-						block.set(BlockState.AIR);
+						block.set(BlockStates.AIR);
 						sz++;
 					}
 				}

@@ -8,11 +8,12 @@ java {
 }
 
 repositories {
+	mavenLocal()
 	maven("https://repo.nukkitx.com/main/")
 	jcenter()
 }
 
 dependencies {
-	compileOnly("cn.nukkit:nukkit:2.0.0-SNAPSHOT")
+	compileOnly("org.cloudburstmc:cloudburst-server:1.0.0-SNAPSHOT")
 	compileOnly("org.jetbrains:annotations:17.0.0")
 }

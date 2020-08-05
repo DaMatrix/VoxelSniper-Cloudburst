@@ -16,6 +16,7 @@ import net.daporkchop.lib.noise.filter.ScaleOctavesOffsetFilter;
 import net.daporkchop.lib.random.impl.FastPRandom;
 import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockStates;
 import org.cloudburstmc.server.block.BlockTypes;
 import org.cloudburstmc.server.block.behavior.BlockBehaviorLiquid;
 import org.cloudburstmc.server.utils.Identifier;
@@ -87,7 +88,7 @@ public class HeatRayBrush extends AbstractBrush {
 						}
 						if (currentBlock.getState().getBehavior() instanceof BlockBehaviorLiquid) {
 							undo.put(currentBlock);
-							currentBlock.set(BlockState.AIR);
+							currentBlock.set(BlockStates.AIR);
 							continue;
 						}
 						if (currentBlock.getState().getBehavior().getBurnAbility() > 0) {
@@ -117,7 +118,7 @@ public class HeatRayBrush extends AbstractBrush {
 								}
 							} else if (airDensity >= REQUIRED_AIR_DENSITY) {
 								undo.put(currentBlock);
-								currentBlock.set(BlockState.AIR);
+								currentBlock.set(BlockStates.AIR);
 							}
 						}
 					}

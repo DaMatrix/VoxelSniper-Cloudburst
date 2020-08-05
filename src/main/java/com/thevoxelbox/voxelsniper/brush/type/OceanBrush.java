@@ -10,6 +10,7 @@ import com.thevoxelbox.voxelsniper.util.material.MaterialSets;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
 import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockStates;
 import org.cloudburstmc.server.block.BlockTypes;
 import org.cloudburstmc.server.level.Level;
 import org.cloudburstmc.server.utils.Identifier;
@@ -94,7 +95,7 @@ public class OceanBrush extends AbstractBrush {
 					Block block = world.getBlock(x, y, z);
 					if (block.getState().getType() != BlockTypes.AIR) {
 						undo.put(block);
-						block.set(BlockState.AIR);
+						block.set(BlockStates.AIR);
 					}
 				}
 				// go down from water level to new sea level

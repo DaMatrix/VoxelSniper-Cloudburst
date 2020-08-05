@@ -57,10 +57,10 @@ public final class ArtHelper {
 	@Nullable
 	private static Painting matchPainting(Player player) {
 		Painting bestMatch = null;
-		BlockState targetBlock = player.getTargetBlock(4, null);
+		Block targetBlock = player.getTargetBlock(4, null);
 		//TODO: this should be the block location
 		// Location location = targetBlock.getLocation();
-		Vector3f location = player.getPosition();
+		Vector3f location = targetBlock.getPosition().toFloat();
 		Chunk paintingChunk = player.getLevel().getChunk(location);
 		double bestDistanceMatch = 50.0;
 		for (Entity entity : paintingChunk.getEntities()) {

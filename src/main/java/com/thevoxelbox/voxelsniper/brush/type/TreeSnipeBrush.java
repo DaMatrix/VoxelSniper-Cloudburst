@@ -13,14 +13,14 @@ import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.block.BlockState;
 import org.cloudburstmc.server.block.BlockTypes;
 import org.cloudburstmc.server.level.Level;
-import org.cloudburstmc.server.level.feature.tree.TreeSpecies;
+import org.cloudburstmc.server.level.feature.tree.GenerationTreeSpecies;
 import org.cloudburstmc.server.math.Direction;
 import org.cloudburstmc.server.utils.TextFormat;
 import org.jetbrains.annotations.NotNull;
 
 public class TreeSnipeBrush extends AbstractBrush {
 
-	private TreeSpecies treeType = TreeSpecies.OAK;
+	private GenerationTreeSpecies treeType = GenerationTreeSpecies.OAK;
 
 	@Override
 	public void handleCommand(String[] parameters, Snipe snipe) {
@@ -33,7 +33,7 @@ public class TreeSnipeBrush extends AbstractBrush {
 				return;
 			}
 			try {
-				this.treeType = TreeSpecies.valueOf(parameter.toUpperCase());
+				this.treeType = GenerationTreeSpecies.valueOf(parameter.toUpperCase());
 				printTreeType(messenger);
 			} catch (IllegalArgumentException exception) {
 				messenger.sendMessage(TextFormat.LIGHT_PURPLE + "No such tree type.");
@@ -86,7 +86,7 @@ public class TreeSnipeBrush extends AbstractBrush {
 	}
 
 	private void printTreeType(SnipeMessenger messenger) {
-		String printout = Arrays.stream(TreeSpecies.values())
+		String printout = Arrays.stream(GenerationTreeSpecies.values())
 			.map(treeType -> ((treeType == this.treeType) ? TextFormat.GRAY + treeType.name()
 				.toLowerCase() : TextFormat.DARK_GRAY + treeType.name()
 				.toLowerCase()) + TextFormat.WHITE)

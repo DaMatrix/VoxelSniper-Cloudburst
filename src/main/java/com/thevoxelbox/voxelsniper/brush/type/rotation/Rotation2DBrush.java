@@ -7,6 +7,7 @@ import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
 import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockStates;
 import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
 public class Rotation2DBrush extends AbstractBrush {
@@ -64,7 +65,7 @@ public class Rotation2DBrush extends AbstractBrush {
 					for (int z = 0; z < this.snap.length; z++) {
 						Block block = clampY(sx, sy, sz); // why is this not sx + x, sy + y sz + z?
 						this.snap[x][z][y] = block.getState();
-						block.set(BlockState.AIR);
+						block.set(BlockStates.AIR);
 						sy++;
 					}
 				}

@@ -20,6 +20,7 @@ import com.thevoxelbox.voxelsniper.util.math.vector.VectorVS;
 import com.thevoxelbox.voxelsniper.util.text.NumericParser;
 import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockStates;
 import org.cloudburstmc.server.block.BlockTypes;
 import org.cloudburstmc.server.level.Level;
 import org.cloudburstmc.server.utils.Identifier;
@@ -156,7 +157,7 @@ public class ErodeBrush extends AbstractBrush {
 								}
 							}
 						}
-						BlockWrapper currentBlockWrapper = new BlockWrapper(null, BlockState.AIR);
+						BlockWrapper currentBlockWrapper = new BlockWrapper(null, BlockStates.AIR);
 						int amount = 0;
 						for (BlockWrapper wrapper : blockCount.keySet()) {
 							Integer currentCount = blockCount.get(wrapper);
@@ -194,7 +195,7 @@ public class ErodeBrush extends AbstractBrush {
 							.filter(relativeBlock -> relativeBlock.isEmpty() || relativeBlock.isLiquid())
 							.count();
 						if (count >= erosionPreset.getErosionFaces()) {
-							blockChangeTracker.put(currentPosition, new BlockWrapper(currentBlock.getBlock(), BlockState.AIR), currentIteration);
+							blockChangeTracker.put(currentPosition, new BlockWrapper(currentBlock.getBlock(), BlockStates.AIR), currentIteration);
 						}
 					}
 				}

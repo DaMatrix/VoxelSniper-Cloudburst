@@ -9,6 +9,7 @@ import com.thevoxelbox.voxelsniper.sniper.toolkit.ToolkitProperties;
 import com.thevoxelbox.voxelsniper.util.material.Materials;
 import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.block.BlockState;
+import org.cloudburstmc.server.block.BlockStates;
 import org.cloudburstmc.server.block.BlockTypes;
 import org.cloudburstmc.server.utils.Identifier;
 
@@ -167,7 +168,7 @@ public class RandomErodeBrush extends AbstractBrush {
 							if (((xSquared + Math.pow(y - (this.brushSize + 1), 2) + zSquared) <= brushSizeSquared)) {
 								if (this.erode(x, y, z)) {
 									Block block = this.snap[x][y][z].getNativeBlock();
-									block.set(BlockState.AIR);
+									block.set(BlockStates.AIR);
 								}
 							}
 						}
@@ -243,7 +244,7 @@ public class RandomErodeBrush extends AbstractBrush {
 							if (((xSquared + Math.pow(y - (this.brushSize + 1), 2) + zSquared) <= bSquared)) {
 								if (this.erode(x, y, z)) {
 									Block block = this.snap[x][y][z].getNativeBlock();
-									block.set(BlockState.AIR);
+									block.set(BlockStates.AIR);
 								}
 							}
 						}
