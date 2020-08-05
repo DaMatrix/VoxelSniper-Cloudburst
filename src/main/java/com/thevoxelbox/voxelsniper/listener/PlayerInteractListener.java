@@ -21,6 +21,8 @@ public class PlayerInteractListener implements Listener<PlayerInteractEvent> {
 	@EventHandler
 	@Override
 	public void listen(PlayerInteractEvent event) {
+		System.out.printf("%s: action: %s, block: %s@%s, touchVector: %s, direction: %s, item: %s\n",
+			event.getPlayer().getName(), event.getAction(), event.getBlock().getState(), event.getBlock().getPosition(), event.getTouchVector(), event.getFace(), event.getItem());
 		Player player = event.getPlayer();
 		if (!player.hasPermission("voxelsniper.sniper")) {
 			return;
@@ -35,6 +37,7 @@ public class PlayerInteractListener implements Listener<PlayerInteractEvent> {
 		Block clickedBlock = event.getBlock();
 		Direction clickedBlockFace = event.getFace();
 		if (sniper.isEnabled() && sniper.snipe(player, action, usedItem, clickedBlock, clickedBlockFace)) {
+			//System.out.println("snipe successful");
 			event.setCancelled(true);
 		}
 	}

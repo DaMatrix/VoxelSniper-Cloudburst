@@ -33,23 +33,23 @@ public class MessageSender {
 
 	public MessageSender blockTypeMessage(Identifier blockType) {
 		BlockState state = BlockState.get(blockType);
-		this.messages.add(TextFormat.GOLD + "Voxel: " + TextFormat.RED + Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)));
+		this.messages.add(TextFormat.GOLD + "Voxel: " + TextFormat.RED + state);
 		return this;
 	}
 
 	public MessageSender blockDataMessage(BlockState state) {
-		this.messages.add(TextFormat.BLUE + "Data Variable: " + TextFormat.DARK_RED + Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)));
+		this.messages.add(TextFormat.BLUE + "Data Variable: " + TextFormat.DARK_RED + state);
 		return this;
 	}
 
 	public MessageSender replaceBlockTypeMessage(Identifier replaceBlockType) {
 		BlockState state = BlockState.get(replaceBlockType);
-		this.messages.add(TextFormat.AQUA + "Replace Material: " + TextFormat.RED + Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)));
+		this.messages.add(TextFormat.AQUA + "Replace Material: " + TextFormat.RED + state);
 		return this;
 	}
 
 	public MessageSender replaceBlockDataMessage(BlockState state) {
-		this.messages.add(TextFormat.DARK_GRAY + "Replace Data Variable: " + TextFormat.DARK_RED + Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)));
+		this.messages.add(TextFormat.DARK_GRAY + "Replace Data Variable: " + TextFormat.DARK_RED + state);
 		return this;
 	}
 

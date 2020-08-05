@@ -18,19 +18,23 @@ public class BlockTracer {
 
 	BlockTracer(Player player, int distance) {
 		Vector3f eyeLocation = player.getPosition().add(0f, player.getEyeHeight(), 0f);
+		//System.out.println("Starting trace at " + eyeLocation);
 		Block block = player.getLevel().getBlock(eyeLocation);
 		this.targetBlock = block;
 		this.lastBlock = block;
 		Iterator<Vector3i> iterator = BlockRayTrace.of(eyeLocation, player.getDirectionVector(), distance).iterator();
-		iterate(player.getLevel(), iterator);
+		this.iterate(player.getLevel(), iterator);
 	}
 
 	private void iterate(Level level, Iterator<? extends Vector3i> iterator) {
 		while (iterator.hasNext()) {
+			//System.out.printf("last: %s@%s, next: %s@%s\n", this.lastBlock.getState(), this.lastBlock.getPosition(), this.targetBlock.getState(), this.targetBlock.getPosition());
 			Block block = level.getBlock(iterator.next());
 			this.lastBlock = this.targetBlock;
 			this.targetBlock = block;
 			if (!Materials.isEmpty(block.getState().getType())) {
+				//System.out.printf("last: %s@%s, next: %s@%s\n", this.lastBlock.getState(), this.lastBlock.getPosition(), this.targetBlock.getState(), this.targetBlock.getPosition());
+				//System.out.println("done");
 				return;
 			}
 		}

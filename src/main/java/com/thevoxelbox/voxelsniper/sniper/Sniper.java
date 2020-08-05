@@ -120,7 +120,9 @@ public class Sniper {
 		}
 		ToolkitProperties toolkitProperties = toolkit.getProperties();
 		BlockTracer blockTracer = toolkitProperties.createBlockTracer(player);
-		Block targetBlock = clickedBlock == null ? blockTracer.getTargetBlock() : clickedBlock;
+		//Block targetBlock = clickedBlock == null ? blockTracer.getTargetBlock() : clickedBlock;
+		Block targetBlock = blockTracer.getTargetBlock();
+		//System.out.println(targetBlock.getPosition() + " " + targetBlock.getState());
 		if (player.isSneaking()) {
 			SnipeMessenger messenger = new SnipeMessenger(toolkitProperties, currentBrushProperties, player);
 			if (action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK || action == PlayerInteractEvent.Action.LEFT_CLICK_AIR) {
@@ -171,10 +173,12 @@ public class Sniper {
 			if (action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR || action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
 				if (Materials.isEmpty(targetBlock.getState().getType())) {
 					player.sendMessage(TextFormat.RED + "Snipe target block must be visible.");
+					//System.out.println("block wasn't visible");
 					return true;
 				}
 				Brush currentBrush = toolkit.getCurrentBrush();
 				if (currentBrush == null) {
+					//System.out.println("brush was null");
 					return false;
 				}
 				Snipe snipe = new Snipe(this, toolkit, toolkitProperties, currentBrushProperties, currentBrush);
@@ -184,6 +188,7 @@ public class Sniper {
 				}
 				Block lastBlock = clickedBlock == null ? blockTracer.getLastBlock() : clickedBlock.getSide(clickedBlockFace);
 				currentBrush.perform(snipe, toolAction, targetBlock, lastBlock);
+				//System.out.printf("snipe with brush: %s successful\n", snipe);
 				return true;
 			}
 		}

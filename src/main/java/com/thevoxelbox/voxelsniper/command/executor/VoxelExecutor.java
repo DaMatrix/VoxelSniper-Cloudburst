@@ -16,6 +16,7 @@ import com.thevoxelbox.voxelsniper.util.message.Messenger;
 import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.block.BlockState;
 import org.cloudburstmc.server.command.CommandSender;
+import org.cloudburstmc.server.level.generator.standard.StandardGeneratorUtils;
 import org.cloudburstmc.server.player.Player;
 import org.cloudburstmc.server.registry.BlockRegistry;
 import org.cloudburstmc.server.utils.Identifier;
@@ -56,25 +57,29 @@ public class VoxelExecutor implements CommandExecutor {
 			BlockTracer blockTracer = toolkitProperties.createBlockTracer(player);
 			Block targetBlock = blockTracer.getTargetBlock();
 			if (targetBlock != null) {
-				Identifier targetBlockType = targetBlock.getState().getType();
-				if (!sender.hasPermission("voxelsniper.ignorelimitations") && liteSniperRestrictedMaterials.contains(targetBlockType)) {
-					sender.sendMessage("You are not allowed to use " + targetBlockType.getName() + ".");
+				BlockState targetBlockType = targetBlock.getState();
+				if (!sender.hasPermission("voxelsniper.ignorelimitations") && liteSniperRestrictedMaterials.contains(targetBlockType.getType())) {
+					sender.sendMessage("You are not allowed to use " + targetBlockType + ".");
 					return;
 				}
-				toolkitProperties.setBlockType(targetBlockType);
-				messenger.sendBlockTypeMessage(targetBlockType);
+				toolkitProperties.setBlockData(targetBlockType);
+				messenger.sendBlockDataMessage(targetBlockType);
 			}
 			return;
 		}
-		Identifier material = Identifier.fromString(arguments[0]);
-		if (material != null && BlockState.get(material) != null) {
-			if (!sender.hasPermission("voxelsniper.ignorelimitations") && liteSniperRestrictedMaterials.contains(material)) {
-				sender.sendMessage("You are not allowed to use " + material.getName() + ".");
-				return;
+		try {
+			BlockState state = StandardGeneratorUtils.parseState(arguments[0]);
+			if (state != null) {
+				if (!sender.hasPermission("voxelsniper.ignorelimitations") && liteSniperRestrictedMaterials.contains(state.getType())) {
+					sender.sendMessage("You are not allowed to use " + state + ".");
+					return;
+				}
+				toolkitProperties.setBlockData(state);
+				messenger.sendBlockDataMessage(state);
+			} else {
+				sender.sendMessage(TextFormat.RED + "You have entered an invalid Item ID.");
 			}
-			toolkitProperties.setBlockType(material);
-			messenger.sendBlockTypeMessage(material);
-		} else {
+		} catch (RuntimeException e)	{
 			sender.sendMessage(TextFormat.RED + "You have entered an invalid Item ID.");
 		}
 	}

@@ -29,20 +29,22 @@ public class Messenger {
 
 	public void sendBlockTypeMessage(Identifier blockType) {
 		BlockState state = BlockState.get(blockType);
-		sendMessage(TextFormat.GOLD + "Voxel: " + TextFormat.RED + Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)));
+		sendMessage(TextFormat.GOLD + "Block Type: " + TextFormat.RED + state);
+		new RuntimeException().printStackTrace();
 	}
 
 	public void sendBlockDataMessage(BlockState state) {
-		sendMessage(TextFormat.BLUE + "Data Variable: " + TextFormat.DARK_RED + Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)));
+		sendMessage(TextFormat.BLUE + "Block State: " + TextFormat.DARK_RED + state);
 	}
 
 	public void sendReplaceBlockTypeMessage(Identifier replaceBlockType) {
 		BlockState state = BlockState.get(replaceBlockType);
-		sendMessage(TextFormat.AQUA + "Replace Material: " + TextFormat.RED + Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)));
+		sendMessage(TextFormat.AQUA + "Replace Block Type: " + TextFormat.RED + state);
+		new RuntimeException().printStackTrace();
 	}
 
 	public void sendReplaceBlockDataMessage(BlockState state) {
-		sendMessage(TextFormat.DARK_GRAY + "Replace Data Variable: " + TextFormat.DARK_RED + Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)));
+		sendMessage(TextFormat.DARK_GRAY + "Replace Block State: " + TextFormat.DARK_RED + state);
 	}
 
 	public void sendBrushSizeMessage(int brushSize) {
@@ -65,7 +67,7 @@ public class Messenger {
 			sendMessage(TextFormat.DARK_GREEN + "No blocks selected!");
 		}
 		String message = voxelList.stream()
-			.map(state -> Server.getInstance().getLanguage().get(state.getBehavior().getDescriptionId(state)))
+			.map(state -> state)
 			.map(dataAsString -> dataAsString + " ")
 			.collect(Collectors.joining("", TextFormat.DARK_GREEN + "Block Types Selected: " + TextFormat.AQUA, ""));
 		sendMessage(message);

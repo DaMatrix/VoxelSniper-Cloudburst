@@ -39,12 +39,16 @@ public class VoxelSniperPlugin extends PluginBase {
 	private SniperRegistry sniperRegistry;
 
 	@Override
-	public void onEnable() {
+	public void onLoad() {
 		this.voxelSniperConfig = loadConfig();
 		this.brushRegistry = loadBrushRegistry();
 		this.performerRegistry = loadPerformerRegistry();
 		this.sniperRegistry = new SniperRegistry();
 		loadCommands();
+	}
+
+	@Override
+	public void onEnable() {
 		loadListeners();
 		System.out.println("a");
 	}

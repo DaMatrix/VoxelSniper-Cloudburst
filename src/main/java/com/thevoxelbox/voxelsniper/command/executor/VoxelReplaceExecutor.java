@@ -15,6 +15,7 @@ import com.thevoxelbox.voxelsniper.util.message.Messenger;
 import org.cloudburstmc.server.block.Block;
 import org.cloudburstmc.server.block.BlockState;
 import org.cloudburstmc.server.command.CommandSender;
+import org.cloudburstmc.server.level.generator.standard.StandardGeneratorUtils;
 import org.cloudburstmc.server.player.Player;
 import org.cloudburstmc.server.utils.Identifier;
 import org.cloudburstmc.server.utils.TextFormat;
@@ -58,14 +59,16 @@ public class VoxelReplaceExecutor implements CommandExecutor {
 			}
 			return;
 		}
-		Identifier material = Identifier.fromString(arguments[0]);
-		if (material != null) {
-			if (BlockState.get(material) != null) {
-				toolkitProperties.setReplaceBlockType(material);
-				messenger.sendReplaceBlockTypeMessage(material);
+		try {
+			BlockState state = StandardGeneratorUtils.parseState(arguments[0]);
+			if (state != null) {
+				toolkitProperties.setReplaceBlockData(state);
+				messenger.sendReplaceBlockDataMessage(state);
 			} else {
 				sender.sendMessage(TextFormat.RED + "You have entered an invalid Item ID.");
 			}
+		} catch (RuntimeException e)	{
+			sender.sendMessage(TextFormat.RED + "You have entered an invalid Item ID.");
 		}
 	}
 }
