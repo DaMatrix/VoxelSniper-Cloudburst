@@ -12,6 +12,7 @@ import org.cloudburstmc.server.utils.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class ToolkitProperties {
+	public static int layer = 0;
 
 	private static final Identifier DEFAULT_BLOCK_MATERIAL = BlockTypes.AIR;
 	private static final Identifier DEFAULT_REPLACE_BLOCK_MATERIAL = BlockTypes.AIR;

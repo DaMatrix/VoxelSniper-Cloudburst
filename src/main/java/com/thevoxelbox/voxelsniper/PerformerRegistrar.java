@@ -39,10 +39,10 @@ import com.thevoxelbox.voxelsniper.performer.type.material.MaterialPerformer;
 public class PerformerRegistrar {
 
 	public static final PerformerProperties DEFAULT_PERFORMER_PROPERTIES = PerformerProperties.builder()
-		.name("Material")
-		.alias("m")
-		.alias("material")
-		.creator(MaterialPerformer::new)
+		.name("Combo")
+		.alias("c")
+		.alias("combo")
+		.creator(ComboPerformer::new)
 		.build();
 
 	private PerformerRegistry registry;

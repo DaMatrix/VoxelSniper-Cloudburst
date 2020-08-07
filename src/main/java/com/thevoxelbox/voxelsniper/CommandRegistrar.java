@@ -5,6 +5,7 @@ import com.thevoxelbox.voxelsniper.command.executor.BrushExecutor;
 import com.thevoxelbox.voxelsniper.command.executor.BrushToolkitExecutor;
 import com.thevoxelbox.voxelsniper.command.executor.DefaultExecutor;
 import com.thevoxelbox.voxelsniper.command.executor.GotoExecutor;
+import com.thevoxelbox.voxelsniper.command.executor.LayerExecutor;
 import com.thevoxelbox.voxelsniper.command.executor.PaintExecutor;
 import com.thevoxelbox.voxelsniper.command.executor.PerformerExecutor;
 import com.thevoxelbox.voxelsniper.command.executor.UndoExecutor;
@@ -43,6 +44,7 @@ public class CommandRegistrar {
 		registerVoxelListCommand();
 		registerPaintCommand();
 		registerPerformerCommand();
+		this.registerLayerCommand();
 		registerVoxelReplaceCommand();
 		registerVoxelSniperCommand();
 		registerUndoCommand();
@@ -203,6 +205,22 @@ public class CommandRegistrar {
 			.sender(Player.class)
 			.build();
 		PerformerExecutor executor = new PerformerExecutor(this.plugin);
+		this.registry.register(properties, executor);
+	}
+
+	private void registerLayerCommand() {
+		CommandProperties properties = CommandProperties.builder()
+			.name("layer")
+			.description("Voxelsniper layer.")
+			.permission("voxelsniper.layer")
+			.alias("l")
+			.usage("/l")
+			.usage("Example: /l -- Sets the performer of the current brush to \"m\".")
+			.usage("/l <performer>")
+			.usage("Example: /l <performer> -- Sets the performer of the current brush to given performer.")
+			.sender(Player.class)
+			.build();
+		LayerExecutor executor = new LayerExecutor(this.plugin);
 		this.registry.register(properties, executor);
 	}
 

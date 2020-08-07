@@ -21,7 +21,7 @@ public class ComboPerformer extends AbstractPerformer {
 	public void perform(Block block) {
 		Undo undo = getUndo();
 		undo.put(block);
-		block.set(this.blockData);
+		block.set(this.blockData, ToolkitProperties.layer, false, true);
 	}
 
 	@Override
